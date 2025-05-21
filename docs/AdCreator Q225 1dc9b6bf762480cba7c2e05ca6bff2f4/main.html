@@ -5,14 +5,14 @@
     <title>Jukee Ad Creator – Mock (v4 full chips + history)</title>
     <style>
         *{box-sizing:border-box}
-        body{margin:0;font-family:system-ui,Arial,sans-serif;height:100vh;display:flex;flex-direction:column}
+        body{margin:0;font-family:system-ui,Arial,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 body.tweak-mode #promptPanel{display:none}
 body.tweak-mode #chipPanel{display:none}
 body.tweak-mode #modeIndicator{display:flex}
-        #main{flex:1;display:flex;overflow:hidden}
-        #promptPanel{flex:3;padding:24px;border-right:1px solid #d0d0d0;display:flex;flex-direction:column;gap:16px}
-        #chipPanel{flex:1;padding:24px;overflow-y:auto}
-        textarea#prompt{flex:1;width:100%;resize:none;border:1px solid #c5c5c5;border-radius:6px;padding:12px;font-size:15px}
+        #main{flex:0 0 auto;display:flex;flex-direction:column}
+        #promptPanel{padding:24px 24px 0;display:flex;flex-direction:column;gap:16px}
+        #chipPanel{padding:16px 24px 24px}
+        textarea#prompt{width:100%;height:120px;resize:none;border:1px solid #c5c5c5;border-radius:6px;padding:12px;font-size:15px}
         .chip-group{margin-bottom:20px;position:relative}
         .chip-group h4{margin:0 0 6px 0;font-size:14px;color:#555;text-transform:uppercase;letter-spacing:.5px}
         .chips{display:flex;flex-wrap:wrap;gap:8px}
@@ -30,8 +30,33 @@ body.tweak-mode #modeIndicator{display:flex}
         button.primary{background:#2563eb;color:#fff}
         button.secondary{background:#f3f3f3;color:#333}
         button.primary:disabled{background:#a5b4fb;cursor:default}
-        #output{padding:24px;display:flex;gap:24px;border-top:1px solid #d0d0d0;background:#fafafa;overflow-x:auto}
-        .output-card{min-width:280px;border:1px solid #d5d5d5;border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px;background:#fff}
+        #output{flex:1;padding:24px;display:flex;flex-direction:column;gap:24px;border-top:1px solid #d0d0d0;background:#fafafa;overflow-y:auto}
+        .output-card{width:60%;margin:0 auto;border:1px solid #d5d5d5;border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px;background:#fff;transition:border-color 0.2s ease,box-shadow 0.2s ease}
+        .output-card.selected{border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,0.2)}
+        .output-card:not(.selected):hover{border-color:#a6c8ff}
+        .output-card:not(.selected) .btn-select{display:none}
+        .output-card:not(.selected):hover .btn-select{display:inline-block}
+        .tweaking .tweak-panel{display:block;}
+        .tweaking .btn-row{display:none;} /* Hide buttons when tweaking */
+        .tweak-panel{display:none;margin-top:12px;border-top:1px solid #e5e5e5;padding-top:12px;}
+        /* Tweak panel styles from tweak.html */
+        .section{padding:16px 0;border-bottom:1px solid #f3f3f3;display:flex;flex-direction:column;gap:10px}
+        .section h4{margin:0;font-size:13px;text-transform:uppercase;color:#555}
+        .range-wrap{display:flex;align-items:center;gap:8px}
+        .range-wrap span{font-size:13px;color:#555;width:34px;text-align:right}
+        .sfx-item{display:flex;align-items:center;justify-content:space-between;gap:8px}
+        .sfx-item span{font-size:13px}
+        .sfx-remove{background:none;border:none;font-size:16px;cursor:pointer;color:#888}
+        .voice-list, .music-list{display:flex;flex-direction:column;gap:10px}
+        .list-container{max-height:200px;overflow-y:auto;padding-right:4px}
+        .voice-row, .music-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border:1px solid #ccc;border-radius:6px}
+        .voice-left, .music-left{display:flex;flex-direction:column;gap:2px}
+        .voice-name, .music-name{font-size:14px;font-weight:500}
+        .voice-desc, .music-desc{font-size:12px;color:#666}
+        .icon-male::before{content:"♂️";margin-right:6px}
+        .icon-female::before{content:"♀️";margin-right:6px}
+        .brand-chime-options{display:flex;gap:12px}
+        .brand-chime-options label{display:flex;align-items:center;gap:6px;font-size:14px}
         .waveform{width:100%;height:46px;background:repeating-linear-gradient(90deg,#e0e0e0 0,#e0e0e0 2px,#fff 2px,#fff 4px);border-radius:4px}
         .btn-row{display:flex;gap:8px;justify-content:space-between}
         #historyDrawer{position:fixed;top:0;right:-340px;width:320px;height:100%;background:#fff;border-left:1px solid #d0d0d0;box-shadow:-4px 0 8px rgba(0,0,0,.06);display:flex;flex-direction:column;transition:right 200ms ease;z-index:50}
@@ -54,7 +79,7 @@ body.tweak-mode #modeIndicator{display:flex}
         <h2>Create Your Ad</h2>
         <textarea id="prompt" placeholder="Describe your ad… e.g. 'Christmas tree for €100, funky bed, male Hebrew VO, brand chime first'"></textarea>
     </section>
-    <aside id="chipPanel">
+    <section id="chipPanel">
         <!-- Tone -->
         <div class="chip-group" id="toneGroup"><h4>Tone</h4>
             <div class="chips">
@@ -63,6 +88,16 @@ body.tweak-mode #modeIndicator{display:flex}
                 <span class="chip">Story-Teller</span>
                 <span class="chip">Friendly Informative</span>
                 <span class="chip">Urgent Flash-Sale</span>
+            </div>
+        </div>
+        <!-- Voice -->
+        <div class="chip-group" id="voicePrefGroup"><h4>Voice Preference</h4>
+            <div class="chips">
+                <span class="chip active">Male</span>
+                <span class="chip">Female</span>
+                <span class="chip">Child</span>
+                <span class="chip">Bilingual</span>
+                <span class="chip">Celebrity-Like</span>
             </div>
         </div>
         <!-- Duration -->
@@ -84,16 +119,6 @@ body.tweak-mode #modeIndicator{display:flex}
                 <span class="chip">No Music</span>
             </div>
         </div>
-        <!-- Voice -->
-        <div class="chip-group" id="voicePrefGroup"><h4>Voice Preference</h4>
-            <div class="chips">
-                <span class="chip active">Male</span>
-                <span class="chip">Female</span>
-                <span class="chip">Child</span>
-                <span class="chip">Bilingual</span>
-                <span class="chip">Celebrity-Like</span>
-            </div>
-        </div>
         <!-- Chime -->
         <div class="chip-group"><h4>Chime / Logo</h4>
             <div class="chips">
@@ -102,37 +127,40 @@ body.tweak-mode #modeIndicator{display:flex}
                 <span class="chip">No Chime</span>
             </div>
         </div>
-        <!-- Language -->
-        <div class="chip-group" id="langGroup"><h4>Language</h4>
-            <div class="chips">
-                <span class="chip" id="langChip">
-                    <img class="flag" src="https://flagcdn.com/us.svg" alt="US"/> English (US) ▾
-                </span>
+        <!-- Bottom Controls Row -->
+        <div style="display:flex;gap:24px;margin-top:10px;flex-wrap:wrap;">
+            <!-- Language -->
+            <div class="chip-group" id="langGroup" style="margin-bottom:0;"><h4>Language</h4>
+                <div class="chips">
+                    <span class="chip" id="langChip">
+                        <img class="flag" src="https://flagcdn.com/us.svg" alt="US"/> English (US) ▾
+                    </span>
+                </div>
+                <div class="dropdown" id="langDropdown">
+                    <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/us.svg"/> English (US)</div>
+                    <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/gb.svg"/> English (UK)</div>
+                    <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/fr.svg"/> French (FR)</div>
+                    <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/de.svg"/> German (DE)</div>
+                    <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/es.svg"/> Spanish (ES)</div>
+                    <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/il.svg"/> Hebrew (IL)</div>
+                </div>
             </div>
-            <div class="dropdown" id="langDropdown">
-                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/us.svg"/> English (US)</div>
-                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/gb.svg"/> English (UK)</div>
-                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/fr.svg"/> French (FR)</div>
-                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/de.svg"/> German (DE)</div>
-                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/es.svg"/> Spanish (ES)</div>
-                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/il.svg"/> Hebrew (IL)</div>
+            <!-- SFX -->
+            <div class="chip-group" style="margin-bottom:0;"><h4>SFX</h4>
+                <button class="secondary">+ Add SFX</button>
+            </div>
+            <!-- Import Voice Over -->
+            <div class="chip-group" id="importGroup" style="margin-bottom:0;"><h4>Voice Over</h4>
+                <button class="secondary" id="importBtn">Import Voice Over</button>
+                <input type="file" id="importInput" accept="audio/*" style="display:none"/>
+                <div id="importedFile" style="display:none; margin-top:12px; font-size:14px; align-items:center;">
+                    <span id="fileName"></span>
+                    <button class="secondary" id="removeFileBtn" style="margin-left:8px; padding:2px 8px; font-size:12px;">X</button>
+                </div>
+                <small style="color:#555; display:block; margin-top:8px;">Importing a voice will disable Tone & Voice Preference</small>
             </div>
         </div>
-        <!-- SFX -->
-        <div class="chip-group"><h4>SFX</h4>
-            <button class="secondary" style="width:100%">+ Add SFX</button>
-        </div>
-        <!-- Import Voice Over -->
-        <div class="chip-group" id="importGroup"><h4>Voice Over</h4>
-            <button class="secondary" id="importBtn" style="width:100%">Import Voice Over</button>
-            <input type="file" id="importInput" accept="audio/*" style="display:none"/>
-            <div id="importedFile" style="display:none; margin-top:12px; font-size:14px; align-items:center;">
-                <span id="fileName"></span>
-                <button class="secondary" id="removeFileBtn" style="margin-left:8px; padding:2px 8px; font-size:12px;">X</button>
-            </div>
-            <small style="color:#555; display:block; margin-top:8px;">Importing a voice will disable Tone & Voice Preference</small>
-        </div>
-    </aside>
+    </section>
 </div>
 <div id="actionBar">
     <button class="secondary" id="historyBtn">History ▾</button>
@@ -142,20 +170,244 @@ body.tweak-mode #modeIndicator{display:flex}
     </div>
 </div>
 <section id="output">
-    <div class="output-card">
+    <div class="output-card selected">
         <div class="waveform"></div>
         <div class="btn-row">
             <button class="secondary">Play</button>
-            <button class="secondary">Tweak</button>
-            <button class="primary">Use This</button>
+            <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking')">Tweak</button>
+            <button class="primary btn-select" onclick="selectPreview(this)">Selected</button>
+        </div>
+        <div class="tweak-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                <h3 style="margin:0;font-size:16px;font-weight:600;">Tweak Ad</h3>
+                <button style="background:none;border:none;font-size:22px;cursor:pointer" onclick="this.closest('.output-card').classList.toggle('tweaking')">×</button>
+            </div>
+            
+            <!-- Narration Edit -->
+            <div class="section">
+                <h4>Narration Text</h4>
+                <textarea style="width:100%;height:80px;resize:none;border:1px solid #c5c5c5;border-radius:6px;padding:10px;font-size:14px;">Grab a lush Christmas tree for only €100 – while stocks last!</textarea>
+            </div>
+            
+            <!-- Voice Actor List -->
+            <div class="section">
+                <h4>Voice Actor</h4>
+                <input type="text" placeholder="Search voices..." style="width:100%;padding:8px 10px;font-size:14px;border:1px solid #c5c5c5;border-radius:6px;background:#fff" />
+                <div class="list-container">
+                    <div class="voice-list">
+                        <div class="voice-row">
+                            <div class="voice-left">
+                                <div class="voice-name icon-male">Alex</div>
+                                <div class="voice-desc">Confident, fast-paced announcer</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                        <div class="voice-row">
+                            <div class="voice-left">
+                                <div class="voice-name icon-female">Maya</div>
+                                <div class="voice-desc">Friendly and warm tone</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                        <div class="voice-row">
+                            <div class="voice-left">
+                                <div class="voice-name icon-male">David</div>
+                                <div class="voice-desc">Deep, reassuring tone</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Music Bed List -->
+            <div class="section">
+                <h4>Music Bed</h4>
+                <input type="text" placeholder="Search music..." style="width:100%;padding:8px 10px;font-size:14px;border:1px solid #c5c5c5;border-radius:6px;background:#fff" />
+                <div class="list-container">
+                    <div class="music-list">
+                        <div class="music-row">
+                            <div class="music-left">
+                                <div class="music-name">Funk Groove</div>
+                                <div class="music-desc">Energetic, mid-tempo with bass</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                        <div class="music-row">
+                            <div class="music-left">
+                                <div class="music-name">Acoustic Chill</div>
+                                <div class="music-desc">Laid-back and warm background</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                        <div class="music-row">
+                            <div class="music-left">
+                                <div class="music-name">Synth Pop</div>
+                                <div class="music-desc">Bright and modern synth layers</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timing & Volume -->
+            <div class="section">
+                <h4>Timing & Volume</h4>
+                <label class="range-wrap">VO Offset <input type="range" min="0" max="5" step="0.5" value="0"><span>0s</span></label>
+                <label class="range-wrap">Music Vol <input type="range" min="0" max="100" value="80"><span>80%</span></label>
+            </div>
+            
+            <!-- Brand Chime -->
+            <div class="section">
+                <h4>Brand Chime</h4>
+                <div class="brand-chime-options">
+                    <label><input type="checkbox" checked> Buh-bam</label>
+                    <label><input type="checkbox"> Logo</label>
+                </div>
+            </div>
+            
+            <!-- Sound Effects List -->
+            <div class="section">
+                <h4>Sound Effects</h4>
+                <div class="sfx-item">
+                    <span>Cash Register</span>
+                    <input type="range" min="0" max="5" step="0.5" value="1" style="flex:1">
+                    <button class="sfx-remove">✕</button>
+                </div>
+                <div class="sfx-item">
+                    <span>Sparkle</span>
+                    <input type="range" min="0" max="5" step="0.5" value="3" style="flex:1">
+                    <button class="sfx-remove">✕</button>
+                </div>
+                <button class="secondary">+ Add SFX</button>
+            </div>
+            
+            <!-- Footer -->
+            <div style="display:flex;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid #e5e5e5;">
+                <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking')">Cancel</button>
+                <button class="primary">Apply</button>
+            </div>
         </div>
     </div>
     <div class="output-card">
         <div class="waveform"></div>
         <div class="btn-row">
             <button class="secondary">Play</button>
-            <button class="secondary">Tweak</button>
-            <button class="primary">Use This</button>
+            <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking')">Tweak</button>
+            <button class="primary btn-select" onclick="selectPreview(this)">Select</button>
+        </div>
+        <div class="tweak-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                <h3 style="margin:0;font-size:16px;font-weight:600;">Tweak Ad</h3>
+                <button style="background:none;border:none;font-size:22px;cursor:pointer" onclick="this.closest('.output-card').classList.toggle('tweaking')">×</button>
+            </div>
+            
+            <!-- Narration Edit -->
+            <div class="section">
+                <h4>Narration Text</h4>
+                <textarea style="width:100%;height:80px;resize:none;border:1px solid #c5c5c5;border-radius:6px;padding:10px;font-size:14px;">Get your Christmas tree today! Only €100 while supplies last!</textarea>
+            </div>
+            
+            <!-- Voice Actor List -->
+            <div class="section">
+                <h4>Voice Actor</h4>
+                <input type="text" placeholder="Search voices..." style="width:100%;padding:8px 10px;font-size:14px;border:1px solid #c5c5c5;border-radius:6px;background:#fff" />
+                <div class="list-container">
+                    <div class="voice-list">
+                        <div class="voice-row">
+                            <div class="voice-left">
+                                <div class="voice-name icon-male">Alex</div>
+                                <div class="voice-desc">Confident, fast-paced announcer</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                        <div class="voice-row">
+                            <div class="voice-left">
+                                <div class="voice-name icon-female">Maya</div>
+                                <div class="voice-desc">Friendly and warm tone</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                        <div class="voice-row">
+                            <div class="voice-left">
+                                <div class="voice-name icon-male">David</div>
+                                <div class="voice-desc">Deep, reassuring tone</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Music Bed List -->
+            <div class="section">
+                <h4>Music Bed</h4>
+                <input type="text" placeholder="Search music..." style="width:100%;padding:8px 10px;font-size:14px;border:1px solid #c5c5c5;border-radius:6px;background:#fff" />
+                <div class="list-container">
+                    <div class="music-list">
+                        <div class="music-row">
+                            <div class="music-left">
+                                <div class="music-name">Funk Groove</div>
+                                <div class="music-desc">Energetic, mid-tempo with bass</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                        <div class="music-row">
+                            <div class="music-left">
+                                <div class="music-name">Acoustic Chill</div>
+                                <div class="music-desc">Laid-back and warm background</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                        <div class="music-row">
+                            <div class="music-left">
+                                <div class="music-name">Synth Pop</div>
+                                <div class="music-desc">Bright and modern synth layers</div>
+                            </div>
+                            <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timing & Volume -->
+            <div class="section">
+                <h4>Timing & Volume</h4>
+                <label class="range-wrap">VO Offset <input type="range" min="0" max="5" step="0.5" value="0"><span>0s</span></label>
+                <label class="range-wrap">Music Vol <input type="range" min="0" max="100" value="80"><span>80%</span></label>
+            </div>
+            
+            <!-- Brand Chime -->
+            <div class="section">
+                <h4>Brand Chime</h4>
+                <div class="brand-chime-options">
+                    <label><input type="checkbox" checked> Buh-bam</label>
+                    <label><input type="checkbox"> Logo</label>
+                </div>
+            </div>
+            
+            <!-- Sound Effects List -->
+            <div class="section">
+                <h4>Sound Effects</h4>
+                <div class="sfx-item">
+                    <span>Cash Register</span>
+                    <input type="range" min="0" max="5" step="0.5" value="1" style="flex:1">
+                    <button class="sfx-remove">✕</button>
+                </div>
+                <div class="sfx-item">
+                    <span>Sparkle</span>
+                    <input type="range" min="0" max="5" step="0.5" value="3" style="flex:1">
+                    <button class="sfx-remove">✕</button>
+                </div>
+                <button class="secondary">+ Add SFX</button>
+            </div>
+            
+            <!-- Footer -->
+            <div style="display:flex;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid #e5e5e5;">
+                <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking')">Cancel</button>
+                <button class="primary">Apply</button>
+            </div>
         </div>
     </div>
 </section>
@@ -216,6 +468,56 @@ removeBtn.addEventListener('click', () => {
   voicePrefGroup.classList.remove('disabled-group');
   promptEl.value = promptEl.value.replace(/\bvoice:imported\b/, '').trim();
 });
+
+// Voice and music search functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const setupTweakPanelSearch = function(card) {
+    const voiceSearch = card.querySelector('input[placeholder="Search voices..."]');
+    const musicSearch = card.querySelector('input[placeholder="Search music..."]');
+    
+    if (voiceSearch) {
+      voiceSearch.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        card.querySelectorAll('.voice-row').forEach(row => {
+          const name = row.querySelector('.voice-name').textContent.toLowerCase();
+          const desc = row.querySelector('.voice-desc').textContent.toLowerCase();
+          row.style.display = (name.includes(query) || desc.includes(query)) ? '' : 'none';
+        });
+      });
+    }
+    
+    if (musicSearch) {
+      musicSearch.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        card.querySelectorAll('.music-row').forEach(row => {
+          const name = row.querySelector('.music-name').textContent.toLowerCase();
+          const desc = row.querySelector('.music-desc').textContent.toLowerCase();
+          row.style.display = (name.includes(query) || desc.includes(query)) ? '' : 'none';
+        });
+      });
+    }
+  };
+  
+  // Setup search for initial tweak panels
+  document.querySelectorAll('.output-card').forEach(setupTweakPanelSearch);
+});
+
+// Preview selection functionality
+function selectPreview(button) {
+  // Remove selected class from all output cards
+  document.querySelectorAll('.output-card').forEach(card => {
+    card.classList.remove('selected');
+    const selectBtn = card.querySelector('.btn-select');
+    if (selectBtn) {
+      selectBtn.textContent = 'Select';
+    }
+  });
+  
+  // Add selected class to the clicked card
+  const card = button.closest('.output-card');
+  card.classList.add('selected');
+  button.textContent = 'Selected';
+}
 </script>
 </body>
 </html>
