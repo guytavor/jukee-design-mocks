@@ -4,133 +4,680 @@
     <meta charset="utf-8" />
     <title>Jukee Ad Creator – Mock (v4 full chips + history)</title>
     <style>
+        /* Base styles and reset */
         *{box-sizing:border-box}
-        body{margin:0;font-family:system-ui,Arial,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-body.tweak-mode #main{display:none}
-body.tweak-mode #modeIndicator{display:flex}
-        #main{flex:0 0 auto;display:flex;flex-direction:column}
-        #promptPanel{padding:24px 24px 0;display:flex;flex-direction:column;gap:16px}
-        #chipPanel{padding:16px 24px 24px}
-        textarea#prompt{width:100%;height:120px;resize:none;border:1px solid #c5c5c5;border-radius:6px;padding:12px;font-size:15px}
-        .chip-group{margin-bottom:20px;position:relative}
-        .chip-group h4{margin:0 0 6px 0;font-size:14px;color:#555;text-transform:uppercase;letter-spacing:.5px}
-        .chips{display:flex;flex-wrap:wrap;gap:8px}
-        .chip{background:#f1f1f1;border:1px solid #d5d5d5;border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;user-select:none;transition:background 120ms;display:inline-flex;align-items:center;gap:6px}
-        .chip:hover{background:#e7e7e7}
-        .chip.active{background:#2563eb;border-color:#2563eb;color:#fff}
-        .chip.disabled{opacity:0.5;border-color:#ccc;color:#999;cursor:default;pointer-events:none}
-        .chip-group.disabled-group{opacity:0.5;pointer-events:none}
-        .flag{width:16px;height:12px;object-fit:cover;border-radius:2px}
-        .dropdown{display:none;position:absolute;top:54px;left:0;width:100%;max-height:260px;overflow-y:auto;border:1px solid #d5d5d5;border-radius:6px;background:#fff;box-shadow:0 4px 8px rgba(0,0,0,.08);z-index:10}
-        .dropdown-item{padding:8px 14px;display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
-        .dropdown-item:hover{background:#f1f1f1}
-        #actionBar{padding:12px 24px;border-top:1px solid #d0d0d0;display:flex;gap:16px;justify-content:space-between;align-items:center}
-        button{border:none;border-radius:4px;padding:10px 18px;font-size:14px;cursor:pointer}
-        button.primary{background:#2563eb;color:#fff}
-        button.secondary{background:#f3f3f3;color:#333}
-        button.primary:disabled{background:#a5b4fb;cursor:default}
-        #output{flex:1;padding:24px;display:flex;flex-direction:column;gap:24px;border-top:1px solid #d0d0d0;background:#fafafa;overflow-y:auto}
-        .output-card{width:60%;margin:0 auto;border:1px solid #d5d5d5;border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px;background:#fff;transition:border-color 0.2s ease,box-shadow 0.2s ease}
-        .output-card.selected{border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,0.2)}
-        .output-card:not(.selected):hover{border-color:#a6c8ff}
-        .output-card:not(.selected) .btn-select{display:none}
-        .output-card:not(.selected):hover .btn-select{display:inline-block}
-        .tweaking .tweak-panel{display:block;}
-        .tweaking .btn-row{display:none;} /* Hide buttons when tweaking */
-        .tweak-panel{display:none;margin-top:12px;border-top:1px solid #e5e5e5;padding-top:12px;}
-        /* Tweak panel styles from tweak.html */
-        .section{padding:16px 0;border-bottom:1px solid #f3f3f3;display:flex;flex-direction:column;gap:10px}
-        .section h4{margin:0;font-size:13px;text-transform:uppercase;color:#555}
-        .range-wrap{display:flex;align-items:center;gap:8px}
-        .range-wrap span{font-size:13px;color:#555;width:34px;text-align:right}
-        .sfx-item{display:flex;align-items:center;justify-content:space-between;gap:8px}
-        .sfx-item span{font-size:13px}
-        .sfx-remove{background:none;border:none;font-size:16px;cursor:pointer;color:#888}
-        .voice-list, .music-list{display:flex;flex-direction:column;gap:10px}
-        .list-container{max-height:200px;overflow-y:auto;padding-right:4px}
-        .voice-row, .music-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border:1px solid #ccc;border-radius:6px}
-        .voice-left, .music-left{display:flex;flex-direction:column;gap:2px}
-        .voice-name, .music-name{font-size:14px;font-weight:500}
-        .voice-desc, .music-desc{font-size:12px;color:#666}
-        .icon-male::before{content:"♂️";margin-right:6px}
-        .icon-female::before{content:"♀️";margin-right:6px}
-        .brand-chime-options{display:flex;gap:12px}
-        .brand-chime-options label{display:flex;align-items:center;gap:6px;font-size:14px}
-        .waveform{width:100%;height:46px;background:repeating-linear-gradient(90deg,#e0e0e0 0,#e0e0e0 2px,#fff 2px,#fff 4px);border-radius:4px}
-        .btn-row{display:flex;gap:8px;justify-content:space-between}
-        #historyDrawer{position:fixed;top:0;right:-340px;width:320px;height:100%;background:#fff;border-left:1px solid #d0d0d0;box-shadow:-4px 0 8px rgba(0,0,0,.06);display:flex;flex-direction:column;transition:right 200ms ease;z-index:50}
-        #historyDrawer.open{right:0}
-        #historyHeader{padding:16px 20px;font-weight:600;border-bottom:1px solid #e5e5e5;display:flex;justify-content:space-between;align-items:center}
-        #historyList{flex:1;overflow-y:auto}
-        .history-item{padding:14px 20px;border-bottom:1px solid #f3f3f3}
-        .history-item:hover{background:#f8f8f8}
-        .hi-title{font-size:14px;font-weight:500}
-        .hi-meta{font-size:12px;color:#555;margin-top:4px}
-        .text{font-size:13px;color:#333;font-style:italic;margin:8px 0;}
+        body{
+            margin:0;
+            font-family:"SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            overflow:hidden;
+            color:#333;
+            background-color:#f9fafb;
+            line-height:1.5;
+        }
+        
+        /* Mode controls */
+        body.tweak-mode #main{display:none}
+        body.tweak-mode #modeIndicator{display:flex}
+        
+        /* Layout containers */
+        #main{
+            flex:0 0 auto;
+            display:flex;
+            flex-direction:column;
+            background-color:#fff;
+            border-radius:0 0 12px 12px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.05);
+            margin:0 24px 24px;
+        }
+        #promptPanel{
+            padding:32px 32px 16px;
+            display:flex;
+            flex-direction:column;
+            gap:20px;
+        }
+        #chipPanel{
+            padding:16px 32px 32px;
+        }
+        
+        /* Prompt input */
+        textarea#prompt{
+            width:100%;
+            height:120px;
+            resize:none;
+            border:1px solid #e0e4e8;
+            border-radius:8px;
+            padding:16px;
+            font-size:16px;
+            box-shadow:0 1px 3px rgba(0,0,0,0.05) inset;
+            transition:border-color 0.2s, box-shadow 0.2s;
+        }
+        textarea#prompt:focus{
+            outline:none;
+            border-color:#0066FF;
+            box-shadow:0 0 0 3px rgba(0,102,255,0.15);
+        }
+        
+        /* Chip groups and chips */
+        .chip-group{
+            margin-bottom:12px;
+            position:relative;
+            background:#f8fafd;
+            border:1px solid #e0e4e8;
+            border-radius:8px;
+            padding:10px 16px;
+            flex:1;
+            min-width:200px;
+        }
+        .chip-group h4{
+            margin:0 0 8px 0;
+            font-size:11px;
+            color:#666;
+            text-transform:uppercase;
+            letter-spacing:1px;
+            font-weight:600;
+            display:inline-block;
+            position:relative;
+        }
+        .chip-group h4::after {
+            content: "";
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(0,102,255,0.2);
+        }
+        .chips{
+            display:flex;
+            flex-wrap:wrap;
+            gap:6px;
+        }
+        .chip{
+            background:#f5f7fa;
+            border:1px solid #e0e4e8;
+            border-radius:14px;
+            padding:4px 10px;
+            font-size:12px;
+            cursor:pointer;
+            user-select:none;
+            transition:all 180ms ease;
+            display:inline-flex;
+            align-items:center;
+            gap:4px;
+            font-weight:500;
+            box-shadow:0 1px 2px rgba(0,0,0,0.04);
+        }
+        .chip:hover{
+            background:#eef1f6;
+            border-color:#cdd4df;
+            transform:translateY(-1px);
+            box-shadow:0 2px 4px rgba(0,0,0,0.08);
+        }
+        .chip.active{
+            background:#0066FF;
+            border-color:#0052cc;
+            color:#fff;
+            box-shadow:0 2px 4px rgba(0,102,255,0.25);
+        }
+        .chip.active:hover{
+            background:#0055e6;
+        }
+        .chip.disabled{
+            opacity:0.5;
+            border-color:#ddd;
+            color:#999;
+            cursor:default;
+            pointer-events:none;
+            box-shadow:none;
+        }
+        .chip-group.disabled-group{
+            opacity:0.5;
+            pointer-events:none;
+        }
+        
+        /* Flag and dropdown */
+        .flag{
+            width:16px;
+            height:12px;
+            object-fit:cover;
+            border-radius:2px;
+            box-shadow:0 1px 2px rgba(0,0,0,0.1);
+        }
+        .dropdown{
+            display:none;
+            position:absolute;
+            top:60px;
+            left:0;
+            width:100%;
+            max-height:280px;
+            overflow-y:auto;
+            border:1px solid #e0e4e8;
+            border-radius:8px;
+            background:#fff;
+            box-shadow:0 4px 15px rgba(0,0,0,.12);
+            z-index:10;
+        }
+        .dropdown-item{
+            padding:10px 16px;
+            display:flex;
+            align-items:center;
+            gap:12px;
+            font-size:14px;
+            cursor:pointer;
+            transition:background 120ms;
+        }
+        .dropdown-item:hover{
+            background:#f5f7fa;
+        }
+        
+        /* Action bar */
+        #actionBar{
+            padding:16px 24px;
+            border-top:1px solid #eaeef2;
+            display:flex;
+            gap:16px;
+            justify-content:space-between;
+            align-items:center;
+            background-color:#fff;
+            margin:0 24px;
+            border-radius:8px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.05);
+        }
+        
+        /* Buttons */
+        button{
+            border:none;
+            border-radius:6px;
+            padding:12px 24px;
+            font-size:14px;
+            font-weight:500;
+            cursor:pointer;
+            transition:all 180ms ease;
+        }
+        button:hover{
+            transform:translateY(-1px);
+        }
+        button:active{
+            transform:translateY(0);
+        }
+        button.primary{
+            background:#0066FF;
+            color:#fff;
+            box-shadow:0 2px 4px rgba(0,102,255,0.25);
+        }
+        button.primary:hover{
+            background:#0055e6;
+            box-shadow:0 4px 8px rgba(0,102,255,0.25);
+        }
+        button.secondary{
+            background:#f5f7fa;
+            color:#333;
+            border:1px solid #e0e4e8;
+            box-shadow:0 1px 2px rgba(0,0,0,0.04);
+        }
+        button.secondary:hover{
+            background:#eef1f6;
+            border-color:#cdd4df;
+            box-shadow:0 2px 4px rgba(0,0,0,0.08);
+        }
+        button.primary:disabled{
+            background:#a5b4fb;
+            cursor:default;
+            box-shadow:none;
+            transform:none;
+        }
+        /* Output section and previews */
+        #output{
+            flex:1;
+            padding:32px 24px;
+            display:flex;
+            flex-direction:column;
+            gap:32px;
+            background:#f5f7fa;
+            overflow-y:auto;
+        }
+        .output-card{
+            width:100%;
+            margin:0 auto;
+            border:1px solid #e0e4e8;
+            border-radius:12px;
+            padding:24px;
+            display:flex;
+            flex-direction:column;
+            gap:16px;
+            background:#fff;
+            transition:all 0.25s ease;
+            box-shadow:0 3px 10px rgba(0,0,0,0.08);
+        }
+        .output-card.selected{
+            border-color:#0066FF;
+            box-shadow:0 0 0 2px rgba(0,102,255,0.15), 0 8px 16px rgba(0,0,0,0.08);
+            transform:translateY(-2px);
+        }
+        .output-card:not(.selected){
+            opacity:0.9;
+        }
+        .output-card:not(.selected):hover{
+            border-color:#a6c8ff;
+            opacity:1;
+            transform:translateY(-1px);
+            box-shadow:0 6px 12px rgba(0,0,0,0.1);
+        }
+        .output-card:not(.selected) .btn-select{
+            display:none;
+        }
+        .output-card:not(.selected):hover .btn-select{
+            display:inline-block;
+        }
+        
+        /* Tweak panel */
+        .tweaking .tweak-panel{
+            display:block;
+        }
+        .tweaking .btn-row{
+            display:none;
+        } 
+        .tweak-panel{
+            display:none;
+            margin-top:20px;
+            border-top:1px solid #eaeef2;
+            padding-top:20px;
+        }
+        
+        /* Tweak panel styles */
+        .section{
+            padding:20px 0;
+            border-bottom:1px solid #eaeef2;
+            display:flex;
+            flex-direction:column;
+            gap:16px;
+        }
+        .section h4{
+            margin:0;
+            font-size:13px;
+            text-transform:uppercase;
+            color:#666;
+            letter-spacing:1px;
+            font-weight:600;
+        }
+        .range-wrap{
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+        .range-wrap span{
+            font-size:14px;
+            color:#666;
+            width:36px;
+            text-align:right;
+            font-weight:500;
+        }
+        .range-wrap input[type="range"]{
+            -webkit-appearance:none;
+            width:100%;
+            height:6px;
+            background:#e0e4e8;
+            border-radius:3px;
+            outline:none;
+        }
+        .range-wrap input[type="range"]::-webkit-slider-thumb{
+            -webkit-appearance:none;
+            width:16px;
+            height:16px;
+            background:#0066FF;
+            border-radius:50%;
+            cursor:pointer;
+            box-shadow:0 1px 3px rgba(0,0,0,0.2);
+            transition:all 0.15s ease;
+        }
+        .range-wrap input[type="range"]::-webkit-slider-thumb:hover{
+            transform:scale(1.15);
+            box-shadow:0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        /* SFX items */
+        .sfx-item{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            padding:8px 12px;
+            background:#f8fafd;
+            border-radius:8px;
+            border:1px solid #e0e4e8;
+        }
+        .sfx-item span{
+            font-size:14px;
+            font-weight:500;
+        }
+        .sfx-remove{
+            background:none;
+            border:none;
+            font-size:16px;
+            cursor:pointer;
+            color:#888;
+            width:24px;
+            height:24px;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            transition:all 0.15s ease;
+        }
+        .sfx-remove:hover{
+            background:#f1f1f1;
+            color:#555;
+        }
+        
+        /* Voice and music lists */
+        .voice-list, .music-list{
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+        }
+        .list-container{
+            max-height:200px;
+            overflow-y:auto;
+            padding-right:8px;
+            margin-top:8px;
+        }
+        .voice-row, .music-row{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:12px 16px;
+            border:1px solid #e0e4e8;
+            border-radius:8px;
+            transition:all 0.15s ease;
+            background:#fff;
+            box-shadow:0 1px 3px rgba(0,0,0,0.05);
+        }
+        .voice-row:hover, .music-row:hover{
+            background:#f8fafd;
+            border-color:#cdd4df;
+            transform:translateY(-1px);
+            box-shadow:0 2px 5px rgba(0,0,0,0.08);
+        }
+        .voice-left, .music-left{
+            display:flex;
+            flex-direction:column;
+            gap:4px;
+        }
+        .voice-name, .music-name{
+            font-size:15px;
+            font-weight:600;
+            color:#333;
+        }
+        .voice-desc, .music-desc{
+            font-size:13px;
+            color:#666;
+        }
+        .icon-male::before{
+            content:"♂️";
+            margin-right:8px;
+            color:#0066FF;
+        }
+        .icon-female::before{
+            content:"♀️";
+            margin-right:8px;
+            color:#e91e63;
+        }
+        
+        /* Brand chime options */
+        .brand-chime-options{
+            display:flex;
+            gap:16px;
+        }
+        .brand-chime-options label{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            font-size:14px;
+            cursor:pointer;
+        }
+        .brand-chime-options input[type="checkbox"]{
+            width:18px;
+            height:18px;
+            accent-color:#0066FF;
+        }
+        
+        /* Waveform visualization */
+        .waveform{
+            width:100%;
+            height:64px;
+            background:linear-gradient(to bottom, rgba(0,102,255,0.05) 0%, rgba(0,102,255,0.1) 50%, rgba(0,102,255,0.05) 100%);
+            border-radius:8px;
+            position:relative;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            box-shadow:0 1px 3px rgba(0,0,0,0.05) inset;
+        }
+        .waveform::before{
+            content:"";
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background-image:
+                repeating-linear-gradient(90deg, 
+                    transparent, 
+                    transparent 1px, 
+                    rgba(0,0,0,0.04) 1px, 
+                    rgba(0,0,0,0.04) 2px),
+                linear-gradient(180deg, 
+                    transparent 20%, 
+                    rgba(0,102,255,0.2) 50%, 
+                    transparent 80%);
+            background-size:6px 100%, 100% 100%;
+            mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 100'%3E%3Cpath d='M0,50 Q125,20 250,50 T500,50' fill='none' stroke='black' stroke-width='0.5'/%3E%3C/svg%3E");
+            mask-size:100% 100%;
+            mask-repeat:no-repeat;
+            mask-position:center;
+        }
+        
+        /* Button row */
+        .btn-row{
+            display:flex;
+            gap:12px;
+            justify-content:space-between;
+        }
+        /* History drawer */
+        #historyDrawer{
+            position:fixed;
+            top:0;
+            right:-380px;
+            width:360px;
+            height:100%;
+            background:#fff;
+            border-left:1px solid #e0e4e8;
+            box-shadow:-4px 0 20px rgba(0,0,0,.15);
+            display:flex;
+            flex-direction:column;
+            transition:right 300ms cubic-bezier(0.19, 1, 0.22, 1);
+            z-index:50;
+        }
+        #historyDrawer.open{
+            right:0;
+        }
+        #historyHeader{
+            padding:20px 24px;
+            font-weight:600;
+            font-size:18px;
+            border-bottom:1px solid #eaeef2;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 2px 5px rgba(0,0,0,.03);
+        }
+        #historyList{
+            flex:1;
+            overflow-y:auto;
+            padding:8px 0;
+        }
+        .history-item{
+            padding:20px 24px;
+            border-bottom:1px solid #eaeef2;
+            transition:all 0.2s ease;
+            position:relative;
+        }
+        .history-item:hover{
+            background:#f8fafd;
+        }
+        .history-item::before{
+            content:"";
+            position:absolute;
+            left:0;
+            top:50%;
+            transform:translateY(-50%);
+            width:3px;
+            height:0;
+            background:#0066FF;
+            transition:height 0.2s ease;
+        }
+        .history-item:hover::before{
+            height:60%;
+        }
+        .hi-title{
+            font-size:15px;
+            font-weight:600;
+            color:#333;
+            display:flex;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:8px;
+        }
+        .hi-tag{
+            display:inline-flex;
+            align-items:center;
+            padding:2px 8px;
+            border-radius:12px;
+            font-size:11px;
+            font-weight:500;
+            text-transform:uppercase;
+            letter-spacing:0.5px;
+        }
+        .hi-tag[style*="background:#e0f2ff"]{
+            background:#e1f5fe !important;
+            color:#0277bd !important;
+        }
+        .hi-tag[style*="background:#f0fff0"]{
+            background:#e8f5e9 !important;
+            color:#2e7d32 !important;
+        }
+        .hi-meta{
+            font-size:13px;
+            color:#666;
+            margin-top:6px;
+            display:flex;
+            align-items:center;
+            gap:8px;
+        }
+        .hi-meta::before{
+            content:"";
+            display:inline-block;
+            width:6px;
+            height:6px;
+            border-radius:50%;
+            background:#aaa;
+        }
+        .text{
+            font-size:14px;
+            color:#555;
+            font-style:italic;
+            margin:12px 0;
+            line-height:1.5;
+            position:relative;
+            padding-left:16px;
+        }
+        .text::before{
+            content:""";
+            position:absolute;
+            left:0;
+            top:0;
+            font-size:24px;
+            color:#0066FF;
+            line-height:1;
+            opacity:0.4;
+        }
     </style>
 </head>
 <body>
-<div id="modeIndicator" style="display:none;background:#f0f7ff;color:#2563eb;padding:12px 24px;font-weight:500;align-items:center;justify-content:space-between;border-bottom:1px solid #d0d0d0">
-    <span>Tweak Mode: Fine-tuning your selected preview</span>
+<div id="modeIndicator" style="display:none;background:#EBF6FF;color:#0066FF;padding:16px 32px;font-weight:600;align-items:center;justify-content:space-between;border-bottom:1px solid #cce5ff;box-shadow:0 2px 8px rgba(0,0,0,0.05)">
+    <span><span style="margin-right:8px;font-size:20px;">✏️</span> Tweak Mode: Fine-tuning your selected preview</span>
     <button class="secondary" id="returnToGenButton" onclick="document.querySelectorAll('.output-card.tweaking').forEach(card => card.classList.remove('tweaking')); document.body.classList.remove('tweak-mode');">Return to Generation</button>
 </div>
 <div id="main">
     <section id="promptPanel">
-        <h2>Create Your Ad</h2>
+        <h2 style="margin:0 0 16px;font-size:24px;color:#333;font-weight:600;">Create Your Ad</h2>
+        <input type="text" id="adName" placeholder="Ad Name..." style="width:100%;padding:12px;font-size:14px;border:1px solid #e0e4e8;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.05) inset;margin-bottom:16px;">
         <textarea id="prompt" placeholder="Describe your ad… e.g. 'Christmas tree for €100, funky bed, male Hebrew VO, brand chime first'"></textarea>
     </section>
     <section id="chipPanel">
-        <!-- Tone -->
-        <div class="chip-group" id="toneGroup"><h4>Tone</h4>
-            <div class="chips">
-                <span class="chip active">Hard Sell</span>
-                <span class="chip">Soft Sell</span>
-                <span class="chip">Story-Teller</span>
-                <span class="chip">Friendly Informative</span>
-                <span class="chip">Urgent Flash-Sale</span>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px;">
+            <!-- Tone -->
+            <div class="chip-group" id="toneGroup"><h4>Tone</h4>
+                <div class="chips">
+                    <span class="chip active">Hard Sell</span>
+                    <span class="chip">Soft Sell</span>
+                    <span class="chip">Story-Teller</span>
+                    <span class="chip">Friendly Informative</span>
+                    <span class="chip">Urgent Flash-Sale</span>
+                </div>
             </div>
-        </div>
-        <!-- Voice -->
-        <div class="chip-group" id="voicePrefGroup"><h4>Voice Preference</h4>
-            <div class="chips">
-                <span class="chip active">Male</span>
-                <span class="chip">Female</span>
-                <span class="chip">Child</span>
-                <span class="chip">Bilingual</span>
-                <span class="chip">Celebrity-Like</span>
+            <!-- Voice -->
+            <div class="chip-group" id="voicePrefGroup"><h4>Voice Preference</h4>
+                <div class="chips">
+                    <span class="chip active">Male</span>
+                    <span class="chip">Female</span>
+                    <span class="chip">Child</span>
+                    <span class="chip">Bilingual</span>
+                    <span class="chip">Celebrity-Like</span>
+                </div>
             </div>
-        </div>
-        <!-- Duration -->
-        <div class="chip-group"><h4>Duration</h4>
-            <div class="chips">
-                <span class="chip">6 s</span>
-                <span class="chip active">12 s</span>
-                <span class="chip">20 s</span>
-                <span class="chip">30 s</span>
+            <!-- Duration -->
+            <div class="chip-group"><h4>Duration</h4>
+                <div class="chips">
+                    <span class="chip">6 s</span>
+                    <span class="chip active">12 s</span>
+                    <span class="chip">20 s</span>
+                    <span class="chip">30 s</span>
+                </div>
             </div>
-        </div>
-        <!-- Music -->
-        <div class="chip-group"><h4>Music Style</h4>
-            <div class="chips">
-                <span class="chip active">Funk</span>
-                <span class="chip">Synth-pop</span>
-                <span class="chip">Acoustic Chill</span>
-                <span class="chip">Orchestral</span>
-                <span class="chip">No Music</span>
+            <!-- Music -->
+            <div class="chip-group"><h4>Music Style</h4>
+                <div class="chips">
+                    <span class="chip active">Funk</span>
+                    <span class="chip">Synth-pop</span>
+                    <span class="chip">Acoustic Chill</span>
+                    <span class="chip">Orchestral</span>
+                    <span class="chip">No Music</span>
+                </div>
             </div>
-        </div>
-        <!-- Chime -->
-        <div class="chip-group"><h4>Chime / Logo</h4>
-            <div class="chips">
-                <span class="chip active">Brand Chime</span>
-                <span class="chip">Retailer Jingle</span>
-                <span class="chip">No Chime</span>
+            <!-- Chime -->
+            <div class="chip-group"><h4>Chime / Logo</h4>
+                <div class="chips">
+                    <span class="chip active">Brand Chime</span>
+                    <span class="chip">Retailer Jingle</span>
+                    <span class="chip">No Chime</span>
+                </div>
             </div>
-        </div>
-        <!-- Bottom Controls Row -->
-        <div style="display:flex;gap:24px;margin-top:10px;flex-wrap:wrap;">
+            
+            <!-- Store Variables -->
+            <div class="chip-group"><h4>Store Variables</h4>
+                <div class="chips">
+                    <span class="chip">$price</span>
+                    <span class="chip">$shelf-location</span>
+                </div>
+            </div>
+        
             <!-- Language -->
-            <div class="chip-group" id="langGroup" style="margin-bottom:0;"><h4>Language</h4>
+            <div class="chip-group" id="langGroup"><h4>Language</h4>
                 <div class="chips">
                     <span class="chip" id="langChip">
                         <img class="flag" src="https://flagcdn.com/us.svg" alt="US"/> English (US) ▾
@@ -146,18 +693,18 @@ body.tweak-mode #modeIndicator{display:flex}
                 </div>
             </div>
             <!-- SFX -->
-            <div class="chip-group" style="margin-bottom:0;"><h4>SFX</h4>
-                <button class="secondary">+ Add SFX</button>
+            <div class="chip-group"><h4>SFX</h4>
+                <button class="secondary" style="padding:4px 10px;font-size:12px;">+ Add SFX</button>
             </div>
             <!-- Import Voice Over -->
-            <div class="chip-group" id="importGroup" style="margin-bottom:0;"><h4>Voice Over</h4>
-                <button class="secondary" id="importBtn">Import Voice Over</button>
+            <div class="chip-group" id="importGroup"><h4>Voice Over</h4>
+                <button class="secondary" id="importBtn" style="padding:4px 10px;font-size:12px;">Import Voice Over</button>
                 <input type="file" id="importInput" accept="audio/*" style="display:none"/>
-                <div id="importedFile" style="display:none; margin-top:12px; font-size:14px; align-items:center;">
+                <div id="importedFile" style="display:none; margin-top:8px; font-size:12px; align-items:center;">
                     <span id="fileName"></span>
-                    <button class="secondary" id="removeFileBtn" style="margin-left:8px; padding:2px 8px; font-size:12px;">X</button>
+                    <button class="secondary" id="removeFileBtn" style="margin-left:6px; padding:2px 6px; font-size:10px;">X</button>
                 </div>
-                <small style="color:#555; display:block; margin-top:8px;">Importing a voice will disable Tone & Voice Preference</small>
+                <small style="color:#666; display:block; margin-top:6px;font-size:10px;">Importing a voice will disable Tone & Voice Preference</small>
             </div>
         </div>
     </section>
