@@ -6,8 +6,7 @@
     <style>
         *{box-sizing:border-box}
         body{margin:0;font-family:system-ui,Arial,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-body.tweak-mode #promptPanel{display:none}
-body.tweak-mode #chipPanel{display:none}
+body.tweak-mode #main{display:none}
 body.tweak-mode #modeIndicator{display:flex}
         #main{flex:0 0 auto;display:flex;flex-direction:column}
         #promptPanel{padding:24px 24px 0;display:flex;flex-direction:column;gap:16px}
@@ -63,16 +62,17 @@ body.tweak-mode #modeIndicator{display:flex}
         #historyDrawer.open{right:0}
         #historyHeader{padding:16px 20px;font-weight:600;border-bottom:1px solid #e5e5e5;display:flex;justify-content:space-between;align-items:center}
         #historyList{flex:1;overflow-y:auto}
-        .history-item{padding:14px 20px;border-bottom:1px solid #f3f3f3;cursor:pointer}
+        .history-item{padding:14px 20px;border-bottom:1px solid #f3f3f3}
         .history-item:hover{background:#f8f8f8}
         .hi-title{font-size:14px;font-weight:500}
         .hi-meta{font-size:12px;color:#555;margin-top:4px}
+        .text{font-size:13px;color:#333;font-style:italic;margin:8px 0;}
     </style>
 </head>
 <body>
 <div id="modeIndicator" style="display:none;background:#f0f7ff;color:#2563eb;padding:12px 24px;font-weight:500;align-items:center;justify-content:space-between;border-bottom:1px solid #d0d0d0">
     <span>Tweak Mode: Fine-tuning your selected preview</span>
-    <button class="secondary" id="returnToGenButton">Return to Generation</button>
+    <button class="secondary" id="returnToGenButton" onclick="document.querySelectorAll('.output-card.tweaking').forEach(card => card.classList.remove('tweaking')); document.body.classList.remove('tweak-mode');">Return to Generation</button>
 </div>
 <div id="main">
     <section id="promptPanel">
@@ -174,13 +174,13 @@ body.tweak-mode #modeIndicator{display:flex}
         <div class="waveform"></div>
         <div class="btn-row">
             <button class="secondary">Play</button>
-            <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking')">Tweak</button>
+            <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking'); document.body.classList.toggle('tweak-mode');">Tweak</button>
             <button class="primary btn-select" onclick="selectPreview(this)">Selected</button>
         </div>
         <div class="tweak-panel">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
                 <h3 style="margin:0;font-size:16px;font-weight:600;">Tweak Ad</h3>
-                <button style="background:none;border:none;font-size:22px;cursor:pointer" onclick="this.closest('.output-card').classList.toggle('tweaking')">×</button>
+                <button style="background:none;border:none;font-size:22px;cursor:pointer" onclick="this.closest('.output-card').classList.toggle('tweaking'); document.body.classList.toggle('tweak-mode');">×</button>
             </div>
             
             <!-- Narration Edit -->
@@ -285,8 +285,8 @@ body.tweak-mode #modeIndicator{display:flex}
             
             <!-- Footer -->
             <div style="display:flex;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid #e5e5e5;">
-                <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking')">Cancel</button>
-                <button class="primary">Apply</button>
+                <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking'); document.body.classList.toggle('tweak-mode');">Cancel</button>
+                <button class="primary">Generate</button>
             </div>
         </div>
     </div>
@@ -294,13 +294,13 @@ body.tweak-mode #modeIndicator{display:flex}
         <div class="waveform"></div>
         <div class="btn-row">
             <button class="secondary">Play</button>
-            <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking')">Tweak</button>
+            <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking'); document.body.classList.toggle('tweak-mode');">Tweak</button>
             <button class="primary btn-select" onclick="selectPreview(this)">Select</button>
         </div>
         <div class="tweak-panel">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
                 <h3 style="margin:0;font-size:16px;font-weight:600;">Tweak Ad</h3>
-                <button style="background:none;border:none;font-size:22px;cursor:pointer" onclick="this.closest('.output-card').classList.toggle('tweaking')">×</button>
+                <button style="background:none;border:none;font-size:22px;cursor:pointer" onclick="this.closest('.output-card').classList.toggle('tweaking'); document.body.classList.toggle('tweak-mode');">×</button>
             </div>
             
             <!-- Narration Edit -->
@@ -405,31 +405,66 @@ body.tweak-mode #modeIndicator{display:flex}
             
             <!-- Footer -->
             <div style="display:flex;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid #e5e5e5;">
-                <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking')">Cancel</button>
-                <button class="primary">Apply</button>
+                <button class="secondary" onclick="this.closest('.output-card').classList.toggle('tweaking'); document.body.classList.toggle('tweak-mode');">Cancel</button>
+                <button class="primary">Generate</button>
             </div>
         </div>
     </div>
 </section>
 <!-- History Drawer -->
 <aside id="historyDrawer">
-    <div id="historyHeader">History <span style="font-weight:400;font-size:13px;">(4)</span></div>
+    <div id="historyHeader">
+        History <span style="font-weight:400;font-size:13px;">(4)</span>
+        <button style="background:none;border:none;font-size:20px;cursor:pointer" onclick="document.getElementById('historyDrawer').classList.toggle('open')">×</button>
+    </div>
     <div id="historyList">
         <div class="history-item">
-            <div class="hi-title">Funk · Hard Sell · 12 s</div>
+            <div class="hi-title">Alex · Funk Groove · 12s <span class="hi-tag" style="background:#e0f2ff;color:#0066cc;font-size:11px;border-radius:3px;padding:1px 5px;margin-left:4px;">Tweaked</span></div>
             <div class="hi-meta">11:08 Today</div>
+            <div class="text">"Grab a lush Christmas tree for only €100 – while stocks last!"</div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+                <button class="secondary" style="flex:0;padding:4px 8px;display:flex;align-items:center;gap:4px;">
+                    <span style="font-size:14px;">▶</span> Play
+                </button>
+                <button class="useBtn">Use</button>
+                <button class="deleteBtn">Delete</button>
+            </div>
         </div>
         <div class="history-item">
-            <div class="hi-title">Acoustic Chill · Soft Sell · 30 s</div>
+            <div class="hi-title">Maya · Acoustic Chill · 30s <span class="hi-tag" style="background:#f0fff0;color:#008800;font-size:11px;border-radius:3px;padding:1px 5px;margin-left:4px;">Published</span></div>
             <div class="hi-meta">10:57 Today</div>
+            <div class="text">"Find peace with our winter collection – soft tones, big savings."</div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+                <button class="secondary" style="flex:0;padding:4px 8px;display:flex;align-items:center;gap:4px;">
+                    <span style="font-size:14px;">▶</span> Play
+                </button>
+                <button class="useBtn">Use</button>
+                <button class="deleteBtn">Delete</button>
+            </div>
         </div>
         <div class="history-item">
-            <div class="hi-title">No Music · Story-Teller · 20 s</div>
+            <div class="hi-title">No Music · Story-Teller · 20s</div>
             <div class="hi-meta">Yesterday 17:42</div>
+            <div class="text">"Once upon a deal… step into our store for magical surprises."</div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+                <button class="secondary" style="flex:0;padding:4px 8px;display:flex;align-items:center;gap:4px;">
+                    <span style="font-size:14px;">▶</span> Play
+                </button>
+                <button class="useBtn">Use</button>
+                <button class="deleteBtn">Delete</button>
+            </div>
         </div>
         <div class="history-item">
-            <div class="hi-title">Funk · Urgent Flash-Sale · 6 s</div>
+            <div class="hi-title">Funk · Urgent Flash-Sale · 6s</div>
             <div class="hi-meta">Yesterday 16:11</div>
+            <div class="text">"Flash sale now on! Don't miss out!"</div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+                <button class="secondary" style="flex:0;padding:4px 8px;display:flex;align-items:center;gap:4px;">
+                    <span style="font-size:14px;">▶</span> Play
+                </button>
+                <button class="useBtn">Use</button>
+                <button class="deleteBtn">Delete</button>
+            </div>
         </div>
     </div>
 </aside>
@@ -518,6 +553,12 @@ function selectPreview(button) {
   card.classList.add('selected');
   button.textContent = 'Selected';
 }
+
+// History panel toggle
+document.getElementById('historyBtn').addEventListener('click', function() {
+  const historyDrawer = document.getElementById('historyDrawer');
+  historyDrawer.classList.toggle('open');
+});
 </script>
 </body>
 </html>
