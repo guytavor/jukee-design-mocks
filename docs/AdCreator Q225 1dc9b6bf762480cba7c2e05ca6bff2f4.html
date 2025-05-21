@@ -1,0 +1,900 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>AdCreator Q225</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray {
+	color: rgba(115, 114, 110, 1);
+	fill: rgba(115, 114, 110, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(205, 60, 58, 1);
+	fill: rgba(205, 60, 58, 1);
+}
+.highlight-default_background {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(115, 114, 110, 1);
+	fill: rgba(115, 114, 110, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(205, 60, 58, 1);
+	fill: rgba(205, 60, 58, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: undefined; }
+.select-value-color-pink { background-color: rgba(225, 136, 179, 0.27); }
+.select-value-color-purple { background-color: rgba(168, 129, 197, 0.27); }
+.select-value-color-green { background-color: rgba(123, 183, 129, 0.27); }
+.select-value-color-gray { background-color: rgba(84, 72, 49, 0.15); }
+.select-value-color-translucentGray { background-color: undefined; }
+.select-value-color-orange { background-color: rgba(224, 124, 57, 0.27); }
+.select-value-color-brown { background-color: rgba(210, 162, 141, 0.35); }
+.select-value-color-red { background-color: rgba(244, 171, 159, 0.4); }
+.select-value-color-yellow { background-color: rgba(236, 191, 66, 0.39); }
+.select-value-color-blue { background-color: rgba(93, 165, 206, 0.27); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1dc9b6bf-7624-80cb-a7c2-e05ca6bff2f4" class="page sans"><header><h1 class="page-title">AdCreator Q225</h1><p class="page-description"></p></header><div class="page-body"><h1 id="1dc9b6bf-7624-802e-ba3f-c535b7cf2943" class="">Jukee Audio‑Ad Creator – vNext Spec</h1><p id="1dc9b6bf-7624-802c-8bc9-d87e06042f47" class=""><em>Note: this document describes the first unified creator release. The </em><em><strong>Tweak</strong></em><em> panel will intentionally start lightweight and will be expanded in later versions—adding deeper timeline editing, multiple SFX placement, length changes, and other controls—once real‑world customer feedback tells us what matters most.</em></p><hr id="1dc9b6bf-7624-805f-8022-ed4ff6a3b2ab"/><h2 id="1dc9b6bf-7624-80ca-9029-e491a71a5504" class="">1. Goal</h2><ul id="1dc9b6bf-7624-8010-acb5-ea6d316c5bbd" class="bulleted-list"><li style="list-style-type:disc">Merge <strong>AdTune Creator</strong> and <strong>Announcement Creator</strong> into one streamlined Gen‑AI‑first flow.</li></ul><ul id="1dc9b6bf-7624-801e-a83f-ea5a302327b2" class="bulleted-list"><li style="list-style-type:disc">Provide instant draft generation <strong>and</strong> lightweight post‑generation tweaks without exposing a full DAW.</li></ul><hr id="1dc9b6bf-7624-800c-8303-eb103be17021"/><h2 id="1dc9b6bf-7624-80e1-a7d0-e98a47df2ccd" class="">2. Gen‑AI Prompt UI</h2><h3 id="1dc9b6bf-7624-80e4-a0bf-c47d3349bac8" class="">2.1 Layout</h3><table id="1dc9b6bf-7624-8026-9bc8-fa323ed81417" class="simple-table"><tbody><tr id="1dc9b6bf-7624-80ae-87b7-ff1592f1c459"><td id="XfAq" class="">Zone</td><td id="~y`e" class="">Purpose</td><td id="nlrP" class="">Key UX Notes</td></tr><tr id="1dc9b6bf-7624-8044-a9eb-e35eedf4c740"><td id="XfAq" class=""><strong>A. Prompt Text Area</strong></td><td id="~y`e" class="">Free‑text multiline, 70 % width</td><td id="nlrP" class="">Autofocus; placeholder example; live validation hints</td></tr><tr id="1dc9b6bf-7624-80b6-806e-f93c2b1215a5"><td id="XfAq" class=""><strong>B. Smart‑Chip Rail</strong></td><td id="~y`e" class="">Clickable chips (tone, length, etc.) 30 % width (scrolls on mobile)</td><td id="nlrP" class="">Chips append/update <code>key:value</code> tokens in prompt</td></tr><tr id="1dc9b6bf-7624-801e-bbb7-cf350343f5bc"><td id="XfAq" class=""><strong>C. Action Bar</strong></td><td id="~y`e" class=""><strong>Generate</strong> (primary), Reset, Sample Prompts</td><td id="nlrP" class="">Sticky bottom; disable Generate until prompt ≠ empty</td></tr><tr id="1dc9b6bf-7624-80f5-bd40-c6cbb5dbf6b3"><td id="XfAq" class=""><strong>D. Output Carousel</strong></td><td id="~y`e" class="">Two auto‑mixed previews + Regenerate</td><td id="nlrP" class="">Hidden until first run; A/B switch; waveform thumb</td></tr></tbody></table><h3 id="1dc9b6bf-7624-8070-b9d7-e414b02d4d9f" class="">2.2 Chip Groups &amp; Tokens (MVP)</h3><ul id="1dc9b6bf-7624-8004-beae-cb5180110ad6" class="bulleted-list"><li style="list-style-type:disc"><strong>Tone / Style</strong> – <code>hard_sell</code>, <code>soft_sell</code>, <code>story_teller</code>, <code>friendly_informative</code>, <code>urgent_flash_sale</code></li></ul><ul id="1dc9b6bf-7624-8052-bc61-d5d228478bcd" class="bulleted-list"><li style="list-style-type:disc"><strong>Duration</strong> – <code>6s</code>, <code>12s</code>, <code>20s</code>, <code>30s</code></li></ul><ul id="1dc9b6bf-7624-809c-8125-cba1dfb8843e" class="bulleted-list"><li style="list-style-type:disc"><strong>Music Style</strong> – <code>Funk</code>, <code>Synth‑pop</code>, <code>Acoustic_Chill</code>, <code>Orchestral</code>, <code>no_music</code></li></ul><ul id="1dc9b6bf-7624-80d0-8693-fde718a6a98d" class="bulleted-list"><li style="list-style-type:disc"><strong>Voice Preference</strong> – <code>male</code>, <code>female</code>, <code>child</code>, <code>bilingual</code>, <code>celebrity_like</code> , <code>brand_voice</code>  if applicable</li></ul><ul id="1dc9b6bf-7624-806e-bb93-c685ae1b96c5" class="bulleted-list"><li style="list-style-type:disc"><strong>Chime / Sound‑Logo</strong> – <code>brand</code>, <code>no_chime</code>, <code>retailer_jingle</code> (only appear if tenant_assets include the chime and the sound_logo)</li></ul><ul id="1dc9b6bf-7624-8044-aa1c-ed8c536789b3" class="bulleted-list"><li style="list-style-type:disc"><strong>SFX</strong> – modal picker with search &amp; audio preview; selected SFX become <code>sfx:&lt;id&gt;</code> tokens</li></ul><ul id="1dc9b6bf-7624-809f-9ffd-f2dd3291853d" class="bulleted-list"><li style="list-style-type:disc"><strong>Call‑to‑Action Tags</strong> – quick‑insert phrases (not tokens) e.g. <em>Buy Now</em>, <em>Today Only</em></li></ul><ul id="1f79b6bf-7624-8083-b059-ebfb64d4c253" class="bulleted-list"><li style="list-style-type:disc"><strong>Template tags  - $price, $shelf-location</strong></li></ul><h3 id="1dc9b6bf-7624-8075-a77f-fd200d14ab5a" class="">2.3 Prompt → JSON Rules</h3><ul id="1dc9b6bf-7624-8094-a5ea-e79693aa75f1" class="bulleted-list"><li style="list-style-type:disc">One token per chip group (chip wins over conflicting free‑text).</li></ul><ul id="1dc9b6bf-7624-8068-aeec-cfd7ee285674" class="bulleted-list"><li style="list-style-type:disc"><code>length</code> sets <code>target_seconds</code>.</li></ul><ul id="1dc9b6bf-7624-8098-89f2-f60439ebf467" class="bulleted-list"><li style="list-style-type:disc"><code>chime</code> boolean selects fixed asset.</li></ul><ul id="1dc9b6bf-7624-80a3-8176-c1aa9dde15fe" class="bulleted-list"><li style="list-style-type:disc"><code>sfx_events</code> initially empty; populated later via Tweak.</li></ul><h3 id="1dc9b6bf-7624-8005-a1b7-df60e94267fa" class="">2.4 Generation Flow</h3><ol type="1" id="1dc9b6bf-7624-80e5-83a2-ef6e74b650f0" class="numbered-list" start="1"><li><strong>Generate</strong> → spinner &quot;Cooking your ad…&quot; (≈5 s)</li></ol><ol type="1" id="1dc9b6bf-7624-8039-a5c2-f801a14ec219" class="numbered-list" start="2"><li>Backend returns JSON + 2 MP3 URLs</li></ol><ol type="1" id="1dc9b6bf-7624-80e4-83f4-ed10add19e74" class="numbered-list" start="3"><li>Output Carousel appears; first preview auto‑plays (muted)</li></ol><ol type="1" id="1dc9b6bf-7624-8069-ade5-d76ef2135a0e" class="numbered-list" start="4"><li>Buttons: <strong>Use this</strong>, <strong>Tweak</strong>, <strong>Play</strong></li></ol><p id="1fa9b6bf-7624-80d0-889d-ca70e29e19f0" class="">
+</p><h3 id="1fa9b6bf-7624-80b7-84b2-c57e5edd848c" class="">2.5 JSON file for communication between Gateway and UI</h3><p id="1fa9b6bf-7624-803a-bb5b-ccd2ede7c806" class=""><strong>2.5.1. JSON Render_spec example:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1fa9b6bf-7624-80b7-92ca-eb77dd4403bc" class="code"><code class="language-JSON">{
+  &quot;script_text&quot;: &quot;Buy now before it&#x27;s gone!&quot;,
+  &quot;voice_id&quot;: &quot;alex&quot;,
+  &quot;music_bed_id&quot;: &quot;funk_v2&quot;,
+  &quot;narr_offset_ms&quot;: 800,
+  &quot;music_gain_db&quot;: -2.5,
+  &quot;include_chime&quot;: true,
+  &quot;include_logo&quot;: false,
+  &quot;length&quot;: &quot;12s&quot;,
+  &quot;tone&quot;: &quot;hard_sell&quot;,
+  &quot;sfx_events&quot;: [
+    { &quot;asset_id&quot;: &quot;cash_register&quot;, &quot;offset_ms&quot;: 1000, &quot;gain_db&quot;: -1 },
+    { &quot;asset_id&quot;: &quot;whoosh&quot;, &quot;offset_ms&quot;: 2000, &quot;gain_db&quot;: -2 }
+  ]
+}</code></pre><ul id="1fa9b6bf-7624-80e0-a208-f6ba9be05b34" class="bulleted-list"><li style="list-style-type:disc"><code>script_text</code>: Final voiceover narration</li></ul><ul id="1fa9b6bf-7624-8083-bb92-c7b7e1ae7dc7" class="bulleted-list"><li style="list-style-type:disc"><code>voice_id</code>: Selected voice actor ID</li></ul><ul id="1fa9b6bf-7624-80fe-870a-ff9e6e83bb65" class="bulleted-list"><li style="list-style-type:disc"><code>music_bed_id</code>: Background track asset ID</li></ul><ul id="1fa9b6bf-7624-8091-8cd2-e6521d529394" class="bulleted-list"><li style="list-style-type:disc"><code>narr_offset_ms</code>: Delay before narration starts</li></ul><ul id="1fa9b6bf-7624-8085-866f-f34049c3166b" class="bulleted-list"><li style="list-style-type:disc"><code>music_gain_db</code>: Volume control for music bed</li></ul><ul id="1fa9b6bf-7624-80c4-9a58-c062a1607b86" class="bulleted-list"><li style="list-style-type:disc"><code>include_chime</code> / <code>include_logo</code>: Booleans for audio branding elements</li></ul><ul id="1fa9b6bf-7624-8070-afd6-d84ebcf7a89a" class="bulleted-list"><li style="list-style-type:disc"><code>length</code>: Intended duration (optional override to template logic)</li></ul><ul id="1fa9b6bf-7624-806d-9099-d1f41c27a26e" class="bulleted-list"><li style="list-style-type:disc"><code>tone</code>: Used by template selector (if multiple timing/mix configs exist)</li></ul><ul id="1fa9b6bf-7624-80f8-9fff-daa64ca755ec" class="bulleted-list"><li style="list-style-type:disc"><code>sfx_events</code>: List of extra audio snippets, each with timing + volume</li></ul><ul id="1fa9b6bf-7624-803f-a3ca-fad5095fe660" class="bulleted-list"><li style="list-style-type:disc"></li></ul><p id="1fa9b6bf-7624-80d6-9bcd-e3b93baddb7b" class=""><strong>2.5.2. Session JSON example</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1fa9b6bf-7624-809b-aadc-c5fa8b408d50" class="code"><code class="language-JSON">{
+  &quot;audiomessage_id&quot;: &quot;ad_123&quot;,
+  &quot;creator_version&quot;: &quot;vNext&quot;,
+  &quot;prompt_text&quot;: &quot;tone:hard_sell length:12s music_style:funk voice_preference:male chime:brand Hard sell ad for sneakers, upbeat vibe&quot;,
+  &quot;tokens&quot;: {
+    &quot;tone&quot;: &quot;hard_sell&quot;,
+    &quot;length&quot;: &quot;12s&quot;,
+    &quot;music_style&quot;: &quot;funk&quot;,
+    &quot;voice_preference&quot;: &quot;male&quot;,
+    &quot;chime&quot;: &quot;brand&quot;
+  },
+  &quot;render_spec&quot;: {
+    &quot;script_text&quot;: &quot;Buy now before it&#x27;s gone!&quot;,
+    &quot;voice_id&quot;: &quot;alex&quot;,
+    &quot;music_bed_id&quot;: &quot;funk_v2&quot;,
+    &quot;narr_offset_ms&quot;: 800,
+    &quot;music_gain_db&quot;: -2.5,
+    &quot;include_chime&quot;: true,
+    &quot;include_logo&quot;: false,
+    &quot;length&quot;: &quot;12s&quot;,
+    &quot;tone&quot;: &quot;hard_sell&quot;,
+    &quot;sfx_events&quot;: [
+      {
+        &quot;asset_id&quot;: &quot;cash_register&quot;,
+        &quot;offset_ms&quot;: 1000,
+        &quot;gain_db&quot;: -1
+      },
+      {
+        &quot;asset_id&quot;: &quot;whoosh&quot;,
+        &quot;offset_ms&quot;: 2000,
+        &quot;gain_db&quot;: -2
+      }
+    ]
+  },
+  
+  &quot;generated_previews&quot;: [
+    {
+      &quot;generated_preview_id&quot;: &quot;v1&quot;,
+      &quot;preview_url&quot;: &quot;https://cdn.jukee.app/preview1.mp3&quot;,
+      &quot;prompt_text&quot;: &quot;tone:hard_sell length:12s music_style:funk ...&quot;,
+      &quot;tokens&quot;: {
+		    &quot;tone&quot;: &quot;hard_sell&quot;,
+		    &quot;length&quot;: &quot;12s&quot;,
+		    ...
+		  },
+		  &quot;render_spec&quot;: {
+        &quot;script_text&quot;: &quot;Buy now before it&#x27;s gone!&quot;,
+        &quot;voice_id&quot;: &quot;alex&quot;,
+        &quot;music_bed_id&quot;: &quot;funk_v2&quot;,
+        &quot;narr_offset_ms&quot;: 800,
+        &quot;music_gain_db&quot;: -2.5,
+        &quot;include_chime&quot;: true,
+        &quot;include_logo&quot;: false,
+        &quot;length&quot;: &quot;12s&quot;,
+        &quot;tone&quot;: &quot;hard_sell&quot;,
+        &quot;sfx_events&quot;: []
+      }
+    },
+    {
+      &quot;generated_preview_id&quot;: &quot;v2&quot;,
+      &quot;preview_url&quot;: &quot;https://cdn.jukee.app/preview2.mp3&quot;,
+      &quot;prompt_text&quot;: ...,
+      &quot;tokens&quot;: {...},
+      &quot;render_spec&quot;: {
+        &quot;script_text&quot;: &quot;Buy now before it&#x27;s gone!&quot;,
+        &quot;voice_id&quot;: &quot;maya&quot;,
+        &quot;music_bed_id&quot;: &quot;funk_v2&quot;,
+        &quot;narr_offset_ms&quot;: 900,
+        &quot;music_gain_db&quot;: -3,
+        &quot;include_chime&quot;: true,
+        &quot;include_logo&quot;: false,
+        &quot;length&quot;: &quot;12s&quot;,
+        &quot;tone&quot;: &quot;hard_sell&quot;,
+        &quot;sfx_events&quot;: []
+      }
+    }
+  ],
+  &quot;selected_preview_id&quot;: &quot;v2&quot;,
+  &quot;voice_options&quot;: [
+    { &quot;id&quot;: &quot;alex&quot;, &quot;label&quot;: &quot;Alex&quot;, &quot;sample_url&quot;: &quot;...&quot;, &quot;description&quot;: &quot;Energetic Male&quot; },
+    { &quot;id&quot;: &quot;maya&quot;, &quot;label&quot;: &quot;Maya&quot;, &quot;sample_url&quot;: &quot;...&quot;, &quot;description&quot;: &quot;Warm Female&quot; }
+  ],
+  &quot;music_options&quot;: [
+    { &quot;id&quot;: &quot;funk_v2&quot;, &quot;label&quot;: &quot;Funk Vibe&quot;, &quot;preview_url&quot;: &quot;...&quot; },
+    { &quot;id&quot;: &quot;acoustic_1&quot;, &quot;label&quot;: &quot;Acoustic Chill&quot;, &quot;preview_url&quot;: &quot;...&quot; }
+  ],
+  &quot;sfx_library&quot;: [
+    { &quot;id&quot;: &quot;cash_register&quot;, &quot;label&quot;: &quot;Cash Register&quot;, &quot;preview_url&quot;: &quot;...&quot; },
+    { &quot;id&quot;: &quot;whoosh&quot;, &quot;label&quot;: &quot;Whoosh&quot;, &quot;preview_url&quot;: &quot;...&quot; }
+  ],
+  &quot;history&quot;: [
+    {
+      &quot;version_id&quot;: &quot;v1&quot;,
+      &quot;timestamp&quot;: &quot;2025-07-10T10:20:00Z&quot;,
+      &quot;status&quot;: &quot;draft&quot;,
+      &quot;preview_url&quot;: &quot;https://cdn.jukee.app/preview1.mp3&quot;,
+      &quot;prompt_text&quot;: &quot;tone:hard_sell length:12s music_style:funk ...&quot;,
+			&quot;tokens&quot;: {
+			 &quot;tone&quot;: &quot;hard_sell&quot;,
+			  &quot;length&quot;: &quot;12s&quot;,
+			  ...
+			},
+		  &quot;render_spec&quot;: {
+	        &quot;script_text&quot;: &quot;Buy now before it&#x27;s gone!&quot;,
+	        &quot;voice_id&quot;: &quot;alex&quot;,
+	        &quot;music_bed_id&quot;: &quot;funk_v2&quot;,
+	        &quot;narr_offset_ms&quot;: 800,
+	        &quot;music_gain_db&quot;: -2.5,
+	        &quot;include_chime&quot;: true,
+	        &quot;include_logo&quot;: false,
+	        &quot;length&quot;: &quot;12s&quot;,
+	        &quot;tone&quot;: &quot;hard_sell&quot;,
+	        &quot;sfx_events&quot;: []
+	      }
+	    },
+    {
+      &quot;version_id&quot;: &quot;v2&quot;,
+      &quot;timestamp&quot;: &quot;2025-07-10T10:22:00Z&quot;,
+      &quot;status&quot;: &quot;saved&quot;,
+      &quot;preview_url&quot;: &quot;https://cdn.jukee.app/preview2.mp3&quot;,
+		  &quot;prompt_text&quot;: &quot;tone:hard_sell length:12s music_style:funk ...&quot;,
+		   &quot;tokens&quot;: {
+		      &quot;tone&quot;: &quot;hard_sell&quot;,
+		      &quot;length&quot;: &quot;12s&quot;,
+		      ...
+		    },      
+		    &quot;render_spec&quot;: {
+	        &quot;script_text&quot;: &quot;Buy now before it&#x27;s gone!&quot;,
+	        &quot;voice_id&quot;: &quot;maya&quot;,
+	        &quot;music_bed_id&quot;: &quot;funk_v2&quot;,
+	        &quot;narr_offset_ms&quot;: 900,
+	        &quot;music_gain_db&quot;: -3,
+	        &quot;include_chime&quot;: true,
+	        &quot;include_logo&quot;: false,
+	        &quot;length&quot;: &quot;12s&quot;,
+	        &quot;tone&quot;: &quot;hard_sell&quot;,
+	        &quot;sfx_events&quot;: []
+	      }
+	    }
+  ],
+  &quot;final_output&quot;: {
+    &quot;version&quot;: &quot;v1&quot;,
+    &quot;url&quot;: &quot;https://cdn.jukee.app/....mp3&quot;
+    &quot;render_spec&quot;: {
+      &quot;script_text&quot;: &quot;Buy now before it&#x27;s gone!&quot;,
+      &quot;voice_id&quot;: &quot;alex&quot;,
+      &quot;music_bed_id&quot;: &quot;funk_v2&quot;,
+      &quot;narr_offset_ms&quot;: 800,
+      &quot;music_gain_db&quot;: -2.5,
+      &quot;include_chime&quot;: true,
+      &quot;include_logo&quot;: false,
+      &quot;length&quot;: &quot;12s&quot;,
+      &quot;tone&quot;: &quot;hard_sell&quot;,
+      &quot;sfx_events&quot;: [
+        { &quot;asset_id&quot;: &quot;cash_register&quot;, &quot;offset_ms&quot;: 1000, &quot;gain_db&quot;: -1 },
+        { &quot;asset_id&quot;: &quot;whoosh&quot;, &quot;offset_ms&quot;: 2000, &quot;gain_db&quot;: -2 }
+      ]
+    }
+  }
+}</code></pre><hr id="1dc9b6bf-7624-809f-bef1-f1fa1dc6e528"/><h2 id="1dc9b6bf-7624-8067-b1f8-e0e516ceeb7a" class="">3. “Tweak” Mode v0</h2><h3 id="1dc9b6bf-7624-80d4-b0fb-e208b20f2e52" class="">3.1 Scope (fast fixes only)</h3><table id="1dc9b6bf-7624-801a-8939-db3f4510e7ca" class="simple-table"><tbody><tr id="1dc9b6bf-7624-8007-82d3-e8806d43d21a"><td id="~[hC" class="">Control</td><td id=";rBR" class="">JSON Field</td><td id="TaBL" class="">Reason</td></tr><tr id="1dc9b6bf-7624-80bb-8362-c06c93432d8c"><td id="~[hC" class=""><strong>Narration text edit</strong></td><td id=";rBR" class=""><code>script_text</code></td><td id="TaBL" class="">Typos, legal copy changes</td></tr><tr id="1dc9b6bf-7624-8086-9fd2-c72d35558cfb"><td id="~[hC" class=""><strong>Voice‑actor selector</strong></td><td id=";rBR" class=""><code>voice_id</code></td><td id="TaBL" class="">Gender / persona switch</td></tr><tr id="1dc9b6bf-7624-8077-854e-e7cff23688d0"><td id="~[hC" class=""><strong>Music‑bed picker</strong></td><td id=";rBR" class=""><code>music_bed_id</code></td><td id="TaBL" class="">Vibe adjustment</td></tr><tr id="1dc9b6bf-7624-8091-83ec-f0cb22cdf3e0"><td id="~[hC" class=""><strong>Narration offset slider</strong> (0–5 s)</td><td id=";rBR" class=""><code>narr_offset_ms</code></td><td id="TaBL" class="">Sync VO with bed</td></tr><tr id="1dc9b6bf-7624-8049-99ca-fbb5669fbf34"><td id="~[hC" class=""><strong>Background‑music volume</strong></td><td id=";rBR" class=""><code>music_gain_db</code></td><td id="TaBL" class="">Balance VO vs bed</td></tr><tr id="1dc9b6bf-7624-8090-8793-c5acfd1ee0f8"><td id="~[hC" class=""><strong>Chime toggle</strong></td><td id=";rBR" class=""><code>include_chime</code></td><td id="TaBL" class="">Retailer preference</td></tr><tr id="1dc9b6bf-7624-805a-8d5d-d1896fac5711"><td id="~[hC" class=""><strong>Add SFX</strong> (modal reuse)</td><td id=";rBR" class=""><code>sfx_events[{asset_id, offset_ms, gain_db}]</code></td><td id="TaBL" class="">Extra flair</td></tr></tbody></table><h3 id="1dc9b6bf-7624-80ad-9bfa-f847e25ecb88" class="">3.2 SFX in Tweak</h3><ul id="1dc9b6bf-7624-80d8-b05a-dce6c372cc59" class="bulleted-list"><li style="list-style-type:disc"><strong>Add SFX</strong> → modal &lt;search/preview&gt; → on select, chip appears in list.</li></ul><ul id="1dc9b6bf-7624-8006-85e6-ec20aac46910" class="bulleted-list"><li style="list-style-type:disc">Default offsets stagger 1 s apart after VO start; slider (0–5 s) per SFX overrides.</li></ul><ul id="1dc9b6bf-7624-80b6-997f-c9293b26b53c" class="bulleted-list"><li style="list-style-type:disc">Global SFX limit = 3; warn &amp; block beyond.</li></ul><ul id="1dc9b6bf-7624-800a-8acd-dc8d9c01fb7d" class="bulleted-list"><li style="list-style-type:disc">Undo restores previous JSON.</li></ul><hr id="1dc9b6bf-7624-8004-83f3-ed09f8042206"/><p id="1dc9b6bf-7624-80eb-adaf-c519894175e4" class="">
+</p><hr id="1dc9b6bf-7624-80f3-87c2-ee19e7bd2cfc"/><h2 id="1dc9b6bf-7624-806c-8a94-e51f2453656f" class="">5. Chip Selection Sync Logic</h2><ul id="1dc9b6bf-7624-8024-8b9b-d96c3b3bb4a2" class="bulleted-list"><li style="list-style-type:disc">User‑clicking a chip inserts or updates a <code>key:value</code> token into the prompt.</li></ul><ul id="1dc9b6bf-7624-8049-8c30-cb647ea4ec95" class="bulleted-list"><li style="list-style-type:disc">Every <code>key:value</code> token is parsed from the prompt and stored in React state (<code>tokens</code>).</li></ul><ul id="1dc9b6bf-7624-80f0-b59e-e6d5baee3335" class="bulleted-list"><li style="list-style-type:disc">UI chips render as <code>active</code> if their <code>key:value</code> matches state.</li></ul><ul id="1dc9b6bf-7624-80de-bbdf-c2ba36b1bf13" class="bulleted-list"><li style="list-style-type:disc">If user edits the prompt and deletes or rewrites a token, chip states auto‑update.</li></ul><ul id="1dc9b6bf-7624-8003-a998-cbc7f32e9fc5" class="bulleted-list"><li style="list-style-type:disc">All input flows are reversible: prompt → tokens → chips → prompt.</li></ul><hr id="1dc9b6bf-7624-8075-a058-d74f7bac0c42"/><h2 id="1dc9b6bf-7624-8029-9d9a-dc699f16962d" class="">6. History Management</h2><ul id="1dc9b6bf-7624-8060-abc8-fa96f6caa49d" class="bulleted-list"><li style="list-style-type:disc">Every generated ad version is saved to <code>history </code> record in the JSON</li></ul><ul id="1dc9b6bf-7624-800a-92f3-d5dc1ff69ea2" class="bulleted-list"><li style="list-style-type:disc">Each entry includes: <code>timestamp</code>, <code>status</code> (draft/saved/published), full JSON, and preview URL.</li></ul><ul id="1dc9b6bf-7624-800c-8f08-d8d4f90e64d2" class="bulleted-list"><li style="list-style-type:disc">History panel (right-side drawer) lists all previous versions chronologically.</li></ul><ul id="1dc9b6bf-7624-804b-95e4-c48c97e4c09f" class="bulleted-list"><li style="list-style-type:disc">Each entry shows: tone, music, duration, preview text, status, and actions: <strong>Use</strong>, <strong>Delete</strong>.</li></ul><ul id="1dc9b6bf-7624-8021-a844-eeabeae256c9" class="bulleted-list"><li style="list-style-type:disc">Drafts expire after 7 days unless promoted to saved.</li></ul><ul id="1dc9b6bf-7624-8011-8a4c-f0032253ca03" class="bulleted-list"><li style="list-style-type:disc">“Use” button loads that JSON into editor and replaces the current working draft.</li></ul><hr id="1dc9b6bf-7624-80dc-828e-e801ff631998"/><p id="1e29b6bf-7624-80d5-a5fc-db0489ca3632" class="">
+</p><h2 id="1e29b6bf-7624-80ca-9343-ec4714abfa3a" class=""><strong>8. Gateway API for Unified Ad Creator</strong></h2><p id="1e29b6bf-7624-8096-98b4-d00407afe96d" class="">The following Gateway APIs support the new unified AdCreator vNext experience.</p><p id="1e29b6bf-7624-80ec-bf80-fbec86fe2e24" class="">They provide endpoints for generation, tweaking, session management, asset browsing, and finalization — enabling a fast and flexible creative workflow.</p><p id="1fa9b6bf-7624-800b-9f05-cd586458388b" class="">
+</p><hr id="1e29b6bf-7624-806f-8ea9-f3f2cdaf7b52"/><h3 id="1e29b6bf-7624-8018-872f-e88fac52cc8d" class=""><strong>8.1. Editor Versioning</strong></h3><p id="1e29b6bf-7624-8072-bbdd-e49404f67020" class="">Every session and saved ad is associated with a creator_version.</p><ul id="1e29b6bf-7624-80a8-9752-ea18692ffe2f" class="bulleted-list"><li style="list-style-type:disc">Current: &quot;vNext&quot;</li></ul><ul id="1e29b6bf-7624-80b9-a238-eebf591ed8b0" class="bulleted-list"><li style="list-style-type:disc">Older ads may have creator_version unset (legacy Announcement or AdTune).</li></ul><p id="1e29b6bf-7624-80ef-9449-d23654f0e1c9" class="">Backend must store creator_version: vNext in all new or migrated documents.</p><p id="1fa9b6bf-7624-80a8-b3f4-cd776391248c" class="">
+</p><p id="1e29b6bf-7624-8097-94d3-d6a19d5f1ef7" class="">Frontend checks this to decide which editor UI to load.</p><hr id="1e29b6bf-7624-8073-8de9-f18417e5c86f"/><p id="1fa9b6bf-7624-8038-87b1-d11d66974f93" class="">
+</p><hr id="1e29b6bf-7624-804e-ab08-d1d57dd6501d"/><h3 id="1e29b6bf-7624-80ed-ab82-da28a67b1436" class=""><strong>8.3. Generation</strong></h3><p id="1e29b6bf-7624-8005-b757-da461e747bbd" class=""><strong>Route:</strong></p><p id="1e29b6bf-7624-803b-96c8-e764a8a3bf29" class="">POST /audio_ad_creator/generate</p><p id="1e29b6bf-7624-80a9-8b8f-cbfb57b3f7d8" class=""><strong>Description:</strong></p><p id="1e29b6bf-7624-8099-8c32-e8cbd3b0f1a8" class="">Creates two initial draft ad previews from the prompt and selected tokens.</p><p id="1e29b6bf-7624-801a-a78b-d3901a81a660" class=""><strong>Request Body: Render_spec JSON</strong></p><p id="1e29b6bf-7624-80da-91f0-d317b2a2e59c" class=""><strong>Response:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e29b6bf-7624-8068-8540-d5f524e0625c" class="code"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;generated_previews&quot;: [
+    {
+      &quot;version_id&quot;: &quot;v1&quot;,
+      &quot;preview_url&quot;: &quot;https://...&quot;,
+      &quot;render_spec&quot;: { ... }
+    },
+    {
+      &quot;version_id&quot;: &quot;v2&quot;,
+      &quot;preview_url&quot;: &quot;https://...&quot;,
+      &quot;render_spec&quot;: { ... }
+    }
+  ]
+}</code></pre><hr id="1e29b6bf-7624-8037-9028-d2572321cacb"/><h3 id="1e29b6bf-7624-801e-89d5-cbb50a6e0cb3" class=""><strong>8.4. Tweak Existing Version</strong></h3><p id="1e29b6bf-7624-80af-beb7-caf79130f8ee" class=""><strong>Route:</strong></p><p id="1e29b6bf-7624-8059-85b4-c753db53e21f" class="">PATCH /audio_ad_creator/tweak</p><p id="1e29b6bf-7624-80f1-bf17-c8bfd338f679" class=""><strong>Description:</strong></p><p id="1e29b6bf-7624-8086-850d-ca10f51d81d8" class="">Applies lightweight edits (voice change, music bed swap, SFX adjustments, narration offset).</p><p id="1e29b6bf-7624-801b-8aa5-f08c96aeb89d" class=""><strong>Request Body:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e29b6bf-7624-8025-af83-c598cd7985cb" class="code"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;audiomessage_id&quot;: &quot;ad_123&quot;,
+  &quot;render_spec&quot;: {
+    &quot;voice_id&quot;: &quot;new_voice&quot;,
+    &quot;music_bed_id&quot;: &quot;synth_pop&quot;,
+    &quot;narr_offset_ms&quot;: 1000,
+    &quot;music_gain_db&quot;: -2.5,
+    &quot;include_chime&quot;: false,
+    &quot;sfx_events&quot;: [
+      {&quot;asset_id&quot;: &quot;cash_register&quot;, &quot;offset_ms&quot;: 500, &quot;gain_db&quot;: -1}
+    ]
+  }
+}</code></pre><hr id="1e29b6bf-7624-8009-a29c-c793b4b23893"/><h3 id="1e29b6bf-7624-808d-8ea1-cda91f30eb8a" class=""><strong>8.5. Fetch Asset Pickers</strong></h3><p id="1e29b6bf-7624-8083-bca2-c347863a27de" class=""><strong>Routes:</strong></p><p id="1e29b6bf-7624-8009-9fcc-e5d256f05c1c" class="">GET /audio_ad/assets/voices</p><p id="1e29b6bf-7624-809a-8bff-f7cc3351dbec" class="">GET /audio_ad/assets/music_beds</p><p id="1e29b6bf-7624-800c-83c5-c831f94dbf75" class="">GET /audio_ad/assets/sfx</p><p id="1e29b6bf-7624-800e-ae81-d43aba70a7cd" class=""><strong>Description:</strong></p><p id="1e29b6bf-7624-80e0-a764-decb9637b8f0" class="">Fetches available voices, music beds, and SFX for the picker modals.</p><hr id="1e29b6bf-7624-8013-9fb9-e86dd68e103e"/><h3 id="1e29b6bf-7624-8005-a78b-d38b70420422" class=""><strong>8.6. Session State Management</strong></h3><p id="1e29b6bf-7624-80aa-8473-d5c4322b148a" class=""><strong>Routes:</strong></p><p id="1e29b6bf-7624-8032-8dab-f8df61a84446" class=""><code>GET /audio_ad_creator/session/{audio_message_id}</code></p><p id="1e29b6bf-7624-8058-98ed-d6e25d19ae35" class=""><code>POST /audio_ad_creator/session/{audion_message_id}</code></p><p id="1e29b6bf-7624-8046-b7d2-f11af0558a4e" class=""><strong>Description:</strong></p><ul id="1e29b6bf-7624-80b5-8e7d-cb114e9effb0" class="bulleted-list"><li style="list-style-type:disc">GET: Retrieve full session state (prompt, tokens, tweaks, previews, final output).</li></ul><ul id="1e29b6bf-7624-80e8-bc3d-d2e3a303312f" class="bulleted-list"><li style="list-style-type:disc">POST: Save updated session state incrementally.</li></ul><p id="1e29b6bf-7624-805c-932f-fa3a0650dee5" class="">
+</p><hr id="1e29b6bf-7624-8074-a6aa-df3218cd92e4"/><h3 id="1e29b6bf-7624-80fa-b479-c3d759a9f3a8" class=""><strong>8.7. Finalization</strong></h3><p id="1e29b6bf-7624-80cb-8cc4-ca1dc560cfd6" class=""><strong>Route:</strong></p><p id="1e29b6bf-7624-8063-b362-f95e63655e05" class="">POST /audio_ad_creator/save_final</p><p id="1e29b6bf-7624-801f-a261-d97589cdf5dc" class=""><strong>Description:</strong></p><p id="1e29b6bf-7624-8062-87fd-f63073e0b424" class="">Marks the selected preview as the final published version.</p><p id="1e29b6bf-7624-800e-ba4e-e72b2c177b67" class="">Saves final_output JSON for production use.</p><p id="1e29b6bf-7624-80db-b6ed-dfcf94b05aaa" class=""><strong>Request Body:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e29b6bf-7624-80d8-96c7-cb5640d72d6b" class="code"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;audiomessage_id&quot;: &quot;ad_123&quot;,
+  &quot;final_output&quot;: { ... }
+}</code></pre><hr id="1e29b6bf-7624-8070-b9aa-cb865ab7c0c1"/><h3 id="1e29b6bf-7624-80d1-9ce4-ea285ac3ed8b" class=""><strong>8.8. History Management</strong></h3><ul id="1e29b6bf-7624-8020-8eb2-ce6c2056e208" class="bulleted-list"><li style="list-style-type:disc">Each generated or tweaked ad version is automatically saved to an <code>history</code> collection.</li></ul><ul id="1e29b6bf-7624-809f-a05c-cc2c7e386926" class="bulleted-list"><li style="list-style-type:disc">Each version includes:<ul id="1e29b6bf-7624-809b-8edc-e9bb331558c5" class="bulleted-list"><li style="list-style-type:circle">Timestamp</li></ul><ul id="1e29b6bf-7624-8006-8eba-f6c5fb1d666c" class="bulleted-list"><li style="list-style-type:circle">Status (draft, saved, published)</li></ul><ul id="1e29b6bf-7624-803c-8158-fe491a31a56a" class="bulleted-list"><li style="list-style-type:circle">Preview URL</li></ul><ul id="1e29b6bf-7624-80fe-9021-d2852a464b4e" class="bulleted-list"><li style="list-style-type:circle">Full render_spec JSON</li></ul></li></ul><ul id="1e29b6bf-7624-80e6-a7fa-e5fff4368866" class="bulleted-list"><li style="list-style-type:disc">History is fetched as part of session payload; no separate endpoint needed.</li></ul><hr id="1e29b6bf-7624-8079-9db5-e12dee8f2c21"/><h2 id="1e29b6bf-7624-805b-b84d-db7b4732b5c4" class=""><strong>8.9. Migration Plan</strong></h2><p id="1e29b6bf-7624-805a-93cc-fa7c112078f6" class="">This section outlines how the transition to the unified AdCreator flow will be safely managed.</p><hr id="1e29b6bf-7624-807d-aac5-dc4440774fe4"/><h3 id="1e29b6bf-7624-8096-b8dc-efaa4f060b8a" class=""><strong>Phase 1: Add New Endpoints</strong></h3><ul id="1e29b6bf-7624-80e1-936d-dc6638975453" class="bulleted-list"><li style="list-style-type:disc">Implement all new /audio_ad_creator/ routes alongside existing endpoints.</li></ul><ul id="1e29b6bf-7624-8035-9823-f5541c593b68" class="bulleted-list"><li style="list-style-type:disc">Frontend vNext uses only new endpoints; old frontend continues using old ones.</li></ul><hr id="1e29b6bf-7624-804a-bafd-d7b3f3e801a0"/><h3 id="1e29b6bf-7624-8030-b80d-ed2a5758003c" class=""><strong>Phase 2: Soft Migration of Audio Messages</strong></h3><ul id="1e29b6bf-7624-80f1-bf0f-c7985b82f320" class="bulleted-list"><li style="list-style-type:disc">Extend audio_messages collection with new optional fields:<ul id="1e29b6bf-7624-802b-ae52-c85c1fe3cf25" class="bulleted-list"><li style="list-style-type:circle">creator_version, prompt_text, tokens, generated_previews, selected_version_id, tweak_form, voice_options, music_options, sfx_library, history, final_output.</li></ul></li></ul><ul id="1e29b6bf-7624-8029-8863-c376551bb3c1" class="bulleted-list"><li style="list-style-type:disc">On first edit/save in vNext, automatically populate these fields for existing ads (without deleting legacy fields).</li></ul><ul id="1e29b6bf-7624-800f-98e9-d2f1a413fedd" class="bulleted-list"><li style="list-style-type:disc">Tag migrated documents with creator_version: vNext.</li></ul><hr id="1e29b6bf-7624-80fb-9047-d9ca9fbf7108"/><h3 id="1e29b6bf-7624-8066-a3f7-e1172db8b8ca" class=""><strong>Phase 3: Gradual Frontend Switchover</strong></h3><ul id="1e29b6bf-7624-8096-9377-c24139416b27" class="bulleted-list"><li style="list-style-type:disc">Enable new UI for:<ul id="1e29b6bf-7624-80c7-89d8-c4ed0ce9cc99" class="bulleted-list"><li style="list-style-type:circle">New ads.</li></ul><ul id="1e29b6bf-7624-8041-8a63-f758b3d64b7e" class="bulleted-list"><li style="list-style-type:circle">Existing ads migrated to creator_version: vNext.</li></ul></li></ul><ul id="1e29b6bf-7624-80fe-b7bf-e04698f21cd7" class="bulleted-list"><li style="list-style-type:disc">Fallback to old UI if no creator_version is detected.</li></ul><hr id="1e29b6bf-7624-8063-88b7-f1fbae294377"/><h3 id="1e29b6bf-7624-800d-9512-d8785c96c6a7" class=""><strong>Phase 4: (Optional) Background Batch Migration</strong></h3><ul id="1e29b6bf-7624-807c-93e2-e33e637898a7" class="bulleted-list"><li style="list-style-type:disc">Run a cronjob to fill missing fields in older audio messages.</li></ul><ul id="1e29b6bf-7624-806e-a1ad-c189f964e5cd" class="bulleted-list"><li style="list-style-type:disc">Mark all batch-migrated items with creator_version: legacy_migrated.</li></ul><hr id="1e29b6bf-7624-806a-be5e-e56ca0980bb2"/><h3 id="1e29b6bf-7624-804e-8be4-d8b5c0ae557f" class=""><strong>Phase 5: Future Cleanup</strong></h3><ul id="1e29b6bf-7624-80e3-b23f-dabfc16286c0" class="bulleted-list"><li style="list-style-type:disc">After full adoption (~6 months):<ul id="1e29b6bf-7624-80eb-9697-cc91954c8b8e" class="bulleted-list"><li style="list-style-type:circle">Deprecate old routes.</li></ul><ul id="1e29b6bf-7624-80a0-b35f-daa16cd6c57e" class="bulleted-list"><li style="list-style-type:circle">Remove unused legacy fields from DB (e.g., options_to_mixed_url).</li></ul></li></ul><hr id="1e29b6bf-7624-80b2-8cac-c485a27f2eea"/><h1 id="1e29b6bf-7624-805e-815f-f14442751a6f" class=""><strong>Notes</strong></h1><ul id="1e29b6bf-7624-8002-b339-f75cd15fc4bc" class="bulleted-list"><li style="list-style-type:disc">All new endpoints live under /audio_ad_creator/</li></ul><ul id="1e29b6bf-7624-8032-9da9-fc7af354ce13" class="bulleted-list"><li style="list-style-type:disc">Full backward compatibility guaranteed.</li></ul><ul id="1e29b6bf-7624-8064-872c-f264be54693b" class="bulleted-list"><li style="list-style-type:disc">Zero downtime during rollout.</li></ul><hr id="1e29b6bf-7624-80f5-9fa6-fb7d61940715"/><p id="1e29b6bf-7624-80d2-8909-f7f7cf8399c4" class="">
+</p><h2 id="1dc9b6bf-7624-8020-9337-d2466bd8f705" class="">9. Next Steps</h2><ul id="1dc9b6bf-7624-8015-a477-c6ae83ab70d9" class="bulleted-list"><li style="list-style-type:disc">Design component hierarchy in React (PromptUI, ChipRail, OutputCarousel, TweakPanel).</li></ul><ul id="1dc9b6bf-7624-8091-b3aa-fdfdf138b4ff" class="bulleted-list"><li style="list-style-type:disc">Build prompt parser &amp; validator (regex <code>key:value</code> tokens).</li></ul><ul id="1dc9b6bf-7624-80b1-b308-e474ca660cbd" class="bulleted-list"><li style="list-style-type:disc">Implement backend JSON → mixer endpoint (include SFX params).</li></ul><ul id="1dc9b6bf-7624-804f-a452-cb381b997445" class="bulleted-list"><li style="list-style-type:disc">Define analytics events: chip_click, regen_count, tweak_apply.</li></ul><ul id="1dc9b6bf-7624-8050-a8c2-e50e5ef9d3f6" class="bulleted-list"><li style="list-style-type:disc">Create Figma mockups for handshake with design.</li></ul><hr id="1dc9b6bf-7624-80b0-92f7-e2662ff889e1"/><p id="1e49b6bf-7624-809f-837e-e16b8199bc95" class=""><strong>Notes:</strong></p><ul id="1fa9b6bf-7624-8076-b4e1-f71249e8bcf9" class="bulleted-list"><li style="list-style-type:disc"><strong>TODO: when the user tweaks a version what happens to the main editor? its no longer relevant… ?</strong></li></ul><ul id="1fa9b6bf-7624-809c-b2ce-decc7fb153e2" class="bulleted-list"><li style="list-style-type:disc">UI should remember all selections, and use them as defaults for next time<ul id="1e49b6bf-7624-8085-8242-d3809beb9d16" class="bulleted-list"><li style="list-style-type:circle">retailer/provider default genre, default voice artist, default length, etc…</li></ul></li></ul><ul id="1e49b6bf-7624-80e9-9f6e-d9f070427354" class="bulleted-list"><li style="list-style-type:disc">content:<ul id="1fa9b6bf-7624-8004-bfbb-df025cc6842a" class="bulleted-list"><li style="list-style-type:circle"> 20x songs for each music style.</li></ul><ul id="1fa9b6bf-7624-80d6-b42d-e2a5da16a5e6" class="bulleted-list"><li style="list-style-type:circle">100 SFXs,</li></ul></li></ul><ul id="1fa9b6bf-7624-80f8-8bf1-faa9a229562c" class="bulleted-list"><li style="list-style-type:disc">TODO:  OpenAI anchor directions, 11labs custom voice?</li></ul><ul id="1e49b6bf-7624-8068-92a5-cf6d84d3dc14" class="bulleted-list"><li style="list-style-type:disc"></li></ul><p id="1e49b6bf-7624-8031-b4a6-d6cace53d9ab" class="">
+</p><p id="1e29b6bf-7624-801b-ace4-d9f1c8ab8e70" class="">
+</p><h2 id="1dc9b6bf-7624-800f-9b5b-e05556f9ffe6" class="">10. UI Mocks</h2><p id="1dc9b6bf-7624-801e-bdf3-d686beaa8dca" class="">
+</p><h3 id="1dc9b6bf-7624-806d-8bae-c1dfce062214" class="">Main</h3><ul id="1fa9b6bf-7624-8079-906e-c927a96777a6" class="bulleted-list"><li style="list-style-type:disc"></li></ul><ul id="1fa9b6bf-7624-8046-ae11-fd0897e0cbc7" class="bulleted-list"><li style="list-style-type:disc"></li></ul><figure id="1dc9b6bf-7624-80b8-b83d-ed577f10be1e"><div class="source"><a href="AdCreator%20Q225%201dc9b6bf762480cba7c2e05ca6bff2f4/main.html">attachment:28032fb9-f4a2-4d9e-bdb8-d5a5cf6d91b6:main.html</a></div></figure><p id="1dc9b6bf-7624-80ba-8f8f-fc8b7f7a0bde" class="">
+</p><h3 id="1dc9b6bf-7624-8037-bb4f-c6d7c2e65686" class="">Tweak</h3><figure id="1dc9b6bf-7624-8089-941f-d939bbaed51b"><div class="source"><a href="AdCreator%20Q225%201dc9b6bf762480cba7c2e05ca6bff2f4/tweak_(1).html">attachment:3286d4f5-d65b-43fc-91f0-6707362a51f1:tweak_(1).html</a></div></figure><p id="1dc9b6bf-7624-8083-b64c-f8e63eaa46f6" class="">
+</p><h3 id="1dc9b6bf-7624-8014-8f89-c21f06642d3d" class="">History panel</h3><figure id="1dc9b6bf-7624-80d8-9117-ff78eedf9c5a"><div class="source"><a href="AdCreator%20Q225%201dc9b6bf762480cba7c2e05ca6bff2f4/history.html">attachment:3096e939-74a1-4d29-b5fc-50b397d6f53e:history.html</a></div></figure><p id="1df9b6bf-7624-80b1-8eb8-c3b3c3a41584" class="">
+</p><p id="1df9b6bf-7624-8001-89e6-f945506b0d92" class="">
+</p><p id="1df9b6bf-7624-8022-96a0-f290be9ebe38" class="">TODO notest:</p><p id="1df9b6bf-7624-80eb-a38f-d2cf65246591" class="">
+</p><ol type="1" id="1df9b6bf-7624-808d-9781-f3749ca37bc4" class="numbered-list" start="1"><li>use ElevenLabs VoiceChange API as another way for someone to create their narration. i.e. you record you texts, and we change it to sound professional</li></ol><ol type="1" id="1df9b6bf-7624-809a-a158-c512f6fb435e" class="numbered-list" start="2"><li>The hard-sell soft-sell above should translate to the following: 11labs voice design , open ai prompts<p id="1df9b6bf-7624-80e3-8a63-fa3cafbdddf7" class="">use elevenlabs voice design to create voices for commercials, see example I played with:<br/><br/></p></li></ol><figure id="1df9b6bf-7624-80c3-97e9-ef0dd0ad980d" class="image"><a href="AdCreator%20Q225%201dc9b6bf762480cba7c2e05ca6bff2f4/image.png"><img style="width:709.9639282226562px" src="AdCreator%20Q225%201dc9b6bf762480cba7c2e05ca6bff2f4/image.png"/></a></figure><ol type="1" id="1df9b6bf-7624-80c5-879f-e9377509604f" class="numbered-list" start="1"><li>Use OpenAI voice prompts to create voices for commercials </li></ol></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

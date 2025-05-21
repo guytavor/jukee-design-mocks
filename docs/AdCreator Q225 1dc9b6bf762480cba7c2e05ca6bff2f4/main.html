@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Jukee Ad Creator – Mock (v4 full chips + history)</title>
+    <style>
+        *{box-sizing:border-box}
+        body{margin:0;font-family:system-ui,Arial,sans-serif;height:100vh;display:flex;flex-direction:column}
+body.tweak-mode #promptPanel{display:none}
+body.tweak-mode #chipPanel{display:none}
+body.tweak-mode #modeIndicator{display:flex}
+        #main{flex:1;display:flex;overflow:hidden}
+        #promptPanel{flex:3;padding:24px;border-right:1px solid #d0d0d0;display:flex;flex-direction:column;gap:16px}
+        #chipPanel{flex:1;padding:24px;overflow-y:auto}
+        textarea#prompt{flex:1;width:100%;resize:none;border:1px solid #c5c5c5;border-radius:6px;padding:12px;font-size:15px}
+        .chip-group{margin-bottom:20px;position:relative}
+        .chip-group h4{margin:0 0 6px 0;font-size:14px;color:#555;text-transform:uppercase;letter-spacing:.5px}
+        .chips{display:flex;flex-wrap:wrap;gap:8px}
+        .chip{background:#f1f1f1;border:1px solid #d5d5d5;border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;user-select:none;transition:background 120ms;display:inline-flex;align-items:center;gap:6px}
+        .chip:hover{background:#e7e7e7}
+        .chip.active{background:#2563eb;border-color:#2563eb;color:#fff}
+        .chip.disabled{opacity:0.5;border-color:#ccc;color:#999;cursor:default;pointer-events:none}
+        .chip-group.disabled-group{opacity:0.5;pointer-events:none}
+        .flag{width:16px;height:12px;object-fit:cover;border-radius:2px}
+        .dropdown{display:none;position:absolute;top:54px;left:0;width:100%;max-height:260px;overflow-y:auto;border:1px solid #d5d5d5;border-radius:6px;background:#fff;box-shadow:0 4px 8px rgba(0,0,0,.08);z-index:10}
+        .dropdown-item{padding:8px 14px;display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+        .dropdown-item:hover{background:#f1f1f1}
+        #actionBar{padding:12px 24px;border-top:1px solid #d0d0d0;display:flex;gap:16px;justify-content:space-between;align-items:center}
+        button{border:none;border-radius:4px;padding:10px 18px;font-size:14px;cursor:pointer}
+        button.primary{background:#2563eb;color:#fff}
+        button.secondary{background:#f3f3f3;color:#333}
+        button.primary:disabled{background:#a5b4fb;cursor:default}
+        #output{padding:24px;display:flex;gap:24px;border-top:1px solid #d0d0d0;background:#fafafa;overflow-x:auto}
+        .output-card{min-width:280px;border:1px solid #d5d5d5;border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px;background:#fff}
+        .waveform{width:100%;height:46px;background:repeating-linear-gradient(90deg,#e0e0e0 0,#e0e0e0 2px,#fff 2px,#fff 4px);border-radius:4px}
+        .btn-row{display:flex;gap:8px;justify-content:space-between}
+        #historyDrawer{position:fixed;top:0;right:-340px;width:320px;height:100%;background:#fff;border-left:1px solid #d0d0d0;box-shadow:-4px 0 8px rgba(0,0,0,.06);display:flex;flex-direction:column;transition:right 200ms ease;z-index:50}
+        #historyDrawer.open{right:0}
+        #historyHeader{padding:16px 20px;font-weight:600;border-bottom:1px solid #e5e5e5;display:flex;justify-content:space-between;align-items:center}
+        #historyList{flex:1;overflow-y:auto}
+        .history-item{padding:14px 20px;border-bottom:1px solid #f3f3f3;cursor:pointer}
+        .history-item:hover{background:#f8f8f8}
+        .hi-title{font-size:14px;font-weight:500}
+        .hi-meta{font-size:12px;color:#555;margin-top:4px}
+    </style>
+</head>
+<body>
+<div id="modeIndicator" style="display:none;background:#f0f7ff;color:#2563eb;padding:12px 24px;font-weight:500;align-items:center;justify-content:space-between;border-bottom:1px solid #d0d0d0">
+    <span>Tweak Mode: Fine-tuning your selected preview</span>
+    <button class="secondary" id="returnToGenButton">Return to Generation</button>
+</div>
+<div id="main">
+    <section id="promptPanel">
+        <h2>Create Your Ad</h2>
+        <textarea id="prompt" placeholder="Describe your ad… e.g. 'Christmas tree for €100, funky bed, male Hebrew VO, brand chime first'"></textarea>
+    </section>
+    <aside id="chipPanel">
+        <!-- Tone -->
+        <div class="chip-group" id="toneGroup"><h4>Tone</h4>
+            <div class="chips">
+                <span class="chip active">Hard Sell</span>
+                <span class="chip">Soft Sell</span>
+                <span class="chip">Story-Teller</span>
+                <span class="chip">Friendly Informative</span>
+                <span class="chip">Urgent Flash-Sale</span>
+            </div>
+        </div>
+        <!-- Duration -->
+        <div class="chip-group"><h4>Duration</h4>
+            <div class="chips">
+                <span class="chip">6 s</span>
+                <span class="chip active">12 s</span>
+                <span class="chip">20 s</span>
+                <span class="chip">30 s</span>
+            </div>
+        </div>
+        <!-- Music -->
+        <div class="chip-group"><h4>Music Style</h4>
+            <div class="chips">
+                <span class="chip active">Funk</span>
+                <span class="chip">Synth-pop</span>
+                <span class="chip">Acoustic Chill</span>
+                <span class="chip">Orchestral</span>
+                <span class="chip">No Music</span>
+            </div>
+        </div>
+        <!-- Voice -->
+        <div class="chip-group" id="voicePrefGroup"><h4>Voice Preference</h4>
+            <div class="chips">
+                <span class="chip active">Male</span>
+                <span class="chip">Female</span>
+                <span class="chip">Child</span>
+                <span class="chip">Bilingual</span>
+                <span class="chip">Celebrity-Like</span>
+            </div>
+        </div>
+        <!-- Chime -->
+        <div class="chip-group"><h4>Chime / Logo</h4>
+            <div class="chips">
+                <span class="chip active">Brand Chime</span>
+                <span class="chip">Retailer Jingle</span>
+                <span class="chip">No Chime</span>
+            </div>
+        </div>
+        <!-- Language -->
+        <div class="chip-group" id="langGroup"><h4>Language</h4>
+            <div class="chips">
+                <span class="chip" id="langChip">
+                    <img class="flag" src="https://flagcdn.com/us.svg" alt="US"/> English (US) ▾
+                </span>
+            </div>
+            <div class="dropdown" id="langDropdown">
+                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/us.svg"/> English (US)</div>
+                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/gb.svg"/> English (UK)</div>
+                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/fr.svg"/> French (FR)</div>
+                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/de.svg"/> German (DE)</div>
+                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/es.svg"/> Spanish (ES)</div>
+                <div class="dropdown-item"><img class="flag" src="https://flagcdn.com/il.svg"/> Hebrew (IL)</div>
+            </div>
+        </div>
+        <!-- SFX -->
+        <div class="chip-group"><h4>SFX</h4>
+            <button class="secondary" style="width:100%">+ Add SFX</button>
+        </div>
+        <!-- Import Voice Over -->
+        <div class="chip-group" id="importGroup"><h4>Voice Over</h4>
+            <button class="secondary" id="importBtn" style="width:100%">Import Voice Over</button>
+            <input type="file" id="importInput" accept="audio/*" style="display:none"/>
+            <div id="importedFile" style="display:none; margin-top:12px; font-size:14px; align-items:center;">
+                <span id="fileName"></span>
+                <button class="secondary" id="removeFileBtn" style="margin-left:8px; padding:2px 8px; font-size:12px;">X</button>
+            </div>
+            <small style="color:#555; display:block; margin-top:8px;">Importing a voice will disable Tone & Voice Preference</small>
+        </div>
+    </aside>
+</div>
+<div id="actionBar">
+    <button class="secondary" id="historyBtn">History ▾</button>
+    <div>
+        <button class="secondary">Reset</button>
+        <button class="primary">Generate</button>
+    </div>
+</div>
+<section id="output">
+    <div class="output-card">
+        <div class="waveform"></div>
+        <div class="btn-row">
+            <button class="secondary">Play</button>
+            <button class="secondary">Tweak</button>
+            <button class="primary">Use This</button>
+        </div>
+    </div>
+    <div class="output-card">
+        <div class="waveform"></div>
+        <div class="btn-row">
+            <button class="secondary">Play</button>
+            <button class="secondary">Tweak</button>
+            <button class="primary">Use This</button>
+        </div>
+    </div>
+</section>
+<!-- History Drawer -->
+<aside id="historyDrawer">
+    <div id="historyHeader">History <span style="font-weight:400;font-size:13px;">(4)</span></div>
+    <div id="historyList">
+        <div class="history-item">
+            <div class="hi-title">Funk · Hard Sell · 12 s</div>
+            <div class="hi-meta">11:08 Today</div>
+        </div>
+        <div class="history-item">
+            <div class="hi-title">Acoustic Chill · Soft Sell · 30 s</div>
+            <div class="hi-meta">10:57 Today</div>
+        </div>
+        <div class="history-item">
+            <div class="hi-title">No Music · Story-Teller · 20 s</div>
+            <div class="hi-meta">Yesterday 17:42</div>
+        </div>
+        <div class="history-item">
+            <div class="hi-title">Funk · Urgent Flash-Sale · 6 s</div>
+            <div class="hi-meta">Yesterday 16:11</div>
+        </div>
+    </div>
+</aside>
+
+<script>
+const importBtn = document.getElementById('importBtn');
+const input = document.getElementById('importInput');
+const importedDiv = document.getElementById('importedFile');
+const fileNameSpan = document.getElementById('fileName');
+const removeBtn = document.getElementById('removeFileBtn');
+const toneGroup = document.getElementById('toneGroup');
+const voicePrefGroup = document.getElementById('voicePrefGroup');
+const promptEl = document.getElementById('prompt');
+
+importBtn.addEventListener('click', () => {
+  input.click();
+});
+
+input.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  fileNameSpan.textContent = file.name;
+  importedDiv.style.display = 'flex';
+  toneGroup.classList.add('disabled-group');
+  voicePrefGroup.classList.add('disabled-group');
+  const token = 'voice:imported';
+  if (!promptEl.value.includes(token)) {
+    promptEl.value = promptEl.value.trim() ? promptEl.value + ' ' + token : token;
+  }
+});
+
+removeBtn.addEventListener('click', () => {
+  input.value = '';
+  importedDiv.style.display = 'none';
+  toneGroup.classList.remove('disabled-group');
+  voicePrefGroup.classList.remove('disabled-group');
+  promptEl.value = promptEl.value.replace(/\bvoice:imported\b/, '').trim();
+});
+</script>
+</body>
+</html>
