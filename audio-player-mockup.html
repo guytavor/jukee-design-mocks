@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Player Component</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .audio-player {
+            background: white;
+            border-radius: 8px;
+            padding: 16px 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e5e5;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .player-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .play-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4d4d4 0%, #b8b8b8 100%);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.2s ease;
+        }
+
+        .play-button:hover {
+            background: linear-gradient(135deg, #c4c4c4 0%, #a8a8a8 100%);
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 8px solid #4a4a4a;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            margin-left: 2px;
+        }
+
+        .track-title {
+            font-size: 16px;
+            color: #333;
+            font-weight: 400;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .time-display {
+            font-size: 13px;
+            color: #666;
+            min-width: 28px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: #e5e5e5;
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4a90e2;
+            border-radius: 2px;
+            width: 2%;
+            transition: width 0.1s ease;
+        }
+
+        .progress-handle {
+            position: absolute;
+            top: 50%;
+            left: 2%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: #4a90e2;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: left 0.1s ease;
+        }
+
+        /* Demo controls */
+        .demo-controls {
+            margin-top: 20px;
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e5e5;
+            max-width: 600px;
+            margin: 20px auto 0;
+        }
+
+        .demo-controls h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .demo-button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 5px;
+            font-size: 14px;
+        }
+
+        .demo-button:hover {
+            background: #357abd;
+        }
+    </style>
+</head>
+<body>
+    <div class="audio-player">
+        <div class="player-top">
+            <button class="play-button" id="playButton">
+                <div class="play-icon" id="playIcon"></div>
+            </button>
+            <div class="track-title" id="trackTitle">test</div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="time-display" id="currentTime">0:00</div>
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-handle" id="progressHandle"></div>
+            </div>
+            <div class="time-display" id="totalTime">0:08</div>
+        </div>
+    </div>
+
+    <div class="demo-controls">
+        <h3>Demo Controls</h3>
+        <button class="demo-button" onclick="togglePlayState()">Toggle Play/Pause</button>
+        <button class="demo-button" onclick="setProgress(25)">25%</button>
+        <button class="demo-button" onclick="setProgress(50)">50%</button>
+        <button class="demo-button" onclick="setProgress(75)">75%</button>
+        <button class="demo-button" onclick="changeTitle()">Change Title</button>
+    </div>
+
+    <script>
+        let isPlaying = false;
+        let currentProgress = 2; // Start at 2% like in the screenshot
+
+        function togglePlayState() {
+            isPlaying = !isPlaying;
+            updatePlayButton();
+        }
+
+        function updatePlayButton() {
+            const playIcon = document.getElementById('playIcon');
+            const playButton = document.getElementById('playButton');
+            
+            if (isPlaying) {
+                // Pause icon (two rectangles)
+                playIcon.style.border = 'none';
+                playIcon.style.width = '12px';
+                playIcon.style.height = '12px';
+                playIcon.style.background = 'linear-gradient(to right, #4a4a4a 0%, #4a4a4a 35%, transparent 35%, transparent 65%, #4a4a4a 65%, #4a4a4a 100%)';
+                playIcon.style.marginLeft = '0';
+            } else {
+                // Play icon (triangle)
+                playIcon.style.background = 'none';
+                playIcon.style.width = '0';
+                playIcon.style.height = '0';
+                playIcon.style.borderLeft = '8px solid #4a4a4a';
+                playIcon.style.borderTop = '6px solid transparent';
+                playIcon.style.borderBottom = '6px solid transparent';
+                playIcon.style.marginLeft = '2px';
+            }
+        }
+
+        function setProgress(percentage) {
+            currentProgress = percentage;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progressHandle = document.getElementById('progressHandle');
+            const currentTime = document.getElementById('currentTime');
+            
+            progressFill.style.width = currentProgress + '%';
+            progressHandle.style.left = currentProgress + '%';
+            
+            // Update time display based on progress
+            const totalSeconds = 8;
+            const currentSeconds = Math.floor((currentProgress / 100) * totalSeconds);
+            currentTime.textContent = `0:${currentSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function changeTitle() {
+            const titles = ['test', 'Generated Audio Preview', 'Sample Track', 'Audio Ad Preview'];
+            const trackTitle = document.getElementById('trackTitle');
+            const currentTitle = trackTitle.textContent;
+            const currentIndex = titles.indexOf(currentTitle);
+            const nextIndex = (currentIndex + 1) % titles.length;
+            trackTitle.textContent = titles[nextIndex];
+        }
+
+        // Add click handler for play button
+        document.getElementById('playButton').addEventListener('click', togglePlayState);
+
+        // Add click handler for progress bar
+        document.getElementById('progressBar').addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const percentage = (clickX / rect.width) * 100;
+            setProgress(Math.max(0, Math.min(100, percentage)));
+        });
+
+        // Initialize the player
+        updateProgress();
+        updatePlayButton();
+    </script>
+</body>
+</html>
