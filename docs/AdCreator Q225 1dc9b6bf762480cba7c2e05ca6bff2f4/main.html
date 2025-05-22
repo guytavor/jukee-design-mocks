@@ -362,6 +362,39 @@
             box-shadow:0 2px 4px rgba(0,0,0,0.3);
         }
         
+        /* Custom timing component with duration visualization */
+        .timing-track{
+            position:relative;
+            width:100%;
+            height:6px;
+            background:#e0e4e8;
+            border-radius:3px;
+        }
+        .timing-handle{
+            position:absolute;
+            top:-5px;
+            width:16px;
+            height:16px;
+            background:#0066FF;
+            border-radius:50%;
+            cursor:pointer;
+            box-shadow:0 1px 3px rgba(0,0,0,0.2);
+            transition:all 0.15s ease;
+            z-index:2;
+        }
+        .timing-handle:hover{
+            transform:scale(1.15);
+            box-shadow:0 2px 4px rgba(0,0,0,0.3);
+        }
+        .duration-line{
+            position:absolute;
+            top:0;
+            height:6px;
+            background:#ff4444;
+            border-radius:0 3px 3px 0;
+            z-index:1;
+        }
+        
         /* SFX items */
         .sfx-item{
             display:flex;
@@ -377,7 +410,7 @@
         /* Timing items with aligned labels */
         .timing-item{
             display:grid;
-            grid-template-columns:120px 1fr auto;
+            grid-template-columns:120px 40px 1fr auto;
             align-items:center;
             gap:12px;
             padding:8px 12px;
@@ -385,6 +418,25 @@
             border-radius:8px;
             border:1px solid #e0e4e8;
             margin-bottom:8px;
+        }
+        
+        /* Edit button for timing items */
+        .timing-edit-btn{
+            width:32px;
+            height:24px;
+            background:#e0e4e8;
+            border:none;
+            border-radius:4px;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:12px;
+            transition:all 0.15s ease;
+        }
+        .timing-edit-btn:hover{
+            background:#0066FF;
+            color:#fff;
         }
         .timing-item span:first-child{
             font-weight:500;
@@ -398,6 +450,43 @@
             height: 150px;
             background: #e0e4e8;
             outline: none;
+        }
+        
+        /* Modal styles */
+        .modal-overlay{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.5);
+            display:none;
+            z-index:1000;
+            align-items:center;
+            justify-content:center;
+        }
+        .modal-content{
+            background:#fff;
+            border-radius:12px;
+            padding:32px;
+            max-width:1000px;
+            width:90vw;
+            max-height:85vh;
+            overflow-y:auto;
+            box-shadow:0 10px 30px rgba(0,0,0,0.3);
+        }
+        .modal-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:20px;
+        }
+        .modal-close{
+            background:none;
+            border:none;
+            font-size:24px;
+            cursor:pointer;
+            color:#666;
         }
         .sfx-item span{
             font-size:14px;
@@ -781,93 +870,6 @@
                 <button style="background:none;border:none;font-size:22px;cursor:pointer" onclick="this.closest('.output-card').classList.toggle('tweaking'); document.body.classList.toggle('tweak-mode');">×</button>
             </div>
             
-            <!-- Narration Edit -->
-            <div class="section">
-                <h4>Narration Text</h4>
-                <textarea style="width:100%;height:80px;resize:none;border:1px solid #c5c5c5;border-radius:6px;padding:10px;font-size:14px;">Grab a lush Christmas tree for only €100 – while stocks last!</textarea>
-            </div>
-            
-            <!-- Voice Actor & Music Bed Side by Side -->
-            <div class="section" style="display:flex !important;flex-direction:row !important;gap:20px;">
-                <!-- Voice Actor List -->
-                <div style="flex:1;">
-                    <h4>Voice Actor</h4>
-                    <input type="text" placeholder="Search voices..." style="width:100%;padding:8px 10px;font-size:14px;border:1px solid #c5c5c5;border-radius:6px;background:#fff" />
-                    <div class="list-container">
-                        <div class="voice-list">
-                            <div class="voice-row" style="border-color:#0066FF;background:#f8fafd;">
-                                <div class="voice-left">
-                                    <div class="voice-name icon-male">Alex</div>
-                                    <div class="voice-desc">Confident, fast-paced announcer</div>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:8px;">
-                                    <span style="color:#0066FF;cursor:pointer;" title="Supports text directions - give written instructions on how to deliver the voice acting">📝</span>
-                                    <button class="primary" style="width:auto;padding:6px 10px;">Selected</button>
-                                </div>
-                            </div>
-                            <div class="voice-row">
-                                <div class="voice-left">
-                                    <div class="voice-name icon-female">Maya</div>
-                                    <div class="voice-desc">Friendly and warm tone</div>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:8px;">
-                                    <span style="color:#e91e63;cursor:pointer;" title="Supports voice-to-voice cloning - record your own voice sample and it will match your intonation and accent">🎤</span>
-                                    <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
-                                </div>
-                            </div>
-                            <div class="voice-row">
-                                <div class="voice-left">
-                                    <div class="voice-name icon-male">David</div>
-                                    <div class="voice-desc">Deep, reassuring tone</div>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:8px;">
-                                    <span style="color:#0066FF;cursor:pointer;" title="Supports text directions - give written instructions on how to deliver the voice acting">📝</span>
-                                    <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Music Bed List -->
-                <div style="flex:1;">
-                    <h4>Music Bed <span style="color:#0066FF;margin-left:8px;cursor:pointer;" title="Add new music bed">➕</span></h4>
-                    <input type="text" placeholder="Search music..." style="width:100%;padding:8px 10px;font-size:14px;border:1px solid #c5c5c5;border-radius:6px;background:#fff" />
-                    <div class="list-container">
-                        <div class="music-list">
-                            <div class="music-row" style="border-color:#0066FF;background:#f8fafd;">
-                                <div class="music-left">
-                                    <div class="music-name">Funk Groove</div>
-                                    <div class="music-desc">Energetic, mid-tempo with bass</div>
-                                </div>
-                                <button class="primary" style="width:auto;padding:6px 10px;">Selected</button>
-                            </div>
-                            <div class="music-row">
-                                <div class="music-left">
-                                    <div class="music-name">Acoustic Chill</div>
-                                    <div class="music-desc">Laid-back and warm background</div>
-                                </div>
-                                <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
-                            </div>
-                            <div class="music-row">
-                                <div class="music-left">
-                                    <div class="music-name">Synth Pop</div>
-                                    <div class="music-desc">Bright and modern synth layers</div>
-                                </div>
-                                <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Music Volume Vertical Slider -->
-                <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 16px;">
-                    <h4 style="writing-mode:vertical-rl;text-orientation:mixed;margin:0 0 8px 0;font-size:11px;">VOL</h4>
-                    <input type="range" class="vertical-slider" min="0" max="100" value="80" style="height:150px;">
-                    <span style="font-size:12px;color:#666;margin-top:8px;">80%</span>
-                </div>
-            </div>
-            
             <!-- Timing -->
             <div class="section">
                 <h4>Timing</h4>
@@ -875,6 +877,7 @@
                 <!-- Ad Length -->
                 <div class="timing-item">
                     <span>Ad Length</span>
+                    <span></span>
                     <div style="display:flex;align-items:center;justify-content:center;">
                         <button onclick="this.nextElementSibling.stepDown()" style="background:#e0e4e8;border:none;padding:4px 8px;border-radius:4px 0 0 4px;cursor:pointer;">−</button>
                         <input type="number" min="1" max="60" value="12" style="width:60px;padding:4px 8px;border:1px solid #c5c5c5;border-left:none;border-right:none;text-align:center;background:#fff;">
@@ -884,36 +887,66 @@
                     <span></span>
                 </div>
                 
-                <!-- VO Offset -->
+                <!-- Music -->
                 <div class="timing-item">
-                    <span>VO Offset</span>
-                    <input type="range" class="timing-range" min="0" max="5" step="0.5" value="0">
-                    <span style="font-size:12px;color:#666;">Always on</span>
+                    <span>Music</span>
+                    <button class="timing-edit-btn" onclick="openMusicModal()" title="Edit music selection and volume" style="font-size:8px;line-height:1;">🎵<br>Funk</button>
+                    <div class="timing-track">
+                        <div class="timing-handle" style="left:0%;"></div>
+                        <div class="duration-line" style="left:0%;width:100%;"></div>
+                    </div>
+                    <span></span>
+                </div>
+                
+                <!-- Voice Over -->
+                <div class="timing-item">
+                    <span>Voice Over</span>
+                    <button class="timing-edit-btn" onclick="openVoiceModal()" title="Edit voice actor selection" style="font-size:8px;line-height:1;">🎤<br>Alex</button>
+                    <div class="timing-track">
+                        <div class="timing-handle" style="left:0%;"></div>
+                        <div class="duration-line" style="left:0%;width:75%;"></div>
+                    </div>
+                    <span></span>
                 </div>
                 
                 <!-- Brand Chimes -->
-                <div class="timing-item" style="background:#f0f8ff;border-color:#e0e4e8;opacity:0.7;">
+                <div class="timing-item" style="background:#f0f8ff;border-color:#e0e4e8;">
                     <span>Buh-bam</span>
-                    <span style="font-size:12px;color:#666;text-align:center;">Fixed at start</span>
-                    <input type="checkbox" checked>
+                    <input type="checkbox" checked style="width:18px;height:18px;accent-color:#0066FF;">
+                    <div class="timing-track">
+                        <div class="duration-line" style="left:0%;width:1.67%;"></div>
+                    </div>
+                    <span style="font-size:12px;color:#666;">Fixed at start</span>
                 </div>
                 
                 <div class="timing-item">
                     <span>Logo</span>
-                    <input type="range" class="timing-range" min="0" max="5" step="0.5" value="4.5">
-                    <input type="checkbox">
+                    <input type="checkbox" style="width:18px;height:18px;accent-color:#0066FF;">
+                    <div class="timing-track">
+                        <div class="timing-handle" style="left:90%;"></div>
+                        <div class="duration-line" style="left:90%;width:10%;"></div>
+                    </div>
+                    <span></span>
                 </div>
                 
                 <!-- Sound Effects -->
                 <div class="timing-item">
                     <span>Cash Register</span>
-                    <input type="range" class="timing-range" min="0" max="5" step="0.5" value="1">
+                    <span></span>
+                    <div class="timing-track">
+                        <div class="timing-handle" style="left:20%;"></div>
+                        <div class="duration-line" style="left:20%;width:25%;"></div>
+                    </div>
                     <button class="sfx-remove">✕</button>
                 </div>
                 
                 <div class="timing-item">
                     <span>Sparkle</span>
-                    <input type="range" class="timing-range" min="0" max="5" step="0.5" value="3">
+                    <span></span>
+                    <div class="timing-track">
+                        <div class="timing-handle" style="left:60%;"></div>
+                        <div class="duration-line" style="left:60%;width:20%;"></div>
+                    </div>
                     <button class="sfx-remove">✕</button>
                 </div>
                 
@@ -946,86 +979,6 @@
                 <textarea style="width:100%;height:80px;resize:none;border:1px solid #c5c5c5;border-radius:6px;padding:10px;font-size:14px;">Get your Christmas tree today! Only €100 while supplies last!</textarea>
             </div>
             
-            <!-- Voice Actor & Music Bed Side by Side -->
-            <div class="section" style="display:flex !important;flex-direction:row !important;gap:20px;">
-                <!-- Voice Actor List -->
-                <div style="flex:1;">
-                    <h4>Voice Actor</h4>
-                    <input type="text" placeholder="Search voices..." style="width:100%;padding:8px 10px;font-size:14px;border:1px solid #c5c5c5;border-radius:6px;background:#fff" />
-                    <div class="list-container">
-                        <div class="voice-list">
-                            <div class="voice-row" style="border-color:#0066FF;background:#f8fafd;">
-                                <div class="voice-left">
-                                    <div class="voice-name icon-male">Alex</div>
-                                    <div class="voice-desc">Confident, fast-paced announcer</div>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:8px;">
-                                    <span style="color:#0066FF;cursor:pointer;" title="Supports text directions - give written instructions on how to deliver the voice acting">📝</span>
-                                    <button class="primary" style="width:auto;padding:6px 10px;">Selected</button>
-                                </div>
-                            </div>
-                            <div class="voice-row">
-                                <div class="voice-left">
-                                    <div class="voice-name icon-female">Maya</div>
-                                    <div class="voice-desc">Friendly and warm tone</div>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:8px;">
-                                    <span style="color:#e91e63;cursor:pointer;" title="Supports voice-to-voice cloning - record your own voice sample and it will match your intonation and accent">🎤</span>
-                                    <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
-                                </div>
-                            </div>
-                            <div class="voice-row">
-                                <div class="voice-left">
-                                    <div class="voice-name icon-male">David</div>
-                                    <div class="voice-desc">Deep, reassuring tone</div>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:8px;">
-                                    <span style="color:#0066FF;cursor:pointer;" title="Supports text directions - give written instructions on how to deliver the voice acting">📝</span>
-                                    <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Music Bed List -->
-                <div style="flex:1;">
-                    <h4>Music Bed <span style="color:#0066FF;margin-left:8px;cursor:pointer;" title="Add new music bed">➕</span></h4>
-                    <input type="text" placeholder="Search music..." style="width:100%;padding:8px 10px;font-size:14px;border:1px solid #c5c5c5;border-radius:6px;background:#fff" />
-                    <div class="list-container">
-                        <div class="music-list">
-                            <div class="music-row" style="border-color:#0066FF;background:#f8fafd;">
-                                <div class="music-left">
-                                    <div class="music-name">Funk Groove</div>
-                                    <div class="music-desc">Energetic, mid-tempo with bass</div>
-                                </div>
-                                <button class="primary" style="width:auto;padding:6px 10px;">Selected</button>
-                            </div>
-                            <div class="music-row">
-                                <div class="music-left">
-                                    <div class="music-name">Acoustic Chill</div>
-                                    <div class="music-desc">Laid-back and warm background</div>
-                                </div>
-                                <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
-                            </div>
-                            <div class="music-row">
-                                <div class="music-left">
-                                    <div class="music-name">Synth Pop</div>
-                                    <div class="music-desc">Bright and modern synth layers</div>
-                                </div>
-                                <button class="secondary" style="width:auto;padding:6px 10px;">Preview</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Music Volume Vertical Slider -->
-                <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 16px;">
-                    <h4 style="writing-mode:vertical-rl;text-orientation:mixed;margin:0 0 8px 0;font-size:11px;">VOL</h4>
-                    <input type="range" class="vertical-slider" min="0" max="100" value="80" style="height:150px;">
-                    <span style="font-size:12px;color:#666;margin-top:8px;">80%</span>
-                </div>
-            </div>
             
             <!-- Timing -->
             <div class="section">
@@ -1034,6 +987,7 @@
                 <!-- Ad Length -->
                 <div class="timing-item">
                     <span>Ad Length</span>
+                    <span></span>
                     <div style="display:flex;align-items:center;justify-content:center;">
                         <button onclick="this.nextElementSibling.stepDown()" style="background:#e0e4e8;border:none;padding:4px 8px;border-radius:4px 0 0 4px;cursor:pointer;">−</button>
                         <input type="number" min="1" max="60" value="12" style="width:60px;padding:4px 8px;border:1px solid #c5c5c5;border-left:none;border-right:none;text-align:center;background:#fff;">
@@ -1043,36 +997,66 @@
                     <span></span>
                 </div>
                 
-                <!-- VO Offset -->
+                <!-- Music -->
                 <div class="timing-item">
-                    <span>VO Offset</span>
-                    <input type="range" class="timing-range" min="0" max="5" step="0.5" value="0">
-                    <span style="font-size:12px;color:#666;">Always on</span>
+                    <span>Music</span>
+                    <button class="timing-edit-btn" onclick="openMusicModal()" title="Edit music selection and volume" style="font-size:8px;line-height:1;">🎵<br>Funk</button>
+                    <div class="timing-track">
+                        <div class="timing-handle" style="left:0%;"></div>
+                        <div class="duration-line" style="left:0%;width:100%;"></div>
+                    </div>
+                    <span></span>
+                </div>
+                
+                <!-- Voice Over -->
+                <div class="timing-item">
+                    <span>Voice Over</span>
+                    <button class="timing-edit-btn" onclick="openVoiceModal()" title="Edit voice actor selection" style="font-size:8px;line-height:1;">🎤<br>Alex</button>
+                    <div class="timing-track">
+                        <div class="timing-handle" style="left:0%;"></div>
+                        <div class="duration-line" style="left:0%;width:75%;"></div>
+                    </div>
+                    <span></span>
                 </div>
                 
                 <!-- Brand Chimes -->
-                <div class="timing-item" style="background:#f0f8ff;border-color:#e0e4e8;opacity:0.7;">
+                <div class="timing-item" style="background:#f0f8ff;border-color:#e0e4e8;">
                     <span>Buh-bam</span>
-                    <span style="font-size:12px;color:#666;text-align:center;">Fixed at start</span>
-                    <input type="checkbox" checked>
+                    <input type="checkbox" checked style="width:18px;height:18px;accent-color:#0066FF;">
+                    <div class="timing-track">
+                        <div class="duration-line" style="left:0%;width:1.67%;"></div>
+                    </div>
+                    <span style="font-size:12px;color:#666;">Fixed at start</span>
                 </div>
                 
                 <div class="timing-item">
                     <span>Logo</span>
-                    <input type="range" class="timing-range" min="0" max="5" step="0.5" value="4.5">
-                    <input type="checkbox">
+                    <input type="checkbox" style="width:18px;height:18px;accent-color:#0066FF;">
+                    <div class="timing-track">
+                        <div class="timing-handle" style="left:90%;"></div>
+                        <div class="duration-line" style="left:90%;width:10%;"></div>
+                    </div>
+                    <span></span>
                 </div>
                 
                 <!-- Sound Effects -->
                 <div class="timing-item">
                     <span>Cash Register</span>
-                    <input type="range" class="timing-range" min="0" max="5" step="0.5" value="1">
+                    <span></span>
+                    <div class="timing-track">
+                        <div class="timing-handle" style="left:20%;"></div>
+                        <div class="duration-line" style="left:20%;width:25%;"></div>
+                    </div>
                     <button class="sfx-remove">✕</button>
                 </div>
                 
                 <div class="timing-item">
                     <span>Sparkle</span>
-                    <input type="range" class="timing-range" min="0" max="5" step="0.5" value="3">
+                    <span></span>
+                    <div class="timing-track">
+                        <div class="timing-handle" style="left:60%;"></div>
+                        <div class="duration-line" style="left:60%;width:20%;"></div>
+                    </div>
                     <button class="sfx-remove">✕</button>
                 </div>
                 
@@ -1144,6 +1128,116 @@
         </div>
     </div>
 </aside>
+
+<!-- Voice Actor Modal -->
+<div id="voiceModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 style="margin:0;">Select Voice Actor</h3>
+            <button class="modal-close" onclick="closeModal('voiceModal')">×</button>
+        </div>
+        
+        <!-- Narration Text -->
+        <div style="margin-bottom:24px;">
+            <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:600;color:#333;">Narration Text</h4>
+            <textarea style="width:100%;height:100px;resize:none;border:1px solid #c5c5c5;border-radius:8px;padding:16px;font-size:16px;line-height:1.4;" placeholder="Enter the text for the voice actor to read...">Grab a lush Christmas tree for only €100 – while stocks last!</textarea>
+        </div>
+        
+        <input type="text" placeholder="Search voices..." style="width:100%;padding:12px 16px;font-size:16px;border:1px solid #c5c5c5;border-radius:8px;background:#fff;margin-bottom:20px;" />
+        <div style="max-height:400px;overflow-y:auto;">
+            <div class="voice-list">
+                <div class="voice-row" style="border-color:#0066FF;background:#f8fafd;">
+                    <div class="voice-left">
+                        <div class="voice-name icon-male">Alex</div>
+                        <div class="voice-desc">Confident, fast-paced announcer</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="color:#0066FF;cursor:pointer;" title="Supports text directions">📝</span>
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
+                        <button class="primary" style="width:auto;padding:6px 10px;">Selected</button>
+                    </div>
+                </div>
+                <div class="voice-row">
+                    <div class="voice-left">
+                        <div class="voice-name icon-female">Maya</div>
+                        <div class="voice-desc">Friendly and warm tone</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="color:#e91e63;cursor:pointer;" title="Supports voice-to-voice cloning">🎤</span>
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
+                        <button class="secondary" style="width:auto;padding:6px 10px;">Select</button>
+                    </div>
+                </div>
+                <div class="voice-row">
+                    <div class="voice-left">
+                        <div class="voice-name icon-male">David</div>
+                        <div class="voice-desc">Deep, reassuring tone</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="color:#0066FF;cursor:pointer;" title="Supports text directions">📝</span>
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
+                        <button class="secondary" style="width:auto;padding:6px 10px;">Select</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Music Modal -->
+<div id="musicModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 style="margin:0;">Select Music & Volume</h3>
+            <button class="modal-close" onclick="closeModal('musicModal')">×</button>
+        </div>
+        <div style="display:flex;gap:20px;">
+            <div style="flex:1;">
+                <h4>Music Selection <span style="color:#0066FF;margin-left:8px;cursor:pointer;" title="Add new music bed">➕</span></h4>
+                <input type="text" placeholder="Search music..." style="width:100%;padding:12px 16px;font-size:16px;border:1px solid #c5c5c5;border-radius:8px;background:#fff;margin-bottom:20px;" />
+                <div style="max-height:400px;overflow-y:auto;">
+                    <div class="music-list">
+                        <div class="music-row" style="border-color:#0066FF;background:#f8fafd;">
+                            <div class="music-left">
+                                <div class="music-name">Funk Groove</div>
+                                <div class="music-desc">Energetic, mid-tempo with bass</div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
+                                <button class="primary" style="width:auto;padding:6px 10px;">Selected</button>
+                            </div>
+                        </div>
+                        <div class="music-row">
+                            <div class="music-left">
+                                <div class="music-name">Acoustic Chill</div>
+                                <div class="music-desc">Laid-back and warm background</div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
+                                <button class="secondary" style="width:auto;padding:6px 10px;">Select</button>
+                            </div>
+                        </div>
+                        <div class="music-row">
+                            <div class="music-left">
+                                <div class="music-name">Synth Pop</div>
+                                <div class="music-desc">Bright and modern synth layers</div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
+                                <button class="secondary" style="width:auto;padding:6px 10px;">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px;">
+                <h4 style="writing-mode:vertical-rl;text-orientation:mixed;margin:0 0 8px 0;font-size:11px;">VOLUME</h4>
+                <input type="range" class="vertical-slider" min="0" max="100" value="80" style="height:200px;">
+                <span style="font-size:12px;color:#666;margin-top:8px;">80%</span>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 const importBtn = document.getElementById('importBtn');
@@ -1234,6 +1328,82 @@ function selectPreview(button) {
 document.getElementById('historyBtn').addEventListener('click', function() {
   const historyDrawer = document.getElementById('historyDrawer');
   historyDrawer.classList.toggle('open');
+});
+
+// Timing handle drag functionality
+function initTimingHandles() {
+  const handles = document.querySelectorAll('.timing-handle');
+  
+  handles.forEach(handle => {
+    let isDragging = false;
+    let startX = 0;
+    let startLeft = 0;
+    
+    handle.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      startLeft = parseFloat(handle.style.left) || 0;
+      handle.style.cursor = 'grabbing';
+      e.preventDefault();
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      
+      const track = handle.parentElement;
+      const trackRect = track.getBoundingClientRect();
+      const trackWidth = trackRect.width;
+      
+      const deltaX = e.clientX - startX;
+      const deltaPercent = (deltaX / trackWidth) * 100;
+      let newLeft = startLeft + deltaPercent;
+      
+      // Constrain to track bounds (0% to 95% to leave room for duration line)
+      newLeft = Math.max(0, Math.min(95, newLeft));
+      
+      handle.style.left = newLeft + '%';
+      
+      // Update duration line position
+      const durationLine = track.querySelector('.duration-line');
+      if (durationLine) {
+        durationLine.style.left = newLeft + '%';
+        // Ensure duration line doesn't extend beyond track
+        const lineWidth = parseFloat(durationLine.style.width) || 10;
+        const maxWidth = 100 - newLeft;
+        durationLine.style.width = Math.min(lineWidth, maxWidth) + '%';
+      }
+    });
+    
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        handle.style.cursor = 'pointer';
+      }
+    });
+  });
+}
+
+// Initialize timing handles when page loads
+document.addEventListener('DOMContentLoaded', initTimingHandles);
+
+// Modal functions
+function openVoiceModal() {
+  document.getElementById('voiceModal').style.display = 'flex';
+}
+
+function openMusicModal() {
+  document.getElementById('musicModal').style.display = 'flex';
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = 'none';
+}
+
+// Close modal when clicking outside content
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('modal-overlay')) {
+    e.target.style.display = 'none';
+  }
 });
 </script>
 </body>
