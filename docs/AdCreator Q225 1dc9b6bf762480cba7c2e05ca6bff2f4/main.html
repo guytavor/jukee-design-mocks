@@ -186,6 +186,13 @@
             position:relative;
         }
         
+        /* History button in top-right */
+        #historyBtn:hover{
+            transform:translateY(-1px);
+            box-shadow:0 4px 8px rgba(0,0,0,0.1);
+            border-color:#cdd4df;
+        }
+        
         /* Buttons */
         button{
             border:none;
@@ -938,6 +945,15 @@
     </style>
 </head>
 <body>
+<!-- History button in top-right -->
+<button id="historyBtn" style="position:fixed;top:20px;right:20px;z-index:40;background:#fff;border:1px solid #e0e4e8;border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 4px rgba(0,0,0,0.05);cursor:pointer;transition:all 0.2s ease;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.7;">
+        <path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+    </svg>
+    History
+    <span style="font-size:12px;opacity:0.6;">(4)</span>
+</button>
+
 <div id="modeIndicator" style="display:none;background:#EBF6FF;color:#0066FF;padding:16px 32px;font-weight:600;align-items:center;justify-content:space-between;border-bottom:1px solid #cce5ff;box-shadow:0 2px 8px rgba(0,0,0,0.05)">
     <span><span style="margin-right:8px;font-size:20px;">✏️</span> Tweak Mode: Fine-tuning your selected preview</span>
     <button class="secondary" id="returnToGenButton" onclick="document.querySelectorAll('.output-card.tweaking').forEach(card => card.classList.remove('tweaking')); document.body.classList.remove('tweak-mode');">Return to Generation</button>
@@ -1040,7 +1056,6 @@
     </section>
 </div>
 <div id="actionBar">
-    <button class="secondary" id="historyBtn" style="position:absolute;left:24px;">History ▾</button>
     <div style="display:flex;gap:12px;margin:0 auto;">
         <button class="secondary">Reset</button>
         <button class="primary" style="display:flex;align-items:center;gap:6px;">
