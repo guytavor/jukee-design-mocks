@@ -571,6 +571,42 @@
             transform:translateY(-1px);
             box-shadow:0 2px 5px rgba(0,0,0,0.08);
         }
+        .voice-row.selected, .music-row.selected{
+            border-color:#0066FF !important;
+            background:#f8fafd !important;
+        }
+        /* Voice row select buttons */
+        .voice-row:not(.selected) .voice-select-btn.primary{
+            display:none !important;
+        }
+        .voice-row.selected .voice-select-btn.primary{
+            display:inline-block !important;
+        }
+        .voice-row.selected .voice-select-btn.secondary{
+            display:none !important;
+        }
+        .voice-row:not(.selected) .voice-select-btn.secondary{
+            display:none !important;
+        }
+        .voice-row:not(.selected):hover .voice-select-btn.secondary{
+            display:inline-block !important;
+        }
+        /* Music row select buttons */
+        .music-row:not(.selected) .music-select-btn.primary{
+            display:none !important;
+        }
+        .music-row.selected .music-select-btn.primary{
+            display:inline-block !important;
+        }
+        .music-row.selected .music-select-btn.secondary{
+            display:none !important;
+        }
+        .music-row:not(.selected) .music-select-btn.secondary{
+            display:none !important;
+        }
+        .music-row:not(.selected):hover .music-select-btn.secondary{
+            display:inline-block !important;
+        }
         .voice-left, .music-left{
             display:flex;
             flex-direction:column;
@@ -652,6 +688,35 @@
             width:18px;
             height:18px;
             accent-color:#0066FF;
+        }
+        
+        /* SFX Modal Row styles */
+        .sfx-modal-row:hover{
+            background:#f8fafd !important;
+            border-color:#cdd4df !important;
+            transform:translateY(-1px);
+            box-shadow:0 2px 5px rgba(0,0,0,0.08) !important;
+            cursor:pointer;
+        }
+        .sfx-modal-row.selected{
+            border-color:#0066FF !important;
+            background:#f0f8ff !important;
+        }
+        /* Show/hide select buttons */
+        .sfx-modal-row:not(.selected) .sfx-select-btn.primary{
+            display:none !important;
+        }
+        .sfx-modal-row.selected .sfx-select-btn.primary{
+            display:inline-block !important;
+        }
+        .sfx-modal-row.selected .sfx-select-btn.secondary{
+            display:none !important;
+        }
+        .sfx-modal-row:not(.selected) .sfx-select-btn.secondary{
+            display:none !important;
+        }
+        .sfx-modal-row:not(.selected):hover .sfx-select-btn.secondary{
+            display:inline-block !important;
         }
         
         /* Audio Player Component */
@@ -959,7 +1024,7 @@
             </div>
             <!-- SFX -->
             <div class="chip-group"><h4>SFX</h4>
-                <button class="secondary" style="padding:4px 10px;font-size:12px;">+ Add SFX</button>
+                <button class="secondary" style="padding:4px 10px;font-size:12px;" onclick="openSfxModal()">+ Add SFX</button>
             </div>
             <!-- Import Voice Over -->
             <div class="chip-group" id="importGroup"><h4>Voice Over</h4>
@@ -1115,7 +1180,7 @@
                     <button class="sfx-remove">✕</button>
                 </div>
                 
-                <button class="secondary" style="margin-top:8px;">+ Add SFX</button>
+                <button class="secondary" style="margin-top:8px;" onclick="openSfxModal()">+ Add SFX</button>
             </div>
             
             <!-- Footer -->
@@ -1263,7 +1328,7 @@
                     <button class="sfx-remove">✕</button>
                 </div>
                 
-                <button class="secondary" style="margin-top:8px;">+ Add SFX</button>
+                <button class="secondary" style="margin-top:8px;" onclick="openSfxModal()">+ Add SFX</button>
             </div>
             
             <!-- Footer -->
@@ -1369,7 +1434,7 @@
                 <input type="text" placeholder="Search voices..." style="width:100%;padding:12px 16px;font-size:16px;border:1px solid #c5c5c5;border-radius:8px;background:#fff;margin-bottom:20px;" />
                 <div style="max-height:400px;overflow-y:auto;">
                     <div class="voice-list">
-                        <div class="voice-row" style="border-color:#0066FF;background:#f8fafd;">
+                        <div class="voice-row selected" style="border-color:#0066FF;background:#f8fafd;">
                             <div class="voice-left">
                                 <div class="voice-name icon-male">Alex<span class="provider-logo provider-openai" title="Powered by OpenAI"></span></div>
                                 <div class="voice-desc">Confident, fast-paced announcer</div>
@@ -1378,7 +1443,8 @@
                                 <span style="color:#0066FF;cursor:pointer;" title="Supports text directions" onclick="openVoiceDirectionModal('Alex')">📝</span>
                                 <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;font-size:12px;">▶️ Play Sample</button>
                                 <button class="primary" style="width:auto;padding:6px 10px;" data-voice="Alex" data-generated="true">Play</button>
-                                <button class="primary" style="width:auto;padding:6px 10px;">Selected</button>
+                                <button class="primary voice-select-btn" style="width:auto;padding:6px 10px;">Selected</button>
+                                <button class="secondary voice-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectVoiceRow(this)">Select</button>
                             </div>
                         </div>
                         <div class="voice-row">
@@ -1390,7 +1456,8 @@
                                 <span style="color:#e91e63;cursor:pointer;" title="Supports voice-to-voice cloning" onclick="openVoice2VoiceModal('Maya')">🎤</span>
                                 <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;font-size:12px;">▶️ Play Sample</button>
                                 <button class="secondary" style="width:auto;padding:6px 10px;" data-voice="Maya" data-generated="false">Generate</button>
-                                <button class="secondary" style="width:auto;padding:6px 10px;">Select</button>
+                                <button class="primary voice-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+                                <button class="secondary voice-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectVoiceRow(this)">Select</button>
                             </div>
                         </div>
                         <div class="voice-row">
@@ -1402,7 +1469,8 @@
                                 <span style="color:#0066FF;cursor:pointer;" title="Supports text directions" onclick="openVoiceDirectionModal('David')">📝</span>
                                 <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;font-size:12px;">▶️ Play Sample</button>
                                 <button class="secondary" style="width:auto;padding:6px 10px;" data-voice="David" data-generated="false">Generate</button>
-                                <button class="secondary" style="width:auto;padding:6px 10px;">Select</button>
+                                <button class="primary voice-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+                                <button class="secondary voice-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectVoiceRow(this)">Select</button>
                             </div>
                         </div>
                     </div>
@@ -1430,14 +1498,15 @@
                 <input type="text" placeholder="Search music..." style="width:100%;padding:12px 16px;font-size:16px;border:1px solid #c5c5c5;border-radius:8px;background:#fff;margin-bottom:20px;" />
                 <div style="max-height:400px;overflow-y:auto;">
                     <div class="music-list">
-                        <div class="music-row" style="border-color:#0066FF;background:#f8fafd;">
+                        <div class="music-row selected" style="border-color:#0066FF;background:#f8fafd;">
                             <div class="music-left">
                                 <div class="music-name">Funk Groove</div>
                                 <div class="music-desc">Energetic, mid-tempo with bass</div>
                             </div>
                             <div style="display:flex;align-items:center;gap:8px;">
                                 <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
-                                <button class="primary" style="width:auto;padding:6px 10px;">Selected</button>
+                                <button class="primary music-select-btn" style="width:auto;padding:6px 10px;">Selected</button>
+                                <button class="secondary music-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectMusicRow(this)">Select</button>
                             </div>
                         </div>
                         <div class="music-row">
@@ -1447,7 +1516,8 @@
                             </div>
                             <div style="display:flex;align-items:center;gap:8px;">
                                 <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
-                                <button class="secondary" style="width:auto;padding:6px 10px;">Select</button>
+                                <button class="primary music-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+                                <button class="secondary music-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectMusicRow(this)">Select</button>
                             </div>
                         </div>
                         <div class="music-row">
@@ -1457,7 +1527,8 @@
                             </div>
                             <div style="display:flex;align-items:center;gap:8px;">
                                 <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
-                                <button class="secondary" style="width:auto;padding:6px 10px;">Select</button>
+                                <button class="primary music-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+                                <button class="secondary music-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectMusicRow(this)">Select</button>
                             </div>
                         </div>
                     </div>
@@ -1626,6 +1697,113 @@
     </div>
 </div>
 
+<!-- Sound Effects Modal -->
+<div id="sfxModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 style="margin:0;">Select Sound Effect</h3>
+            <button class="modal-close" onclick="closeModal('sfxModal')">×</button>
+        </div>
+        
+        <div style="margin-bottom:24px;">
+            <input type="text" id="sfxSearchInput" placeholder="Search sound effects..." style="width:100%;padding:12px 16px;font-size:16px;border:1px solid #c5c5c5;border-radius:8px;background:#fff;" />
+        </div>
+        
+        <div style="max-height:400px;overflow-y:auto;">
+            <div class="sfx-list" style="display:flex;flex-direction:column;gap:10px;">
+                <div class="sfx-modal-row" style="display:flex;align-items:center;justify-content:space-between;padding:16px;border:1px solid #e0e4e8;border-radius:8px;transition:all 0.15s ease;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.05);position:relative;">
+                    <div style="display:flex;flex-direction:column;gap:4px;">
+                        <div style="font-size:15px;font-weight:600;color:#333;">Cash Register</div>
+                        <div style="font-size:13px;color:#666;">Classic ka-ching sound effect</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;" onclick="playsfxSample('Cash Register')">▶️ Play</button>
+                        <button class="primary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+                        <button class="secondary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectSfxRow(this)">Select</button>
+                    </div>
+                </div>
+                
+                <div class="sfx-modal-row" style="display:flex;align-items:center;justify-content:space-between;padding:16px;border:1px solid #e0e4e8;border-radius:8px;transition:all 0.15s ease;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.05);position:relative;">
+                    <div style="display:flex;flex-direction:column;gap:4px;">
+                        <div style="font-size:15px;font-weight:600;color:#333;">Sparkle</div>
+                        <div style="font-size:13px;color:#666;">Magical shimmering sound</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;" onclick="playsfxSample('Sparkle')">▶️ Play</button>
+                        <button class="primary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+                        <button class="secondary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectSfxRow(this)">Select</button>
+                    </div>
+                </div>
+                
+                <div class="sfx-modal-row" style="display:flex;align-items:center;justify-content:space-between;padding:16px;border:1px solid #e0e4e8;border-radius:8px;transition:all 0.15s ease;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.05);position:relative;">
+                    <div style="display:flex;flex-direction:column;gap:4px;">
+                        <div style="font-size:15px;font-weight:600;color:#333;">Whoosh</div>
+                        <div style="font-size:13px;color:#666;">Fast transition swoosh</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;" onclick="playsfxSample('Whoosh')">▶️ Play</button>
+                        <button class="primary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+                        <button class="secondary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectSfxRow(this)">Select</button>
+                    </div>
+                </div>
+                
+                <div class="sfx-modal-row" style="display:flex;align-items:center;justify-content:space-between;padding:16px;border:1px solid #e0e4e8;border-radius:8px;transition:all 0.15s ease;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.05);position:relative;">
+                    <div style="display:flex;flex-direction:column;gap:4px;">
+                        <div style="font-size:15px;font-weight:600;color:#333;">Bell Ding</div>
+                        <div style="font-size:13px;color:#666;">Attention-grabbing bell sound</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;" onclick="playsfxSample('Bell Ding')">▶️ Play</button>
+                        <button class="primary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+                        <button class="secondary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectSfxRow(this)">Select</button>
+                    </div>
+                </div>
+                
+                <div class="sfx-modal-row" style="display:flex;align-items:center;justify-content:space-between;padding:16px;border:1px solid #e0e4e8;border-radius:8px;transition:all 0.15s ease;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.05);position:relative;">
+                    <div style="display:flex;flex-direction:column;gap:4px;">
+                        <div style="font-size:15px;font-weight:600;color:#333;">Pop</div>
+                        <div style="font-size:13px;color:#666;">Playful bubble pop</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;" onclick="playsfxSample('Pop')">▶️ Play</button>
+                        <button class="primary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+                        <button class="secondary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectSfxRow(this)">Select</button>
+                    </div>
+                </div>
+                
+                <div class="sfx-modal-row" style="display:flex;align-items:center;justify-content:space-between;padding:16px;border:1px solid #e0e4e8;border-radius:8px;transition:all 0.15s ease;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.05);position:relative;">
+                    <div style="display:flex;flex-direction:column;gap:4px;">
+                        <div style="font-size:15px;font-weight:600;color:#333;">Applause</div>
+                        <div style="font-size:13px;color:#666;">Crowd clapping sound</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;" onclick="playsfxSample('Applause')">▶️ Play</button>
+                        <button class="primary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+                        <button class="secondary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectSfxRow(this)">Select</button>
+                    </div>
+                </div>
+                
+                <div class="sfx-modal-row" style="display:flex;align-items:center;justify-content:space-between;padding:16px;border:1px solid #e0e4e8;border-radius:8px;transition:all 0.15s ease;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.05);position:relative;">
+                    <div style="display:flex;flex-direction:column;gap:4px;">
+                        <div style="font-size:15px;font-weight:600;color:#333;">Coin Drop</div>
+                        <div style="font-size:13px;color:#666;">Single coin falling sound</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;" onclick="playsfxSample('Coin Drop')">▶️ Play</button>
+                        <button class="primary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+                        <button class="secondary sfx-select-btn" style="width:auto;padding:6px 10px;display:none;" onclick="selectSfxRow(this)">Select</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="display:flex;justify-content:flex-end;margin-top:24px;gap:12px;">
+            <button class="secondary" onclick="closeModal('sfxModal')">Cancel</button>
+            <button class="primary" id="selectSfxButton" onclick="selectSoundEffect()">Select</button>
+        </div>
+    </div>
+</div>
+
 <!-- Volume Modal -->
 <div id="volumeModal" class="volume-modal-overlay">
     <div class="volume-modal-content">
@@ -1715,6 +1893,61 @@ document.addEventListener('DOMContentLoaded', function() {
       this.classList.toggle('active');
     });
   });
+  
+  // Setup voice row clicking
+  document.querySelectorAll('.voice-row').forEach(row => {
+    row.addEventListener('click', function(e) {
+      // Don't select if clicking a button or icon
+      if (e.target.closest('button') || e.target.closest('span[onclick]')) return;
+      
+      // Remove selection from all rows
+      document.querySelectorAll('.voice-row').forEach(r => r.classList.remove('selected'));
+      
+      // Select this row
+      this.classList.add('selected');
+    });
+  });
+  
+  // Setup music row clicking
+  document.querySelectorAll('.music-row').forEach(row => {
+    row.addEventListener('click', function(e) {
+      // Don't select if clicking a button
+      if (e.target.closest('button')) return;
+      
+      // Remove selection from all rows
+      document.querySelectorAll('.music-row').forEach(r => r.classList.remove('selected'));
+      
+      // Select this row
+      this.classList.add('selected');
+    });
+  });
+  
+  // Setup SFX modal row clicking
+  document.querySelectorAll('.sfx-modal-row').forEach(row => {
+    row.addEventListener('click', function(e) {
+      // Don't select if clicking a button
+      if (e.target.closest('button')) return;
+      
+      // Remove selection from all rows
+      document.querySelectorAll('.sfx-modal-row').forEach(r => r.classList.remove('selected'));
+      
+      // Select this row
+      this.classList.add('selected');
+    });
+  });
+  
+  // Setup SFX search
+  const sfxSearchInput = document.getElementById('sfxSearchInput');
+  if (sfxSearchInput) {
+    sfxSearchInput.addEventListener('input', function() {
+      const query = this.value.toLowerCase();
+      document.querySelectorAll('.sfx-modal-row').forEach(row => {
+        const name = row.querySelector('div[style*="font-weight:600"]').textContent.toLowerCase();
+        const desc = row.querySelector('div[style*="color:#666"]').textContent.toLowerCase();
+        row.style.display = (name.includes(query) || desc.includes(query)) ? 'flex' : 'none';
+      });
+    });
+  }
 });
 
 // Preview selection functionality
@@ -1905,6 +2138,72 @@ function useVoiceRecording() {
   // Here you would normally use the voice recording
   console.log('Using voice recording');
   closeModal('voice2voiceModal');
+}
+
+// SFX Modal functions
+function openSfxModal() {
+  document.getElementById('sfxModal').style.display = 'flex';
+  // Reset selection
+  document.querySelectorAll('.sfx-modal-row').forEach(row => {
+    row.classList.remove('selected');
+  });
+}
+
+function playsfxSample(sfxName) {
+  console.log(`Playing SFX sample: ${sfxName}`);
+  // Here you would play the actual sound effect
+}
+
+let selectedSfx = null;
+
+function selectSoundEffect() {
+  const selectedRow = document.querySelector('.sfx-modal-row.selected');
+  if (selectedRow) {
+    const sfxName = selectedRow.querySelector('div[style*="font-weight:600"]').textContent;
+    console.log(`Selected SFX: ${sfxName}`);
+    
+    // Add the SFX to the timing panel (this would be more sophisticated in production)
+    addSfxToTimingPanel(sfxName);
+    
+    closeModal('sfxModal');
+  } else {
+    alert('Please select a sound effect');
+  }
+}
+
+function addSfxToTimingPanel(sfxName) {
+  // Here you would add the SFX to the timing panel
+  console.log(`Adding ${sfxName} to timing panel`);
+}
+
+function selectSfxRow(button) {
+  const row = button.closest('.sfx-modal-row');
+  
+  // Remove selection from all rows
+  document.querySelectorAll('.sfx-modal-row').forEach(r => r.classList.remove('selected'));
+  
+  // Select this row
+  row.classList.add('selected');
+}
+
+function selectVoiceRow(button) {
+  const row = button.closest('.voice-row');
+  
+  // Remove selection from all rows
+  document.querySelectorAll('.voice-row').forEach(r => r.classList.remove('selected'));
+  
+  // Select this row
+  row.classList.add('selected');
+}
+
+function selectMusicRow(button) {
+  const row = button.closest('.music-row');
+  
+  // Remove selection from all rows
+  document.querySelectorAll('.music-row').forEach(r => r.classList.remove('selected'));
+  
+  // Select this row
+  row.classList.add('selected');
 }
 
 function closeModal(modalId) {
