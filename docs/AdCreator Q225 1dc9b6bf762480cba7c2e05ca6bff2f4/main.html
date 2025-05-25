@@ -588,6 +588,33 @@
             color:#e91e63;
         }
         
+        /* Provider logos */
+        .provider-logo{
+            display:inline-block;
+            width:16px;
+            height:16px;
+            margin-left:8px;
+            opacity:0.5;
+            vertical-align:middle;
+            filter:grayscale(100%);
+            transition:opacity 0.2s;
+        }
+        .voice-row:hover .provider-logo{
+            opacity:0.7;
+        }
+        .provider-openai{
+            background:url('data:image/svg+xml;base64,CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPgogIDxpbWFnZSBocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUJBQUFBQVFDQUFBQUFBNm1LQzlBQUFBUkdWWVNXWk5UUUFxQUFBQUNBQUJoMmtBQkFBQUFBRUFBQUFhQUFBQUFBQURvQUVBQXdBQUFBRUFBUUFBb0FJQUJBQUFBQUVBQUFNZ29BTUFCQUFBQUFFQUFBTWdBQUFBQU1DVXpUOEFBQUViU1VSQlZIaWNBUkFCNy80QS8vLy8vOTFMRVE4dXN2Ly8vLy8vL3dELy8vL21KbVBPNFlJR1AwZUc3Ly8vQWY4QThHejZxZ0NrakI1VC9LZnR0aGtBLzZzaUFzYmJQeTZ4L3VYLy8xWmQvd0M4RmFJdTFZaHErOVJlSTF2ZjRDTHJBbjF1WFFEOUJDNThQa3ZHQ0VDVEJQVUUyMGdBL2dNQm1YazVudXFZMEc3dUNnUUo2UUQ5NXdGN1V3QURmY0Z1djBtS0FIUkErTUZUTDdELy82Nk92U1QvdGgwQTZ4UTV5L3FUVGE2cU1veldKdjNNRlFUMkVqaFRSSVlZWkdOcDhmMEJBcm9rQU9zaTMrQmRKRjNUKzJ5SDFpaWpGN3dBLzE1VS8vL20vckl1UGRySEFpV3Mvd0gvNkVvUldRV3U0SE5lQUZjRmxROEFBUC8vNzRaSFB3YUM0dEJrSnVYLy8vOEEvLy8vLy8vL3NpNFBFVXZkLy8vLy8zQWlrQmJUV2ZDbEFBQUFBRWxGVGtTdVFtQ0MiIGhlaWdodD0iMTYiIHdpZHRoPSIxNiIvPgo8L3N2Zz4K');
+            background-size:contain;
+        }
+        .provider-google{
+            background:url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE0LjUzNzUgNi43NUgxNEg4VjkuNUgxMS43ODEyQzExLjI5MzcgMTEuMzEyNSA5Ljc4MTI1IDEyLjUgOCAxMi41QzUuNTE1NjIgMTIuNSAzLjUgMTAuNDg0NCAzLjUgOEMzLjUgNS41MTU2MiA1LjUxNTYyIDMuNSA4IDMuNUM5LjIxODc1IDMuNSAxMC4zMTI1IDMuOTY4NzUgMTEuMTM3NSA0LjcyNUwxMy4xMTI1IDIuNzVDMTEuNzUgMS40Njg3NSA5Ljk2ODc1IDAuNSA4IDAuNUMzLjg1OTM4IDAuNSAwLjUgMy44NTkzOCAwLjUgOEMwLjUgMTIuMTQwNiAzLjg1OTM4IDE1LjUgOCAxNS41QzEyLjE0MDYgMTUuNSAxNS41IDEyLjE0MDYgMTUuNSA4QzE1LjUgNy41NjI1IDE1LjQzNzUgNy4xNDA2MiAxNC41Mzc1IDYuNzVaIiBmaWxsPSIjNDI4NUY0Ii8+Cjwvc3ZnPgo=') no-repeat center;
+            background-size:contain;
+        }
+        .provider-elevenlabs{
+            background:url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIgMlYxNEgxNFYySDJaIiBmaWxsPSIjMDAwMDAwIi8+CjxwYXRoIGQ9Ik01IDVWMTFNOCA1VjExTTExIDVWMTEiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+') no-repeat center;
+            background-size:contain;
+        }
+        
         /* Brand chime options */
         .brand-chime-options{
             display:flex;
@@ -1293,7 +1320,7 @@
                     <div class="voice-list">
                         <div class="voice-row" style="border-color:#0066FF;background:#f8fafd;">
                             <div class="voice-left">
-                                <div class="voice-name icon-male">Alex</div>
+                                <div class="voice-name icon-male">Alex<span class="provider-logo provider-openai" title="Powered by OpenAI"></span></div>
                                 <div class="voice-desc">Confident, fast-paced announcer</div>
                             </div>
                             <div style="display:flex;align-items:center;gap:8px;">
@@ -1304,7 +1331,7 @@
                         </div>
                         <div class="voice-row">
                             <div class="voice-left">
-                                <div class="voice-name icon-female">Maya</div>
+                                <div class="voice-name icon-female">Maya<span class="provider-logo provider-elevenlabs" title="Powered by ElevenLabs"></span></div>
                                 <div class="voice-desc">Friendly and warm tone</div>
                             </div>
                             <div style="display:flex;align-items:center;gap:8px;">
@@ -1315,7 +1342,7 @@
                         </div>
                         <div class="voice-row">
                             <div class="voice-left">
-                                <div class="voice-name icon-male">David</div>
+                                <div class="voice-name icon-male">David<span class="provider-logo provider-google" title="Powered by Google"></span></div>
                                 <div class="voice-desc">Deep, reassuring tone</div>
                             </div>
                             <div style="display:flex;align-items:center;gap:8px;">
