@@ -615,6 +615,19 @@
             background-size:contain;
         }
         
+        /* Pulse animation for recording */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 4px 12px rgba(255,68,68,0.3);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(255,68,68,0.6);
+            }
+            100% {
+                box-shadow: 0 4px 12px rgba(255,68,68,0.3);
+            }
+        }
+        
         /* Brand chime options */
         .brand-chime-options{
             display:flex;
@@ -1336,7 +1349,7 @@
                                 <div class="voice-desc">Friendly and warm tone</div>
                             </div>
                             <div style="display:flex;align-items:center;gap:8px;">
-                                <span style="color:#e91e63;cursor:pointer;" title="Supports voice-to-voice cloning">🎤</span>
+                                <span style="color:#e91e63;cursor:pointer;" title="Supports voice-to-voice cloning" onclick="openVoice2VoiceModal('Maya')">🎤</span>
                                 <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;font-size:12px;">▶️ Play Sample</button>
                                 <button class="secondary" style="width:auto;padding:6px 10px;" data-voice="Maya" data-generated="false">Generate</button>
                                 <button class="secondary" style="width:auto;padding:6px 10px;">Select</button>
@@ -1511,6 +1524,66 @@
         <div style="display:flex;justify-content:flex-end;margin-top:20px;gap:12px;">
             <button class="secondary" onclick="closeModal('voiceDirectionModal')">Cancel</button>
             <button class="primary" onclick="applyVoiceDirection()">Apply Direction</button>
+        </div>
+    </div>
+</div>
+
+<!-- Voice to Voice Modal -->
+<div id="voice2voiceModal" class="modal-overlay">
+    <div class="modal-content" style="max-width:700px;">
+        <div class="modal-header">
+            <h3 style="margin:0;" id="voice2voiceTitle">Voice change to Maya</h3>
+            <button class="modal-close" onclick="closeModal('voice2voiceModal')">×</button>
+        </div>
+        
+        <div style="margin-bottom:24px;">
+            <p style="margin:0 0 16px 0;font-size:14px;color:#666;">Record yourself reading the narration text below. The system will change your voice to match the selected voice actor while preserving your intonation and emotion.</p>
+        </div>
+        
+        <!-- Narration text display -->
+        <div style="margin-bottom:24px;">
+            <div style="background:#f8fafd;border:1px solid #e0e4e8;border-radius:8px;padding:16px;font-size:16px;line-height:1.6;color:#333;">
+                <p style="margin:0;" id="voice2voiceText">Grab a lush Christmas tree for only €100 – while stocks last!</p>
+            </div>
+        </div>
+        
+        <!-- Recording section -->
+        <div style="text-align:center;margin-bottom:24px;">
+            <button id="recordButton" style="width:80px;height:80px;border-radius:50%;background:#ff4444;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;transition:all 0.3s ease;box-shadow:0 4px 12px rgba(255,68,68,0.3);" onclick="toggleRecording()">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                </svg>
+            </button>
+            <p style="margin-top:12px;font-size:14px;color:#666;" id="recordingStatus">Click to start recording</p>
+        </div>
+        
+        <!-- Voice changed result (hidden initially) -->
+        <div id="voiceChangedResult" style="display:none;">
+            <hr style="border:none;border-top:1px solid #e0e4e8;margin:24px 0;">
+            <h4 style="margin:0 0 16px 0;font-size:16px;font-weight:600;">Voice Changed Result</h4>
+            <div class="audio-player">
+                <div class="player-top">
+                    <button class="play-button" onclick="toggleAudioPlayer(this)">
+                        <div class="play-icon"></div>
+                    </button>
+                    <div class="track-title">Voice changed to <span id="targetVoiceName">Maya</span></div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="time-display">0:00</div>
+                    <div class="progress-bar" onclick="setAudioProgress(this, event)">
+                        <div class="progress-fill"></div>
+                        <div class="progress-handle"></div>
+                    </div>
+                    <div class="time-display">0:03</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="display:flex;justify-content:flex-end;margin-top:24px;gap:12px;">
+            <button class="secondary" onclick="closeModal('voice2voiceModal')">Cancel</button>
+            <button class="primary" id="useVoiceButton" style="display:none;" onclick="useVoiceRecording()">Use This Voice</button>
         </div>
     </div>
 </div>
@@ -1709,6 +1782,79 @@ function applyVoiceDirection() {
   
   // Close the modal
   closeModal('voiceDirectionModal');
+}
+
+function openVoice2VoiceModal(voiceName) {
+  document.getElementById('voice2voiceModal').style.display = 'flex';
+  document.getElementById('voice2voiceTitle').textContent = `Voice change to ${voiceName}`;
+  document.getElementById('targetVoiceName').textContent = voiceName;
+  
+  // Get the narration text from the voice modal
+  const narrationText = document.querySelector('#voiceModal textarea').value || 'Grab a lush Christmas tree for only €100 – while stocks last!';
+  document.getElementById('voice2voiceText').textContent = narrationText;
+  
+  // Reset the recording state
+  resetRecording();
+}
+
+let isRecording = false;
+let recordingTimeout;
+
+function toggleRecording() {
+  const recordButton = document.getElementById('recordButton');
+  const recordingStatus = document.getElementById('recordingStatus');
+  const voiceChangedResult = document.getElementById('voiceChangedResult');
+  const useVoiceButton = document.getElementById('useVoiceButton');
+  
+  if (!isRecording) {
+    // Start recording
+    isRecording = true;
+    recordButton.style.background = '#ff6666';
+    recordButton.style.transform = 'scale(1.1)';
+    recordingStatus.textContent = 'Recording... Click to stop';
+    
+    // Add pulsing animation
+    recordButton.style.animation = 'pulse 1.5s infinite';
+    
+  } else {
+    // Stop recording
+    isRecording = false;
+    recordButton.style.background = '#ff4444';
+    recordButton.style.transform = 'scale(1)';
+    recordButton.style.animation = 'none';
+    recordingStatus.textContent = 'Processing voice change...';
+    recordButton.disabled = true;
+    
+    // Simulate processing
+    setTimeout(() => {
+      recordingStatus.textContent = 'Voice change complete!';
+      voiceChangedResult.style.display = 'block';
+      useVoiceButton.style.display = 'inline-block';
+      recordButton.disabled = false;
+    }, 2000);
+  }
+}
+
+function resetRecording() {
+  isRecording = false;
+  const recordButton = document.getElementById('recordButton');
+  const recordingStatus = document.getElementById('recordingStatus');
+  const voiceChangedResult = document.getElementById('voiceChangedResult');
+  const useVoiceButton = document.getElementById('useVoiceButton');
+  
+  recordButton.style.background = '#ff4444';
+  recordButton.style.transform = 'scale(1)';
+  recordButton.style.animation = 'none';
+  recordButton.disabled = false;
+  recordingStatus.textContent = 'Click to start recording';
+  voiceChangedResult.style.display = 'none';
+  useVoiceButton.style.display = 'none';
+}
+
+function useVoiceRecording() {
+  // Here you would normally use the voice recording
+  console.log('Using voice recording');
+  closeModal('voice2voiceModal');
 }
 
 function closeModal(modalId) {
