@@ -1439,19 +1439,26 @@
 <div id="voiceModal" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 style="margin:0;">Select Voice Actor</h3>
+            <div style="display:flex;align-items:center;gap:8px;flex:1;">
+                <h3 style="margin:0;">Select Voice Actor</h3>
+                <button style="background:none;border:none;padding:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="openImportVoiceModal()" title="Import Voice">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" fill="#666"/>
+                    </svg>
+                </button>
+            </div>
             <button class="modal-close" onclick="closeModal('voiceModal')">×</button>
         </div>
         
         <!-- Narration Text -->
-        <div style="margin-bottom:24px;">
+        <div id="voiceNarrationSection" style="margin-bottom:24px;">
             <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:600;color:#333;">Narration Text</h4>
             <textarea style="width:100%;height:100px;resize:none;border:1px solid #c5c5c5;border-radius:8px;padding:16px;font-size:16px;line-height:1.4;" placeholder="Enter the text for the voice actor to read...">Grab a lush Christmas tree for only €100 – while stocks last!</textarea>
         </div>
         
         <div style="display:flex;gap:20px;">
             <div style="flex:1;">
-                <input type="text" placeholder="Search voices..." style="width:100%;padding:12px 16px;font-size:16px;border:1px solid #c5c5c5;border-radius:8px;background:#fff;margin-bottom:20px;" />
+                <input id="voiceSearchBox" type="text" placeholder="Search voices..." style="width:100%;padding:12px 16px;font-size:16px;border:1px solid #c5c5c5;border-radius:8px;background:#fff;margin-bottom:20px;" />
                 <div style="max-height:400px;overflow-y:auto;">
                     <div class="voice-list">
                         <div class="voice-row selected" style="border-color:#0066FF;background:#f8fafd;">
@@ -1840,6 +1847,29 @@
     </div>
 </div>
 
+<!-- Import Voice Modal -->
+<div id="importVoiceModal" class="modal-overlay">
+    <div class="modal-content" style="max-width:500px;">
+        <div class="modal-header">
+            <h3 style="margin:0;">Import Voice</h3>
+            <button class="modal-close" onclick="closeModal('importVoiceModal')">×</button>
+        </div>
+        
+        <div style="padding:40px 20px;text-align:center;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:16px;">
+                <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" fill="#999"/>
+            </svg>
+            <p style="color:#666;margin-bottom:24px;">Upload an MP3 file to use as a voice sample</p>
+            <input type="file" id="voiceFileInput" accept=".mp3" style="display:none;" onchange="handleVoiceFileSelect(event)">
+            <button class="primary" onclick="document.getElementById('voiceFileInput').click()">Choose File</button>
+        </div>
+        
+        <div style="display:flex;justify-content:flex-end;margin-top:24px;gap:12px;">
+            <button class="secondary" onclick="closeModal('importVoiceModal')">Cancel</button>
+        </div>
+    </div>
+</div>
+
 <script>
 const importBtn = document.getElementById('importBtn');
 const input = document.getElementById('importInput');
@@ -2194,6 +2224,96 @@ function selectSoundEffect() {
 function addSfxToTimingPanel(sfxName) {
   // Here you would add the SFX to the timing panel
   console.log(`Adding ${sfxName} to timing panel`);
+}
+
+// Import Voice Modal functions
+function openImportVoiceModal() {
+  document.getElementById('importVoiceModal').style.display = 'flex';
+}
+
+let importedVoiceFile = null;
+
+function handleVoiceFileSelect(event) {
+  const file = event.target.files[0];
+  if (file && file.type === 'audio/mpeg') {
+    importedVoiceFile = file;
+    
+    // Close the import modal
+    closeModal('importVoiceModal');
+    
+    // Add the imported voice to the top of the voice list
+    const voiceList = document.querySelector('.voice-list');
+    const existingImported = document.getElementById('importedVoiceRow');
+    
+    // Remove any existing imported voice row
+    if (existingImported) {
+      existingImported.remove();
+    }
+    
+    // Create the imported voice row
+    const importedRow = document.createElement('div');
+    importedRow.id = 'importedVoiceRow';
+    importedRow.className = 'voice-row';
+    importedRow.style.cssText = 'background:#f0f4ff;border:2px dashed #0066FF;position:relative;';
+    importedRow.innerHTML = `
+      <div class="voice-left">
+        <div class="voice-name" style="color:#0066FF;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:4px;">
+            <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" fill="#0066FF"/>
+          </svg>
+          ${file.name}
+        </div>
+        <div class="voice-desc">Imported voice file</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;font-size:12px;" onclick="playImportedVoice()">▶️ Play Sample</button>
+        <button class="secondary" style="width:auto;padding:6px 10px;" onclick="removeImportedVoice()">✕ Remove</button>
+        <button class="primary voice-select-btn" style="width:auto;padding:6px 10px;display:none;">Selected</button>
+        <button class="secondary voice-select-btn" style="width:auto;padding:6px 10px;" onclick="selectVoiceRow(this)">Select</button>
+      </div>
+    `;
+    
+    // Insert at the top of the voice list
+    voiceList.insertBefore(importedRow, voiceList.firstChild);
+    
+    // Hide all other voice rows
+    document.querySelectorAll('.voice-list .voice-row:not(#importedVoiceRow)').forEach(row => {
+      row.style.display = 'none';
+    });
+    
+    // Hide narration text and search box
+    document.getElementById('voiceNarrationSection').style.display = 'none';
+    document.getElementById('voiceSearchBox').style.display = 'none';
+    
+    // Clear the file input for next use
+    event.target.value = '';
+  } else {
+    alert('Please select an MP3 file');
+  }
+}
+
+function playImportedVoice() {
+  if (importedVoiceFile) {
+    const audio = new Audio(URL.createObjectURL(importedVoiceFile));
+    audio.play();
+  }
+}
+
+function removeImportedVoice() {
+  const importedRow = document.getElementById('importedVoiceRow');
+  if (importedRow) {
+    importedRow.remove();
+    importedVoiceFile = null;
+    
+    // Show all voice rows again
+    document.querySelectorAll('.voice-list .voice-row').forEach(row => {
+      row.style.display = '';
+    });
+    
+    // Show narration text and search box again
+    document.getElementById('voiceNarrationSection').style.display = '';
+    document.getElementById('voiceSearchBox').style.display = '';
+  }
 }
 
 function selectSfxRow(button) {
