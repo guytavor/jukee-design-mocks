@@ -1345,7 +1345,7 @@
         </div>
         <div style="display:flex;gap:20px;">
             <div style="flex:1;">
-                <h4>Music Selection <span style="color:#0066FF;margin-left:8px;cursor:pointer;" title="Add new music bed">➕</span></h4>
+                <h4>Music Selection <span style="color:#0066FF;margin-left:8px;cursor:pointer;" title="Add new music bed" onclick="openCreateMusicModal()">➕</span></h4>
                 <input type="text" placeholder="Search music..." style="width:100%;padding:12px 16px;font-size:16px;border:1px solid #c5c5c5;border-radius:8px;background:#fff;margin-bottom:20px;" />
                 <div style="max-height:400px;overflow-y:auto;">
                     <div class="music-list">
@@ -1386,6 +1386,77 @@
                 <h4 style="writing-mode:vertical-rl;text-orientation:mixed;margin:0 0 8px 0;font-size:11px;">VOLUME</h4>
                 <input type="range" class="vertical-slider" min="0" max="100" value="80" style="height:200px;">
                 <span style="font-size:12px;color:#666;margin-top:8px;">80%</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Music Modal -->
+<div id="createMusicModal" class="modal-overlay">
+    <div class="modal-content" style="max-width:800px;">
+        <div class="modal-header">
+            <h3 style="margin:0;">Create New Music Bed</h3>
+            <button class="modal-close" onclick="closeModal('createMusicModal')">×</button>
+        </div>
+        
+        <div style="margin-bottom:24px;">
+            <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:600;color:#333;">Describe your music bed</h4>
+            <textarea id="musicDescription" style="width:100%;height:80px;resize:none;border:1px solid #c5c5c5;border-radius:8px;padding:16px;font-size:16px;line-height:1.4;" placeholder="e.g., Upbeat electronic music with a driving beat, perfect for energetic retail promotions..."></textarea>
+        </div>
+        
+        <!-- Genre chips -->
+        <div style="margin-bottom:24px;">
+            <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:600;color:#333;">Select Genres (optional)</h4>
+            <div class="chips" style="display:flex;flex-wrap:wrap;gap:8px;">
+                <span class="chip">Pop</span>
+                <span class="chip">Rock</span>
+                <span class="chip">Electronic</span>
+                <span class="chip">Jazz</span>
+                <span class="chip">Classical</span>
+                <span class="chip">R&B</span>
+                <span class="chip">Hip-Hop</span>
+                <span class="chip">Country</span>
+                <span class="chip">Folk</span>
+                <span class="chip">Ambient</span>
+                <span class="chip">Reggae</span>
+                <span class="chip">Blues</span>
+                <span class="chip">Latin</span>
+                <span class="chip">World</span>
+            </div>
+        </div>
+        
+        <!-- Generate button -->
+        <div style="display:flex;justify-content:center;margin-bottom:24px;">
+            <button class="primary" onclick="generateMusicBed(this)">Generate</button>
+        </div>
+        
+        <!-- Generated music players (hidden initially) -->
+        <div id="generatedMusicSection" style="display:none;">
+            <h4 style="margin:0 0 16px 0;font-size:14px;font-weight:600;color:#333;">Generated Options</h4>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+                <!-- Option 1 -->
+                <div class="music-row" style="cursor:pointer;" onclick="selectGeneratedMusic(this, 'Generated Music Bed 1')">
+                    <div class="music-left">
+                        <div class="music-name">Generated Music Bed 1</div>
+                        <div class="music-desc">Based on your description</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;" onclick="event.stopPropagation();">▶️ Play</button>
+                        <button class="primary" style="width:auto;padding:6px 10px;">Select</button>
+                    </div>
+                </div>
+                
+                <!-- Option 2 -->
+                <div class="music-row" style="cursor:pointer;" onclick="selectGeneratedMusic(this, 'Generated Music Bed 2')">
+                    <div class="music-left">
+                        <div class="music-name">Generated Music Bed 2</div>
+                        <div class="music-desc">Alternative version</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;" onclick="event.stopPropagation();">▶️ Play</button>
+                        <button class="primary" style="width:auto;padding:6px 10px;">Select</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1473,6 +1544,13 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Setup search for initial tweak panels
   document.querySelectorAll('.output-card').forEach(setupTweakPanelSearch);
+  
+  // Setup genre chip clicking in create music modal
+  document.querySelectorAll('#createMusicModal .chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      this.classList.toggle('active');
+    });
+  });
 });
 
 // Preview selection functionality
@@ -1565,6 +1643,80 @@ function openMusicModal() {
 
 function closeModal(modalId) {
   document.getElementById(modalId).style.display = 'none';
+}
+
+function openCreateMusicModal() {
+  document.getElementById('createMusicModal').style.display = 'flex';
+  // Reset the form
+  document.getElementById('musicDescription').value = '';
+  document.getElementById('generatedMusicSection').style.display = 'none';
+  document.querySelectorAll('#createMusicModal .chip').forEach(chip => chip.classList.remove('active'));
+}
+
+function generateMusicBed(button) {
+  const originalText = button.textContent;
+  const generatedSection = document.getElementById('generatedMusicSection');
+  
+  // Disable button and show progress
+  button.disabled = true;
+  button.textContent = 'Generating...';
+  
+  // Simulate progress with dots
+  let dots = 0;
+  const progressInterval = setInterval(() => {
+    dots = (dots + 1) % 4;
+    button.textContent = 'Generating' + '.'.repeat(dots);
+  }, 500);
+  
+  // Complete generation after 2 seconds
+  setTimeout(() => {
+    clearInterval(progressInterval);
+    button.disabled = false;
+    button.textContent = originalText;
+    
+    // Show generated music options
+    generatedSection.style.display = 'block';
+    
+    // Smooth scroll to generated section
+    generatedSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 2000);
+}
+
+function selectGeneratedMusic(row, musicName) {
+  // Add the new music to the main music list
+  const musicList = document.querySelector('#musicModal .music-list');
+  const newMusicRow = document.createElement('div');
+  newMusicRow.className = 'music-row';
+  newMusicRow.style.borderColor = '#0066FF';
+  newMusicRow.style.background = '#f8fafd';
+  newMusicRow.innerHTML = `
+    <div class="music-left">
+      <div class="music-name">${musicName}</div>
+      <div class="music-desc">Custom generated music bed</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
+      <button class="primary" style="width:auto;padding:6px 10px;">Selected</button>
+    </div>
+  `;
+  
+  // Deselect all other music
+  musicList.querySelectorAll('.music-row').forEach(r => {
+    r.style.borderColor = '#e0e4e8';
+    r.style.background = '#fff';
+    const btn = r.querySelector('button:last-child');
+    if (btn) {
+      btn.className = 'secondary';
+      btn.textContent = 'Select';
+    }
+  });
+  
+  // Insert at the top of the list
+  musicList.insertBefore(newMusicRow, musicList.firstChild);
+  
+  // Close both modals
+  closeModal('createMusicModal');
+  closeModal('musicModal');
 }
 
 function openVolumeModal(effectName, currentVolume, buttonElement) {
