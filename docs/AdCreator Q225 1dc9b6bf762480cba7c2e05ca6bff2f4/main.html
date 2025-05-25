@@ -1324,8 +1324,9 @@
                                 <div class="voice-desc">Confident, fast-paced announcer</div>
                             </div>
                             <div style="display:flex;align-items:center;gap:8px;">
-                                <span style="color:#0066FF;cursor:pointer;" title="Supports text directions">📝</span>
-                                <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
+                                <span style="color:#0066FF;cursor:pointer;" title="Supports text directions" onclick="openVoiceDirectionModal('Alex')">📝</span>
+                                <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;font-size:12px;">▶️ Play Sample</button>
+                                <button class="primary" style="width:auto;padding:6px 10px;" data-voice="Alex" data-generated="true">Play</button>
                                 <button class="primary" style="width:auto;padding:6px 10px;">Selected</button>
                             </div>
                         </div>
@@ -1336,7 +1337,8 @@
                             </div>
                             <div style="display:flex;align-items:center;gap:8px;">
                                 <span style="color:#e91e63;cursor:pointer;" title="Supports voice-to-voice cloning">🎤</span>
-                                <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
+                                <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;font-size:12px;">▶️ Play Sample</button>
+                                <button class="secondary" style="width:auto;padding:6px 10px;" data-voice="Maya" data-generated="false">Generate</button>
                                 <button class="secondary" style="width:auto;padding:6px 10px;">Select</button>
                             </div>
                         </div>
@@ -1346,8 +1348,9 @@
                                 <div class="voice-desc">Deep, reassuring tone</div>
                             </div>
                             <div style="display:flex;align-items:center;gap:8px;">
-                                <span style="color:#0066FF;cursor:pointer;" title="Supports text directions">📝</span>
-                                <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;">▶️ Play</button>
+                                <span style="color:#0066FF;cursor:pointer;" title="Supports text directions" onclick="openVoiceDirectionModal('David')">📝</span>
+                                <button class="secondary" style="width:auto;padding:6px 10px;display:flex;align-items:center;gap:4px;font-size:12px;">▶️ Play Sample</button>
+                                <button class="secondary" style="width:auto;padding:6px 10px;" data-voice="David" data-generated="false">Generate</button>
                                 <button class="secondary" style="width:auto;padding:6px 10px;">Select</button>
                             </div>
                         </div>
@@ -1485,6 +1488,29 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Voice Direction Modal -->
+<div id="voiceDirectionModal" class="modal-overlay">
+    <div class="modal-content" style="max-width:600px;">
+        <div class="modal-header">
+            <h3 style="margin:0;">Voice Direction</h3>
+            <button class="modal-close" onclick="closeModal('voiceDirectionModal')">×</button>
+        </div>
+        
+        <div style="margin-bottom:20px;">
+            <p style="margin:0 0 12px 0;font-size:14px;color:#666;">Provide specific directions for how the voice should sound. You can describe tone, emotion, pacing, emphasis, and other vocal characteristics.</p>
+        </div>
+        
+        <div>
+            <textarea id="voiceDirectionText" style="width:100%;height:150px;resize:vertical;border:1px solid #c5c5c5;border-radius:8px;padding:16px;font-size:16px;line-height:1.5;" placeholder="Example: Speak with enthusiasm and energy, emphasizing the price. Use a warm, friendly tone that builds excitement. Slow down slightly when mentioning the product name for clarity."></textarea>
+        </div>
+        
+        <div style="display:flex;justify-content:flex-end;margin-top:20px;gap:12px;">
+            <button class="secondary" onclick="closeModal('voiceDirectionModal')">Cancel</button>
+            <button class="primary" onclick="applyVoiceDirection()">Apply Direction</button>
         </div>
     </div>
 </div>
@@ -1666,6 +1692,23 @@ function openVoiceModal() {
 
 function openMusicModal() {
   document.getElementById('musicModal').style.display = 'flex';
+}
+
+function openVoiceDirectionModal(voiceName) {
+  document.getElementById('voiceDirectionModal').style.display = 'flex';
+  // Store the voice name for reference
+  document.getElementById('voiceDirectionModal').dataset.voiceName = voiceName;
+}
+
+function applyVoiceDirection() {
+  const direction = document.getElementById('voiceDirectionText').value;
+  const voiceName = document.getElementById('voiceDirectionModal').dataset.voiceName;
+  
+  // Here you would normally save the direction
+  console.log(`Voice direction for ${voiceName}: ${direction}`);
+  
+  // Close the modal
+  closeModal('voiceDirectionModal');
 }
 
 function closeModal(modalId) {
@@ -1920,6 +1963,24 @@ document.addEventListener('click', function(e) {
   // Close volume modal when clicking outside
   if (e.target.classList.contains('volume-modal-overlay')) {
     e.target.style.display = 'none';
+  }
+});
+
+// Handle Generate/Play button clicks
+document.addEventListener('click', function(e) {
+  if (e.target.dataset.voice && e.target.textContent === 'Generate') {
+    // Simulate generation
+    const originalText = e.target.textContent;
+    e.target.disabled = true;
+    e.target.textContent = 'Generating...';
+    
+    setTimeout(() => {
+      e.target.disabled = false;
+      e.target.textContent = 'Play';
+      e.target.dataset.generated = 'true';
+      e.target.classList.remove('secondary');
+      e.target.classList.add('primary');
+    }, 2000);
   }
 });
 </script>
