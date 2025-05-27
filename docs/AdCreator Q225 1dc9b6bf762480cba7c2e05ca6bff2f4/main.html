@@ -739,6 +739,52 @@
             padding: 16px 20px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             border: 1px solid #e5e5e5;
+            position: relative;
+        }
+        
+        /* Regeneration overlay */
+        .regenerating-overlay{
+            position:absolute;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            background:rgba(255,255,255,0.9);
+            border-radius:8px;
+            display:none;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            z-index:10;
+        }
+        
+        .regenerating-text{
+            font-size:14px;
+            color:#666;
+            margin-bottom:12px;
+        }
+        
+        .regenerating-progress{
+            width:200px;
+            height:4px;
+            background:#e0e0e0;
+            border-radius:2px;
+            overflow:hidden;
+        }
+        
+        .regenerating-progress-bar{
+            height:100%;
+            background:#0066FF;
+            border-radius:2px;
+            animation:regenerateProgress 3s ease-in-out;
+        }
+        
+        @keyframes regenerateProgress{
+            0%{ width:0%; }
+            20%{ width:30%; }
+            50%{ width:65%; }
+            80%{ width:90%; }
+            100%{ width:100%; }
         }
 
         .player-top {
@@ -1079,7 +1125,14 @@
                 <button class="play-button" onclick="toggleAudioPlayer(this)">
                     <div class="play-icon"></div>
                 </button>
-                <div class="track-title">Generated Preview 1</div>
+                <div class="track-title" style="display:flex;align-items:center;gap:6px;">
+                    <span id="preview1Text">Grab a lush Christmas tree for only €100 – while stocks last!</span>
+                    <button style="background:none;border:none;padding:2px;cursor:pointer;color:#666;" onclick="openQuickEditModal('preview1Text')" title="Edit text">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
             
             <div class="progress-container">
@@ -1089,6 +1142,14 @@
                     <div class="progress-handle"></div>
                 </div>
                 <div class="time-display">0:12</div>
+            </div>
+            
+            <!-- Regeneration overlay -->
+            <div class="regenerating-overlay" id="regen-overlay-1">
+                <div class="regenerating-text">Regenerating preview...</div>
+                <div class="regenerating-progress">
+                    <div class="regenerating-progress-bar"></div>
+                </div>
             </div>
         </div>
         <div class="btn-row">
@@ -1220,7 +1281,7 @@
                     <button class="play-button" onclick="toggleAudioPlayer(this)">
                         <div class="play-icon"></div>
                     </button>
-                    <div class="track-title">Updated Preview</div>
+                    <div class="track-title" id="tweakPreview1Text">Grab a lush Christmas tree for only €100 – while stocks last!</div>
                 </div>
                 
                 <div class="progress-container">
@@ -1240,7 +1301,14 @@
                 <button class="play-button" onclick="toggleAudioPlayer(this)">
                     <div class="play-icon"></div>
                 </button>
-                <div class="track-title">Generated Preview 2</div>
+                <div class="track-title" style="display:flex;align-items:center;gap:6px;">
+                    <span id="preview2Text">Get your Christmas tree today! Only €100 while supplies last!</span>
+                    <button style="background:none;border:none;padding:2px;cursor:pointer;color:#666;" onclick="openQuickEditModal('preview2Text')" title="Edit text">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
             
             <div class="progress-container">
@@ -1250,6 +1318,14 @@
                     <div class="progress-handle"></div>
                 </div>
                 <div class="time-display">0:12</div>
+            </div>
+            
+            <!-- Regeneration overlay -->
+            <div class="regenerating-overlay" id="regen-overlay-2">
+                <div class="regenerating-text">Regenerating preview...</div>
+                <div class="regenerating-progress">
+                    <div class="regenerating-progress-bar"></div>
+                </div>
             </div>
         </div>
         <div class="btn-row">
@@ -1270,7 +1346,7 @@
             <!-- Narration Edit -->
             <div class="section">
                 <h4>Narration Text</h4>
-                <textarea style="width:100%;height:80px;resize:none;border:1px solid #c5c5c5;border-radius:6px;padding:10px;font-size:14px;">Get your Christmas tree today! Only €100 while supplies last!</textarea>
+                <textarea id="tweakTextarea2" style="width:100%;height:80px;resize:none;border:1px solid #c5c5c5;border-radius:6px;padding:10px;font-size:14px;" oninput="updatePreviewFromTweak('preview2Text', this.value)">Get your Christmas tree today! Only €100 while supplies last!</textarea>
             </div>
             
             
@@ -1368,7 +1444,7 @@
                     <button class="play-button" onclick="toggleAudioPlayer(this)">
                         <div class="play-icon"></div>
                     </button>
-                    <div class="track-title">Updated Preview</div>
+                    <div class="track-title" id="tweakPreview2Text">Get your Christmas tree today! Only €100 while supplies last!</div>
                 </div>
                 
                 <div class="progress-container">
@@ -1459,7 +1535,7 @@
         <!-- Narration Text -->
         <div id="voiceNarrationSection" style="margin-bottom:24px;">
             <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:600;color:#333;">Narration Text</h4>
-            <textarea style="width:100%;height:100px;resize:none;border:1px solid #c5c5c5;border-radius:8px;padding:16px;font-size:16px;line-height:1.4;" placeholder="Enter the text for the voice actor to read...">Grab a lush Christmas tree for only €100 – while stocks last!</textarea>
+            <textarea id="voiceModalTextarea" style="width:100%;height:100px;resize:none;border:1px solid #c5c5c5;border-radius:8px;padding:16px;font-size:16px;line-height:1.4;" placeholder="Enter the text for the voice actor to read..." oninput="updatePreviewFromVoiceModal(this.value)">Grab a lush Christmas tree for only €100 – while stocks last!</textarea>
         </div>
         
         <div style="display:flex;gap:20px;">
@@ -1875,6 +1951,25 @@
         
         <div style="display:flex;justify-content:flex-end;margin-top:24px;gap:12px;">
             <button class="secondary" onclick="closeModal('importVoiceModal')">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Edit Text Modal -->
+<div id="quickEditModal" class="modal-overlay">
+    <div class="modal-content" style="max-width:600px;">
+        <div class="modal-header">
+            <h3 style="margin:0;">Edit Ad Text</h3>
+            <button class="modal-close" onclick="closeModal('quickEditModal')">×</button>
+        </div>
+        
+        <div style="margin:20px 0;">
+            <textarea id="quickEditText" style="width:100%;height:120px;resize:none;border:1px solid #c5c5c5;border-radius:8px;padding:16px;font-size:16px;line-height:1.4;" placeholder="Enter your ad text..."></textarea>
+        </div>
+        
+        <div style="display:flex;justify-content:flex-end;gap:12px;">
+            <button class="secondary" onclick="closeModal('quickEditModal')">Cancel</button>
+            <button class="primary" onclick="saveQuickEdit()">Save</button>
         </div>
     </div>
 </div>
@@ -2344,6 +2439,129 @@ function toggleVoiceFavorite(starElement, voiceName) {
   }
   
   console.log(`${voiceName} ${isFavorite ? 'removed from' : 'added to'} favorites`);
+}
+
+// Quick Edit Text Modal functions
+let currentEditingElement = null;
+
+function openQuickEditModal(elementId) {
+  const textElement = document.getElementById(elementId);
+  currentEditingElement = textElement;
+  
+  // Set the current text in the modal
+  document.getElementById('quickEditText').value = textElement.textContent;
+  
+  // Open the modal
+  document.getElementById('quickEditModal').style.display = 'flex';
+  
+  // Focus the textarea
+  setTimeout(() => document.getElementById('quickEditText').focus(), 100);
+}
+
+function saveQuickEdit() {
+  if (currentEditingElement) {
+    const newText = document.getElementById('quickEditText').value.trim();
+    if (newText) {
+      // Update the preview text
+      currentEditingElement.textContent = newText;
+      
+      // Also update any related textarea in tweak panels (if they exist)
+      updateRelatedTextareas(newText);
+      
+      // Show regeneration overlay for the appropriate preview
+      const previewId = currentEditingElement.id;
+      const overlayId = previewId === 'preview1Text' ? 'regen-overlay-1' : 'regen-overlay-2';
+      showRegenerationOverlay(overlayId);
+      
+      console.log('Text updated to:', newText);
+    }
+  }
+  
+  closeModal('quickEditModal');
+  currentEditingElement = null;
+}
+
+function showRegenerationOverlay(overlayId) {
+  const overlay = document.getElementById(overlayId);
+  if (overlay) {
+    // Show the overlay
+    overlay.style.display = 'flex';
+    
+    // Reset and restart the animation
+    const progressBar = overlay.querySelector('.regenerating-progress-bar');
+    progressBar.style.animation = 'none';
+    setTimeout(() => {
+      progressBar.style.animation = 'regenerateProgress 3s ease-in-out';
+    }, 10);
+    
+    // Hide the overlay after animation completes
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 3000);
+  }
+}
+
+function updateRelatedTextareas(newText) {
+  // Update narration textareas in tweak panels
+  const textareas = document.querySelectorAll('.tweak-panel textarea');
+  textareas.forEach(textarea => {
+    if (textarea.closest('.tweak-panel')) {
+      textarea.value = newText;
+    }
+  });
+  
+  // Update voice modal narration text
+  const voiceModalTextarea = document.querySelector('#voiceModal textarea');
+  if (voiceModalTextarea) {
+    voiceModalTextarea.value = newText;
+  }
+  
+  // Update tweak preview texts
+  const tweakPreview1 = document.getElementById('tweakPreview1Text');
+  const tweakPreview2 = document.getElementById('tweakPreview2Text');
+  if (tweakPreview1) tweakPreview1.textContent = newText;
+  if (tweakPreview2) tweakPreview2.textContent = newText;
+}
+
+function updatePreviewFromTweak(previewId, newText) {
+  // Update the preview title text
+  const previewElement = document.getElementById(previewId);
+  if (previewElement) {
+    previewElement.textContent = newText;
+  }
+  
+  // Update voice modal textarea too
+  const voiceModalTextarea = document.getElementById('voiceModalTextarea');
+  if (voiceModalTextarea) {
+    voiceModalTextarea.value = newText;
+  }
+  
+  // Update the corresponding tweak preview text
+  if (previewId === 'preview2Text') {
+    const tweakPreview2 = document.getElementById('tweakPreview2Text');
+    if (tweakPreview2) tweakPreview2.textContent = newText;
+  }
+}
+
+function updatePreviewFromVoiceModal(newText) {
+  // Update both preview titles (since voice modal affects the current selection)
+  const preview1 = document.getElementById('preview1Text');
+  const preview2 = document.getElementById('preview2Text');
+  
+  // Update the currently selected preview or the first one if none selected
+  if (preview1) preview1.textContent = newText;
+  
+  // Update tweak panel textareas
+  const tweakTextarea = document.getElementById('tweakTextarea2');
+  if (tweakTextarea) {
+    tweakTextarea.value = newText;
+  }
+  
+  // Update tweak preview texts
+  const tweakPreview1 = document.getElementById('tweakPreview1Text');
+  const tweakPreview2 = document.getElementById('tweakPreview2Text');
+  if (tweakPreview1) tweakPreview1.textContent = newText;
+  if (tweakPreview2) tweakPreview2.textContent = newText;
 }
 
 function selectSfxRow(button) {
