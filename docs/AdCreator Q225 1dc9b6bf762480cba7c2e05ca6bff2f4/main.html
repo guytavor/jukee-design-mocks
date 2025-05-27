@@ -1521,12 +1521,13 @@
 <div id="voiceModal" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-header">
-            <div style="display:flex;align-items:center;gap:8px;flex:1;">
+            <div style="display:flex;align-items:center;gap:12px;flex:1;">
                 <h3 style="margin:0;">Select Voice Actor</h3>
-                <button style="background:none;border:none;padding:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="openImportVoiceModal()" title="Import Voice">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" fill="#666"/>
+                <button class="secondary" onclick="openImportVoiceModal()" style="padding:6px 12px;font-size:13px;display:flex;align-items:center;gap:6px;white-space:nowrap;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/>
                     </svg>
+                    Import
                 </button>
             </div>
             <button class="modal-close" onclick="closeModal('voiceModal')">×</button>
@@ -1588,10 +1589,10 @@
                     </div>
                 </div>
             </div>
-            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px;">
-                <h4 style="writing-mode:vertical-rl;text-orientation:mixed;margin:0 0 8px 0;font-size:11px;">VOLUME</h4>
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:#f8f9fa;border-radius:8px;min-width:80px;">
+                <h4 style="writing-mode:vertical-rl;text-orientation:mixed;margin:0 0 8px 0;font-size:11px;color:#666;font-weight:600;">VOLUME</h4>
                 <input type="range" class="vertical-slider" min="0" max="100" value="85" style="height:200px;">
-                <span style="font-size:12px;color:#666;margin-top:8px;">85%</span>
+                <span style="font-size:12px;color:#666;margin-top:8px;font-weight:600;">85%</span>
             </div>
         </div>
         
@@ -1607,12 +1608,19 @@
 <div id="musicModal" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 style="margin:0;">Select Music & Volume</h3>
+            <div style="display:flex;align-items:center;gap:12px;flex:1;">
+                <h3 style="margin:0;">Select Music & Volume</h3>
+                <button class="secondary" onclick="openCreateMusicModal()" style="padding:6px 12px;font-size:13px;display:flex;align-items:center;gap:6px;white-space:nowrap;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                    </svg>
+                    Create New
+                </button>
+            </div>
             <button class="modal-close" onclick="closeModal('musicModal')">×</button>
         </div>
         <div style="display:flex;gap:20px;">
             <div style="flex:1;">
-                <h4>Music Selection <span style="color:#0066FF;margin-left:8px;cursor:pointer;" title="Add new music bed" onclick="openCreateMusicModal()">➕</span></h4>
                 <input type="text" placeholder="Search music..." style="width:100%;padding:12px 16px;font-size:16px;border:1px solid #c5c5c5;border-radius:8px;background:#fff;margin-bottom:20px;" />
                 <div style="max-height:400px;overflow-y:auto;">
                     <div class="music-list">
@@ -1652,10 +1660,10 @@
                     </div>
                 </div>
             </div>
-            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px;">
-                <h4 style="writing-mode:vertical-rl;text-orientation:mixed;margin:0 0 8px 0;font-size:11px;">VOLUME</h4>
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:#f8f9fa;border-radius:8px;min-width:80px;">
+                <h4 style="writing-mode:vertical-rl;text-orientation:mixed;margin:0 0 8px 0;font-size:11px;color:#666;font-weight:600;">VOLUME</h4>
                 <input type="range" class="vertical-slider" min="0" max="100" value="80" style="height:200px;">
-                <span style="font-size:12px;color:#666;margin-top:8px;">80%</span>
+                <span style="font-size:12px;color:#666;margin-top:8px;font-weight:600;">80%</span>
             </div>
         </div>
         
