@@ -1594,6 +1594,12 @@
                 <span style="font-size:12px;color:#666;margin-top:8px;">85%</span>
             </div>
         </div>
+        
+        <!-- Footer buttons -->
+        <div style="display:flex;justify-content:flex-end;margin-top:24px;gap:12px;">
+            <button class="secondary" onclick="closeModal('voiceModal')">Cancel</button>
+            <button class="primary" onclick="saveVoiceSelection()">Save</button>
+        </div>
     </div>
 </div>
 
@@ -1651,6 +1657,12 @@
                 <input type="range" class="vertical-slider" min="0" max="100" value="80" style="height:200px;">
                 <span style="font-size:12px;color:#666;margin-top:8px;">80%</span>
             </div>
+        </div>
+        
+        <!-- Footer buttons -->
+        <div style="display:flex;justify-content:flex-end;margin-top:24px;gap:12px;">
+            <button class="secondary" onclick="closeModal('musicModal')">Cancel</button>
+            <button class="primary" onclick="saveMusicSelection()">Save</button>
         </div>
     </div>
 </div>
@@ -2592,6 +2604,33 @@ function selectMusicRow(button) {
   
   // Select this row
   row.classList.add('selected');
+}
+
+// Save functions for modals
+function saveVoiceSelection() {
+  // Get the selected voice
+  const selectedRow = document.querySelector('.voice-list .voice-row.selected');
+  if (selectedRow) {
+    const voiceName = selectedRow.querySelector('.voice-name').childNodes[0].textContent.trim();
+    console.log('Selected voice:', voiceName);
+    
+    // Update any voice displays (in production this would update the actual voice)
+    // For now, just close the modal
+    closeModal('voiceModal');
+  }
+}
+
+function saveMusicSelection() {
+  // Get the selected music
+  const selectedRow = document.querySelector('.music-list .music-row.selected');
+  if (selectedRow) {
+    const musicName = selectedRow.querySelector('.music-name').textContent.trim();
+    console.log('Selected music:', musicName);
+    
+    // Update any music displays (in production this would update the actual music)
+    // For now, just close the modal
+    closeModal('musicModal');
+  }
 }
 
 function closeModal(modalId) {
